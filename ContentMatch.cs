@@ -55,7 +55,11 @@ namespace SabreTools.Matching
         /// <param name="stack">Array to search for the given content</param>
         /// <param name="reverse">True to search from the end of the array, false from the start</param>
         /// <returns>Tuple of success and found position</returns>
+#if NET48
         public (bool success, int position) Match(byte[] stack, bool reverse = false)
+#else
+        public (bool success, int position) Match(byte[]? stack, bool reverse = false)
+#endif
         {
             // If either array is null or empty, we can't do anything
             if (stack == null || stack.Length == 0 || this.Needle == null || this.Needle.Length == 0)
@@ -132,7 +136,11 @@ namespace SabreTools.Matching
         /// <param name="stack">Stream to search for the given content</param>
         /// <param name="reverse">True to search from the end of the array, false from the start</param>
         /// <returns>Tuple of success and found position</returns>
+#if NET48
         public (bool success, int position) Match(Stream stack, bool reverse = false)
+#else
+        public (bool success, int position) Match(Stream? stack, bool reverse = false)
+#endif
         {
             // If either array is null or empty, we can't do anything
             if (stack == null || stack.Length == 0 || this.Needle == null || this.Needle.Length == 0)

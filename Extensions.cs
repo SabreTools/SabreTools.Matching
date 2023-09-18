@@ -8,7 +8,11 @@ namespace SabreTools.Matching
         /// <summary>
         /// Find all positions of one array in another, if possible, if possible
         /// </summary>
+#if NET48
         public static List<int> FindAllPositions(this byte[] stack, byte?[] needle, int start = 0, int end = -1)
+#else
+        public static List<int> FindAllPositions(this byte[] stack, byte?[]? needle, int start = 0, int end = -1)
+#endif
         {
             // Get the outgoing list
             List<int> positions = new List<int>();
@@ -80,32 +84,60 @@ namespace SabreTools.Matching
         /// <summary>
         /// See if a byte array starts with another
         /// </summary>
+#if NET48
         public static bool StartsWith(this byte[] stack, byte[] needle)
+#else
+        public static bool StartsWith(this byte[] stack, byte[]? needle)
+#endif
         {
+            if (needle == null)
+                return false;
+
             return stack.FirstPosition(needle, out int _, start: 0, end: 1);
         }
 
         /// <summary>
         /// See if a byte array starts with another
         /// </summary>
+#if NET48
         public static bool StartsWith(this byte[] stack, byte?[] needle)
+#else
+        public static bool StartsWith(this byte[] stack, byte?[]? needle)
+#endif
         {
+            if (needle == null)
+                return false;
+
             return stack.FirstPosition(needle, out int _, start: 0, end: 1);
         }
 
         /// <summary>
         /// See if a byte array ends with another
         /// </summary>
+#if NET48
         public static bool EndsWith(this byte[] stack, byte[] needle)
+#else
+        public static bool EndsWith(this byte[] stack, byte[]? needle)
+#endif
         {
+            if (needle == null)
+                return false;
+
             return stack.FirstPosition(needle, out int _, start: stack.Length - needle.Length);
         }
 
         /// <summary>
         /// See if a byte array ends with another
         /// </summary>
+#if NET48
         public static bool EndsWith(this byte[] stack, byte?[] needle)
+#else
+        public static bool EndsWith(this byte[] stack, byte?[]? needle)
+#endif
         {
+            if (needle == null)
+                return false;
+
             return stack.FirstPosition(needle, out int _, start: stack.Length - needle.Length);
         }
     }

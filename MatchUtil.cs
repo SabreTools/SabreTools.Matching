@@ -23,7 +23,7 @@ namespace SabreTools.Matching
 #if NET48
         public static ConcurrentQueue<string> GetAllMatches(string file, byte[] stack, IEnumerable<ContentMatchSet> matchers, bool includeDebug = false)
 #else
-        public static ConcurrentQueue<string>? GetAllMatches(string file, byte[] stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
+        public static ConcurrentQueue<string>? GetAllMatches(string file, byte[]? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
 #endif
         {
             return FindAllMatches(file, stack, matchers, includeDebug, false);
@@ -40,7 +40,7 @@ namespace SabreTools.Matching
 #if NET48
         public static string GetFirstMatch(string file, byte[] stack, IEnumerable<ContentMatchSet> matchers, bool includeDebug = false)
 #else
-        public static string? GetFirstMatch(string file, byte[] stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
+        public static string? GetFirstMatch(string file, byte[]? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
 #endif
         {
             var contentMatches = FindAllMatches(file, stack, matchers, includeDebug, true);
@@ -62,7 +62,7 @@ namespace SabreTools.Matching
 #if NET48
         private static ConcurrentQueue<string> FindAllMatches(string file, byte[] stack, IEnumerable<ContentMatchSet> matchers, bool includeDebug, bool stopAfterFirst)
 #else
-        private static ConcurrentQueue<string>? FindAllMatches(string file, byte[] stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug, bool stopAfterFirst)
+        private static ConcurrentQueue<string>? FindAllMatches(string file, byte[]? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug, bool stopAfterFirst)
 #endif
         {
             // If there's no mappings, we can't match
@@ -93,7 +93,7 @@ namespace SabreTools.Matching
                 else
                 {
                     // A null version returned means the check didn't pass at the version step
-                    string version = matcher.GetArrayVersion(file, stack, positions);
+                    var version = matcher.GetArrayVersion(file, stack, positions);
                     if (version == null)
                         continue;
 
@@ -123,7 +123,7 @@ namespace SabreTools.Matching
 #if NET48
         public static ConcurrentQueue<string> GetAllMatches(string file, Stream stack, IEnumerable<ContentMatchSet> matchers, bool includeDebug = false)
 #else
-        public static ConcurrentQueue<string>? GetAllMatches(string file, Stream stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
+        public static ConcurrentQueue<string>? GetAllMatches(string file, Stream? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
 #endif
         {
             return FindAllMatches(file, stack, matchers, includeDebug, false);
@@ -140,7 +140,7 @@ namespace SabreTools.Matching
 #if NET48
         public static string GetFirstMatch(string file, Stream stack, IEnumerable<ContentMatchSet> matchers, bool includeDebug = false)
 #else
-        public static string? GetFirstMatch(string file, Stream stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
+        public static string? GetFirstMatch(string file, Stream? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
 #endif
         {
             var contentMatches = FindAllMatches(file, stack, matchers, includeDebug, true);
@@ -162,7 +162,7 @@ namespace SabreTools.Matching
 #if NET48
         private static ConcurrentQueue<string> FindAllMatches(string file, Stream stack, IEnumerable<ContentMatchSet> matchers, bool includeDebug, bool stopAfterFirst)
 #else
-        private static ConcurrentQueue<string>? FindAllMatches(string file, Stream stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug, bool stopAfterFirst)
+        private static ConcurrentQueue<string>? FindAllMatches(string file, Stream? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug, bool stopAfterFirst)
 #endif
         {
             // If there's no mappings, we can't match
@@ -193,7 +193,7 @@ namespace SabreTools.Matching
                 else
                 {
                     // A null version returned means the check didn't pass at the version step
-                    string version = matcher.GetStreamVersion(file, stack, positions);
+                    var version = matcher.GetStreamVersion(file, stack, positions);
                     if (version == null)
                         continue;
 
@@ -298,18 +298,10 @@ namespace SabreTools.Matching
             {
                 // Determine if the matcher passes
                 bool passes;
-#if NET48
-                string firstMatchedString;
-#else
-                string? firstMatchedString;
-#endif
+                var firstMatchedString = string.Empty;
                 if (any)
                 {
-#if NET48
-                    (bool anyPasses, string matchedString) = matcher.MatchesAny(files);
-#else
-                    (bool anyPasses, string? matchedString) = matcher.MatchesAny(files);
-#endif
+                    (bool anyPasses, var matchedString) = matcher.MatchesAny(files);
                     passes = anyPasses;
                     firstMatchedString = matchedString;
                 }
@@ -334,7 +326,7 @@ namespace SabreTools.Matching
                 else
                 {
                     // A null version returned means the check didn't pass at the version step
-                    string version = matcher.GetVersion(firstMatchedString, files);
+                    var version = matcher.GetVersion(firstMatchedString, files);
                     if (version == null)
                         continue;
 

@@ -21,7 +21,7 @@ namespace SabreTools.Matching
 #if NET48
         public Func<string, IEnumerable<string>, string> GetVersion { get; private set; }
 #else
-        public Func<string, IEnumerable<string>, string>? GetVersion { get; init; }
+        public Func<string, IEnumerable<string>, string?>? GetVersion { get; init; }
 #endif
 
         #region Constructors
