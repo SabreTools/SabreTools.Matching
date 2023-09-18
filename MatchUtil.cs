@@ -219,7 +219,11 @@ namespace SabreTools.Matching
         /// <param name="matchers">Enumerable of PathMatchSets to be run on the file</param>
         /// <param name="any">True if any path match is a success, false if all have to match</param>
         /// <returns>List of strings representing the matched protections, null or empty otherwise</returns>
+#if NET48
         public static ConcurrentQueue<string> GetAllMatches(string file, IEnumerable<PathMatchSet> matchers, bool any = false)
+#else
+        public static ConcurrentQueue<string> GetAllMatches(string file, IEnumerable<PathMatchSet>? matchers, bool any = false)
+#endif
         {
             return FindAllMatches(new List<string> { file }, matchers, any, false);
         }
@@ -231,7 +235,11 @@ namespace SabreTools.Matching
         /// <param name="matchers">Enumerable of PathMatchSets to be run on the file</param>
         /// <param name="any">True if any path match is a success, false if all have to match</param>
         /// <returns>List of strings representing the matched protections, null or empty otherwise</returns>
+#if NET48
         public static ConcurrentQueue<string> GetAllMatches(IEnumerable<string> files, IEnumerable<PathMatchSet> matchers, bool any = false)
+#else
+        public static ConcurrentQueue<string> GetAllMatches(IEnumerable<string>? files, IEnumerable<PathMatchSet>? matchers, bool any = false)
+#endif
         {
             return FindAllMatches(files, matchers, any, false);
         }
@@ -284,7 +292,11 @@ namespace SabreTools.Matching
         /// <param name="any">True if any path match is a success, false if all have to match</param>
         /// <param name="stopAfterFirst">True to stop after the first match, false otherwise</param>
         /// <returns>List of strings representing the matched protections, null or empty otherwise</returns>
+#if NET48
         private static ConcurrentQueue<string> FindAllMatches(IEnumerable<string> files, IEnumerable<PathMatchSet> matchers, bool any, bool stopAfterFirst)
+#else
+        private static ConcurrentQueue<string> FindAllMatches(IEnumerable<string>? files, IEnumerable<PathMatchSet>? matchers, bool any, bool stopAfterFirst)
+#endif
         {
             // If there's no mappings, we can't match
             if (matchers == null || !matchers.Any())
