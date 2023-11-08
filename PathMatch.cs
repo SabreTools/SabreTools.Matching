@@ -12,7 +12,7 @@ namespace SabreTools.Matching
         /// String to match
         /// </summary>
 #if NETFRAMEWORK || NETCOREAPP
-        public string? Needle { get; set; }
+        public string? Needle { get; private set; }
 #else
         public string? Needle { get; init; }
 #endif

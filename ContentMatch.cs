@@ -11,7 +11,7 @@ namespace SabreTools.Matching
         /// Content to match
         /// </summary>
 #if NETFRAMEWORK || NETCOREAPP
-        public byte?[]? Needle { get; set; }
+        public byte?[]? Needle { get; private set; }
 #else
         public byte?[]? Needle { get; init; }
 #endif
