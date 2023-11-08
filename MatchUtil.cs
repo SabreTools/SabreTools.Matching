@@ -20,11 +20,7 @@ namespace SabreTools.Matching
         /// <param name="matchers">Enumerable of ContentMatchSets to be run on the file</param>
         /// <param name="includeDebug">True to include positional data, false otherwise</param>
         /// <returns>List of strings representing the matched protections, null or empty otherwise</returns>
-#if NET48
-        public static ConcurrentQueue<string> GetAllMatches(string file, byte[] stack, IEnumerable<ContentMatchSet> matchers, bool includeDebug = false)
-#else
         public static ConcurrentQueue<string>? GetAllMatches(string file, byte[]? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
-#endif
         {
             return FindAllMatches(file, stack, matchers, includeDebug, false);
         }
@@ -37,11 +33,7 @@ namespace SabreTools.Matching
         /// <param name="matchers">Enumerable of ContentMatchSets to be run on the file</param>
         /// <param name="includeDebug">True to include positional data, false otherwise</param>
         /// <returns>String representing the matched protection, null otherwise</returns>
-#if NET48
-        public static string GetFirstMatch(string file, byte[] stack, IEnumerable<ContentMatchSet> matchers, bool includeDebug = false)
-#else
         public static string? GetFirstMatch(string file, byte[]? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
-#endif
         {
             var contentMatches = FindAllMatches(file, stack, matchers, includeDebug, true);
             if (contentMatches == null || !contentMatches.Any())
@@ -59,11 +51,7 @@ namespace SabreTools.Matching
         /// <param name="includeDebug">True to include positional data, false otherwise</param>
         /// <param name="stopAfterFirst">True to stop after the first match, false otherwise</param>
         /// <returns>List of strings representing the matched protections, null or empty otherwise</returns>
-#if NET48
-        private static ConcurrentQueue<string> FindAllMatches(string file, byte[] stack, IEnumerable<ContentMatchSet> matchers, bool includeDebug, bool stopAfterFirst)
-#else
         private static ConcurrentQueue<string>? FindAllMatches(string file, byte[]? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug, bool stopAfterFirst)
-#endif
         {
             // If there's no mappings, we can't match
             if (matchers == null || !matchers.Any())
@@ -120,11 +108,7 @@ namespace SabreTools.Matching
         /// <param name="matchers">Enumerable of ContentMatchSets to be run on the file</param>
         /// <param name="includeDebug">True to include positional data, false otherwise</param>
         /// <returns>List of strings representing the matched protections, null or empty otherwise</returns>
-#if NET48
-        public static ConcurrentQueue<string> GetAllMatches(string file, Stream stack, IEnumerable<ContentMatchSet> matchers, bool includeDebug = false)
-#else
         public static ConcurrentQueue<string>? GetAllMatches(string file, Stream? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
-#endif
         {
             return FindAllMatches(file, stack, matchers, includeDebug, false);
         }
@@ -137,11 +121,7 @@ namespace SabreTools.Matching
         /// <param name="matchers">Enumerable of ContentMatchSets to be run on the file</param>
         /// <param name="includeDebug">True to include positional data, false otherwise</param>
         /// <returns>String representing the matched protection, null otherwise</returns>
-#if NET48
-        public static string GetFirstMatch(string file, Stream stack, IEnumerable<ContentMatchSet> matchers, bool includeDebug = false)
-#else
         public static string? GetFirstMatch(string file, Stream? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
-#endif
         {
             var contentMatches = FindAllMatches(file, stack, matchers, includeDebug, true);
             if (contentMatches == null || !contentMatches.Any())
@@ -159,11 +139,7 @@ namespace SabreTools.Matching
         /// <param name="includeDebug">True to include positional data, false otherwise</param>
         /// <param name="stopAfterFirst">True to stop after the first match, false otherwise</param>
         /// <returns>List of strings representing the matched protections, null or empty otherwise</returns>
-#if NET48
-        private static ConcurrentQueue<string> FindAllMatches(string file, Stream stack, IEnumerable<ContentMatchSet> matchers, bool includeDebug, bool stopAfterFirst)
-#else
         private static ConcurrentQueue<string>? FindAllMatches(string file, Stream? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug, bool stopAfterFirst)
-#endif
         {
             // If there's no mappings, we can't match
             if (matchers == null || !matchers.Any())
@@ -219,11 +195,7 @@ namespace SabreTools.Matching
         /// <param name="matchers">Enumerable of PathMatchSets to be run on the file</param>
         /// <param name="any">True if any path match is a success, false if all have to match</param>
         /// <returns>List of strings representing the matched protections, null or empty otherwise</returns>
-#if NET48
-        public static ConcurrentQueue<string> GetAllMatches(string file, IEnumerable<PathMatchSet> matchers, bool any = false)
-#else
         public static ConcurrentQueue<string> GetAllMatches(string file, IEnumerable<PathMatchSet>? matchers, bool any = false)
-#endif
         {
             return FindAllMatches(new List<string> { file }, matchers, any, false);
         }
@@ -235,11 +207,7 @@ namespace SabreTools.Matching
         /// <param name="matchers">Enumerable of PathMatchSets to be run on the file</param>
         /// <param name="any">True if any path match is a success, false if all have to match</param>
         /// <returns>List of strings representing the matched protections, null or empty otherwise</returns>
-#if NET48
-        public static ConcurrentQueue<string> GetAllMatches(IEnumerable<string> files, IEnumerable<PathMatchSet> matchers, bool any = false)
-#else
         public static ConcurrentQueue<string> GetAllMatches(IEnumerable<string>? files, IEnumerable<PathMatchSet>? matchers, bool any = false)
-#endif
         {
             return FindAllMatches(files, matchers, any, false);
         }
@@ -251,11 +219,7 @@ namespace SabreTools.Matching
         /// <param name="matchers">Enumerable of PathMatchSets to be run on the file</param>
         /// <param name="any">True if any path match is a success, false if all have to match</param>
         /// <returns>String representing the matched protection, null otherwise</returns>
-#if NET48
-        public static string GetFirstMatch(string file, IEnumerable<PathMatchSet> matchers, bool any = false)
-#else
         public static string? GetFirstMatch(string file, IEnumerable<PathMatchSet> matchers, bool any = false)
-#endif
         {
             var contentMatches = FindAllMatches(new List<string> { file }, matchers, any, true);
             if (contentMatches == null || !contentMatches.Any())
@@ -271,11 +235,7 @@ namespace SabreTools.Matching
         /// <param name="matchers">Enumerable of PathMatchSets to be run on the file</param>
         /// <param name="any">True if any path match is a success, false if all have to match</param>
         /// <returns>String representing the matched protection, null otherwise</returns>
-#if NET48
-        public static string GetFirstMatch(IEnumerable<string> files, IEnumerable<PathMatchSet> matchers, bool any = false)
-#else
         public static string? GetFirstMatch(IEnumerable<string> files, IEnumerable<PathMatchSet> matchers, bool any = false)
-#endif
         {
             var contentMatches = FindAllMatches(files, matchers, any, true);
             if (contentMatches == null || !contentMatches.Any())
@@ -292,11 +252,7 @@ namespace SabreTools.Matching
         /// <param name="any">True if any path match is a success, false if all have to match</param>
         /// <param name="stopAfterFirst">True to stop after the first match, false otherwise</param>
         /// <returns>List of strings representing the matched protections, null or empty otherwise</returns>
-#if NET48
-        private static ConcurrentQueue<string> FindAllMatches(IEnumerable<string> files, IEnumerable<PathMatchSet> matchers, bool any, bool stopAfterFirst)
-#else
         private static ConcurrentQueue<string> FindAllMatches(IEnumerable<string>? files, IEnumerable<PathMatchSet>? matchers, bool any, bool stopAfterFirst)
-#endif
         {
             // If there's no mappings, we can't match
             if (matchers == null || !matchers.Any())

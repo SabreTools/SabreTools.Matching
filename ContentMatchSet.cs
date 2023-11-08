@@ -20,11 +20,7 @@ namespace SabreTools.Matching
         /// to the protection name, or `null`, in which case it will cause
         /// the protection to be omitted.
         /// </remarks>
-#if NET48
-        public Func<string, byte[], List<int>, string> GetArrayVersion { get; private set; }
-#else
-        public Func<string, byte[]?, List<int>, string?>? GetArrayVersion { get; init; }
-#endif
+        public Func<string, byte[]?, List<int>, string?>? GetArrayVersion { get; private set; }
 
         /// <summary>
         /// Function to get a content version
@@ -36,11 +32,7 @@ namespace SabreTools.Matching
         /// to the protection name, or `null`, in which case it will cause
         /// the protection to be omitted.
         /// </remarks>
-#if NET48
-        public Func<string, Stream, List<int>, string> GetStreamVersion { get; private set; }
-#else
-        public Func<string, Stream?, List<int>, string?>? GetStreamVersion { get; init; }
-#endif
+        public Func<string, Stream?, List<int>, string?>? GetStreamVersion { get; private set; }
 
         #region Generic Constructors
 
@@ -60,23 +52,6 @@ namespace SabreTools.Matching
 
         #region Array Constructors
 
-#if NET48
-        public ContentMatchSet(byte?[] needle, Func<string, byte[], List<int>, string> getArrayVersion, string protectionName)
-            : this(new List<byte?[]> { needle }, getArrayVersion, protectionName) { }
-
-        public ContentMatchSet(List<byte?[]> needles, Func<string, byte[], List<int>, string> getArrayVersion, string protectionName)
-            : this(needles.Select(n => new ContentMatch(n)).ToList(), getArrayVersion, protectionName) { }
-
-        public ContentMatchSet(ContentMatch needle, Func<string, byte[], List<int>, string> getArrayVersion, string protectionName)
-            : this(new List<ContentMatch>() { needle }, getArrayVersion, protectionName) { }
-
-        public ContentMatchSet(List<ContentMatch> needles, Func<string, byte[], List<int>, string> getArrayVersion, string protectionName)
-        {
-            Matchers = needles;
-            GetArrayVersion = getArrayVersion;
-            ProtectionName = protectionName;
-        }
-#else
         public ContentMatchSet(byte?[] needle, Func<string, byte[]?, List<int>, string?>? getArrayVersion, string protectionName)
             : this(new List<byte?[]> { needle }, getArrayVersion, protectionName) { }
 
@@ -92,29 +67,11 @@ namespace SabreTools.Matching
             GetArrayVersion = getArrayVersion;
             ProtectionName = protectionName;
         }
-#endif
 
         #endregion
 
         #region Stream Constructors
 
-#if NET48
-        public ContentMatchSet(byte?[] needle, Func<string, Stream, List<int>, string> getStreamVersion, string protectionName)
-            : this(new List<byte?[]> { needle }, getStreamVersion, protectionName) { }
-
-        public ContentMatchSet(List<byte?[]> needles, Func<string, Stream, List<int>, string> getStreamVersion, string protectionName)
-            : this(needles.Select(n => new ContentMatch(n)).ToList(), getStreamVersion, protectionName) { }
-
-        public ContentMatchSet(ContentMatch needle, Func<string, Stream, List<int>, string> getStreamVersion, string protectionName)
-            : this(new List<ContentMatch>() { needle }, getStreamVersion, protectionName) { }
-
-        public ContentMatchSet(List<ContentMatch> needles, Func<string, Stream, List<int>, string> getStreamVersion, string protectionName)
-        {
-            Matchers = needles;
-            GetStreamVersion = getStreamVersion;
-            ProtectionName = protectionName;
-        }
-#else
         public ContentMatchSet(byte?[] needle, Func<string, Stream?, List<int>, string?>? getStreamVersion, string protectionName)
             : this(new List<byte?[]> { needle }, getStreamVersion, protectionName) { }
 
@@ -130,7 +87,6 @@ namespace SabreTools.Matching
             GetStreamVersion = getStreamVersion;
             ProtectionName = protectionName;
         }
-#endif
 
         #endregion
 
@@ -141,11 +97,7 @@ namespace SabreTools.Matching
         /// </summary>
         /// <param name="stack">Array to search</param>
         /// <returns>Tuple of passing status and matching positions</returns>
-#if NET48
-        public (bool, List<int>) MatchesAll(byte[] stack)
-#else
         public (bool, List<int>) MatchesAll(byte[]? stack)
-#endif
         {
             // If no content matches are defined, we fail out
             if (Matchers == null || !Matchers.Any())
@@ -172,11 +124,7 @@ namespace SabreTools.Matching
         /// </summary>
         /// <param name="stack">Array to search</param>
         /// <returns>Tuple of passing status and first matching position</returns>
-#if NET48
-        public (bool, int) MatchesAny(byte[] stack)
-#else
         public (bool, int) MatchesAny(byte[]? stack)
-#endif
         {
             // If no content matches are defined, we fail out
             if (Matchers == null || !Matchers.Any())
@@ -202,11 +150,7 @@ namespace SabreTools.Matching
         /// </summary>
         /// <param name="stack">Stream to search</param>
         /// <returns>Tuple of passing status and matching positions</returns>
-#if NET48
-        public (bool, List<int>) MatchesAll(Stream stack)
-#else
         public (bool, List<int>) MatchesAll(Stream? stack)
-#endif
         {
             // If no content matches are defined, we fail out
             if (Matchers == null || !Matchers.Any())
@@ -233,11 +177,7 @@ namespace SabreTools.Matching
         /// </summary>
         /// <param name="stack">Stream to search</param>
         /// <returns>Tuple of passing status and first matching position</returns>
-#if NET48
-        public (bool, int) MatchesAny(Stream stack)
-#else
         public (bool, int) MatchesAny(Stream? stack)
-#endif
         {
             // If no content matches are defined, we fail out
             if (Matchers == null || !Matchers.Any())

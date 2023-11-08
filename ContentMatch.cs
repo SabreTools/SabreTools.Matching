@@ -10,8 +10,8 @@ namespace SabreTools.Matching
         /// <summary>
         /// Content to match
         /// </summary>
-#if NET48
-        public byte?[] Needle { get; set; }
+#if NETFRAMEWORK
+        public byte?[]? Needle { get; set; }
 #else
         public byte?[]? Needle { get; init; }
 #endif
@@ -24,11 +24,7 @@ namespace SabreTools.Matching
         /// <summary>
         /// Ending index for matching
         /// </summary>
-#if NET48
         public int End { get; private set; }
-#else
-        public int End { get; init; }
-#endif
 
         /// <summary>
         /// Constructor
@@ -36,11 +32,7 @@ namespace SabreTools.Matching
         /// <param name="needle">Byte array representing the search</param>
         /// <param name="start">Optional starting index</param>
         /// <param name="end">Optional ending index</param>
-#if NET48
-        public ContentMatch(byte?[] needle, int start = -1, int end = -1)
-#else
         public ContentMatch(byte?[]? needle, int start = -1, int end = -1)
-#endif
         {
             this.Needle = needle;
             this.Start = start;
@@ -55,11 +47,7 @@ namespace SabreTools.Matching
         /// <param name="stack">Array to search for the given content</param>
         /// <param name="reverse">True to search from the end of the array, false from the start</param>
         /// <returns>Tuple of success and found position</returns>
-#if NET48
-        public (bool success, int position) Match(byte[] stack, bool reverse = false)
-#else
         public (bool success, int position) Match(byte[]? stack, bool reverse = false)
-#endif
         {
             // If either array is null or empty, we can't do anything
             if (stack == null || stack.Length == 0 || this.Needle == null || this.Needle.Length == 0)
@@ -136,11 +124,7 @@ namespace SabreTools.Matching
         /// <param name="stack">Stream to search for the given content</param>
         /// <param name="reverse">True to search from the end of the array, false from the start</param>
         /// <returns>Tuple of success and found position</returns>
-#if NET48
-        public (bool success, int position) Match(Stream stack, bool reverse = false)
-#else
         public (bool success, int position) Match(Stream? stack, bool reverse = false)
-#endif
         {
             // If either array is null or empty, we can't do anything
             if (stack == null || stack.Length == 0 || this.Needle == null || this.Needle.Length == 0)

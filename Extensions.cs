@@ -8,11 +8,7 @@ namespace SabreTools.Matching
         /// <summary>
         /// Find all positions of one array in another, if possible, if possible
         /// </summary>
-#if NET48
-        public static List<int> FindAllPositions(this byte[] stack, byte?[] needle, int start = 0, int end = -1)
-#else
         public static List<int> FindAllPositions(this byte[] stack, byte?[]? needle, int start = 0, int end = -1)
-#endif
         {
             // Get the outgoing list
             List<int> positions = new List<int>();
@@ -37,28 +33,16 @@ namespace SabreTools.Matching
         /// <summary>
         /// Find the first position of one array in another, if possible
         /// </summary>
-#if NET48
-        public static bool FirstPosition(this byte[] stack, byte[] needle, out int position, int start = 0, int end = -1)
-        {
-            byte?[] nullableNeedle = needle != null ? needle.Select(b => (byte?)b).ToArray() : null;
-            return stack.FirstPosition(nullableNeedle, out position, start, end);
-        }
-#else
         public static bool FirstPosition(this byte[] stack, byte[]? needle, out int position, int start = 0, int end = -1)
         {
             byte?[]? nullableNeedle = needle != null ? needle.Select(b => (byte?)b).ToArray() : null;
             return stack.FirstPosition(nullableNeedle, out position, start, end);
         }
-#endif
 
         /// <summary>
         /// Find the first position of one array in another, if possible
         /// </summary>
-#if NET48
-        public static bool FirstPosition(this byte[] stack, byte?[] needle, out int position, int start = 0, int end = -1)
-#else
         public static bool FirstPosition(this byte[] stack, byte?[]? needle, out int position, int start = 0, int end = -1)
-#endif
         {
             var matcher = new ContentMatch(needle, start, end);
             (bool found, int foundPosition) = matcher.Match(stack, false);
@@ -69,11 +53,7 @@ namespace SabreTools.Matching
         /// <summary>
         /// Find the last position of one array in another, if possible
         /// </summary>
-#if NET48
-        public static bool LastPosition(this byte[] stack, byte?[] needle, out int position, int start = 0, int end = -1)
-#else
         public static bool LastPosition(this byte[] stack, byte?[]? needle, out int position, int start = 0, int end = -1)
-#endif
         {
             var matcher = new ContentMatch(needle, start, end);
             (bool found, int foundPosition) = matcher.Match(stack, true);
@@ -84,11 +64,7 @@ namespace SabreTools.Matching
         /// <summary>
         /// See if a byte array starts with another
         /// </summary>
-#if NET48
-        public static bool StartsWith(this byte[] stack, byte[] needle)
-#else
         public static bool StartsWith(this byte[] stack, byte[]? needle)
-#endif
         {
             if (needle == null)
                 return false;
@@ -99,11 +75,7 @@ namespace SabreTools.Matching
         /// <summary>
         /// See if a byte array starts with another
         /// </summary>
-#if NET48
-        public static bool StartsWith(this byte[] stack, byte?[] needle)
-#else
         public static bool StartsWith(this byte[] stack, byte?[]? needle)
-#endif
         {
             if (needle == null)
                 return false;
@@ -114,11 +86,7 @@ namespace SabreTools.Matching
         /// <summary>
         /// See if a byte array ends with another
         /// </summary>
-#if NET48
-        public static bool EndsWith(this byte[] stack, byte[] needle)
-#else
         public static bool EndsWith(this byte[] stack, byte[]? needle)
-#endif
         {
             if (needle == null)
                 return false;
@@ -129,11 +97,7 @@ namespace SabreTools.Matching
         /// <summary>
         /// See if a byte array ends with another
         /// </summary>
-#if NET48
-        public static bool EndsWith(this byte[] stack, byte?[] needle)
-#else
         public static bool EndsWith(this byte[] stack, byte?[]? needle)
-#endif
         {
             if (needle == null)
                 return false;
