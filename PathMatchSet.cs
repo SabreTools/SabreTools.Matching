@@ -28,10 +28,10 @@ namespace SabreTools.Matching
         public PathMatchSet(List<string> needles, string protectionName)
             : this(needles, null, protectionName) { }
 
-        public PathMatchSet(string needle, Func<string, IEnumerable<string>?, string>? getVersion, string protectionName)
+        public PathMatchSet(string needle, Func<string, IEnumerable<string>?, string?>? getVersion, string protectionName)
             : this(new List<string> { needle }, getVersion, protectionName) { }
 
-        public PathMatchSet(List<string> needles, Func<string, IEnumerable<string>?, string>? getVersion, string protectionName)
+        public PathMatchSet(List<string> needles, Func<string, IEnumerable<string>?, string?>? getVersion, string protectionName)
             : this(needles.Select(n => new PathMatch(n)).ToList(), getVersion, protectionName) { }
 
         public PathMatchSet(PathMatch needle, string protectionName)
@@ -40,10 +40,10 @@ namespace SabreTools.Matching
         public PathMatchSet(List<PathMatch> needles, string protectionName)
             : this(needles, null, protectionName) { }
 
-        public PathMatchSet(PathMatch needle, Func<string, IEnumerable<string>?, string>? getVersion, string protectionName)
+        public PathMatchSet(PathMatch needle, Func<string, IEnumerable<string>?, string?>? getVersion, string protectionName)
             : this(new List<PathMatch>() { needle }, getVersion, protectionName) { }
 
-        public PathMatchSet(List<PathMatch> needles, Func<string, IEnumerable<string>?, string>? getVersion, string protectionName)
+        public PathMatchSet(List<PathMatch> needles, Func<string, IEnumerable<string>?, string?>? getVersion, string protectionName)
         {
             Matchers = needles;
             GetVersion = getVersion;

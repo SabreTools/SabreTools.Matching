@@ -10,7 +10,7 @@ namespace SabreTools.Matching
         /// <summary>
         /// Content to match
         /// </summary>
-#if NETFRAMEWORK
+#if NETFRAMEWORK || NETCOREAPP
         public byte?[]? Needle { get; set; }
 #else
         public byte?[]? Needle { get; init; }

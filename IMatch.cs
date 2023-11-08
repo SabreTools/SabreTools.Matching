@@ -2,7 +2,7 @@
 {
     public interface IMatch<T>
     {
-#if NETFRAMEWORK
+#if NETFRAMEWORK || NETCOREAPP
         T? Needle { get; set; }
 #else
         T? Needle { get; init; }
