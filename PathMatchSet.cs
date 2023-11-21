@@ -66,7 +66,7 @@ namespace SabreTools.Matching
                 return (false, new List<string>());
 
             // Initialize the value list
-            List<string> values = new List<string>();
+            List<string> values = [];
 
             // Loop through all path matches and make sure all pass
             foreach (var pathMatch in Matchers)

@@ -11,7 +11,7 @@ namespace SabreTools.Matching
         public static List<int> FindAllPositions(this byte[] stack, byte?[]? needle, int start = 0, int end = -1)
         {
             // Get the outgoing list
-            List<int> positions = new List<int>();
+            List<int> positions = [];
 
             // Initialize the loop variables
             bool found = true;
@@ -35,7 +35,7 @@ namespace SabreTools.Matching
         /// </summary>
         public static bool FirstPosition(this byte[] stack, byte[]? needle, out int position, int start = 0, int end = -1)
         {
-            byte?[]? nullableNeedle = needle != null ? needle.Select(b => (byte?)b).ToArray() : null;
+            byte?[]? nullableNeedle = needle?.Select(b => (byte?)b).ToArray();
             return stack.FirstPosition(nullableNeedle, out position, start, end);
         }
 
