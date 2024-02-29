@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -5,6 +6,14 @@ namespace SabreTools.Matching
 {
     public static class Extensions
     {
+        /// <summary>
+        /// Indicates whether the specified array is null or has a length of zero
+        /// </summary>
+        public static bool IsNullOrEmpty(this Array? array)
+        {
+            return array == null || array.Length == 0;
+        }
+
         /// <summary>
         /// Find all positions of one array in another, if possible, if possible
         /// </summary>
@@ -64,10 +73,16 @@ namespace SabreTools.Matching
         /// <summary>
         /// See if a byte array starts with another
         /// </summary>
-        public static bool StartsWith(this byte[] stack, byte[]? needle)
+        public static bool StartsWith(this byte[] stack, byte[]? needle, bool exact = false)
         {
-            if (needle == null)
+            // If we have any invalid inputs, we return false
+            if (needle == null
+                || stack.Length == 0 || needle.Length == 0
+                || needle.Length > stack.Length
+                || (exact && stack.Length != needle.Length))
+            {
                 return false;
+            }
 
             return stack.FirstPosition(needle, out int _, start: 0, end: 1);
         }
@@ -75,10 +90,16 @@ namespace SabreTools.Matching
         /// <summary>
         /// See if a byte array starts with another
         /// </summary>
-        public static bool StartsWith(this byte[] stack, byte?[]? needle)
+        public static bool StartsWith(this byte[] stack, byte?[]? needle, bool exact = false)
         {
-            if (needle == null)
+            // If we have any invalid inputs, we return false
+            if (needle == null
+                || stack.Length == 0 || needle.Length == 0
+                || needle.Length > stack.Length
+                || (exact && stack.Length != needle.Length))
+            {
                 return false;
+            }
 
             return stack.FirstPosition(needle, out int _, start: 0, end: 1);
         }
@@ -86,10 +107,16 @@ namespace SabreTools.Matching
         /// <summary>
         /// See if a byte array ends with another
         /// </summary>
-        public static bool EndsWith(this byte[] stack, byte[]? needle)
+        public static bool EndsWith(this byte[] stack, byte[]? needle, bool exact = false)
         {
-            if (needle == null)
+            // If we have any invalid inputs, we return false
+            if (needle == null
+                || stack.Length == 0 || needle.Length == 0
+                || needle.Length > stack.Length
+                || (exact && stack.Length != needle.Length))
+            {
                 return false;
+            }
 
             return stack.FirstPosition(needle, out int _, start: stack.Length - needle.Length);
         }
@@ -97,10 +124,16 @@ namespace SabreTools.Matching
         /// <summary>
         /// See if a byte array ends with another
         /// </summary>
-        public static bool EndsWith(this byte[] stack, byte?[]? needle)
+        public static bool EndsWith(this byte[] stack, byte?[]? needle, bool exact = false)
         {
-            if (needle == null)
+            // If we have any invalid inputs, we return false
+            if (needle == null
+                || stack.Length == 0 || needle.Length == 0
+                || needle.Length > stack.Length
+                || (exact && stack.Length != needle.Length))
+            {
                 return false;
+            }
 
             return stack.FirstPosition(needle, out int _, start: stack.Length - needle.Length);
         }
