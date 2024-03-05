@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SabreTools.Matching
+namespace SabreTools.Matching.Paths
 {
     /// <summary>
     /// A set of path matches that work together

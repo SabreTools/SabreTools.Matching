@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace SabreTools.Matching
+namespace SabreTools.Matching.Compare
 {
     public class NaturalReversedComparer : Comparer<string>, IDisposable
     {

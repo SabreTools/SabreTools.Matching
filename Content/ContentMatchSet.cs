@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace SabreTools.Matching
+namespace SabreTools.Matching.Content
 {
     /// <summary>
     /// A set of content matches that work together

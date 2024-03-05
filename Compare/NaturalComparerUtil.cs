@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace SabreTools.Matching
+namespace SabreTools.Matching.Compare
 {
     public static class NaturalComparerUtil
     {

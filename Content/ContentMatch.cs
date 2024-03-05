@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace SabreTools.Matching
+namespace SabreTools.Matching.Content
 {
     /// <summary>
     /// Content matching criteria

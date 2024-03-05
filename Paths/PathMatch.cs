@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SabreTools.Matching
+namespace SabreTools.Matching.Paths
 {
     /// <summary>
     /// Path matching criteria

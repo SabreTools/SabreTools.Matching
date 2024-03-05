@@ -4,6 +4,8 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using SabreTools.Matching.Content;
+using SabreTools.Matching.Paths;
 
 namespace SabreTools.Matching
 {
