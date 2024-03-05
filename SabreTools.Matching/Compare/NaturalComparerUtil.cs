@@ -4,8 +4,21 @@ namespace SabreTools.Matching.Compare
 {
     public static class NaturalComparerUtil
     {
-        public static int CompareNumeric(string s1, string s2)
+        /// <summary>
+        /// Compare two strings by numeric parts
+        /// </summary>
+        public static int CompareNumeric(string? s1, string? s2)
         {
+            // If both strings are null, return
+            if (s1 == null && s2 == null)
+                return 0;
+
+            // If one is null, then say that's less than
+            if (s1 == null)
+                return -1;
+            if (s2 == null)
+                return 1;
+
             // Save the orginal strings, for later comparison
             string s1orig = s1;
             string s2orig = s2;
@@ -17,12 +30,6 @@ namespace SabreTools.Matching.Compare
             // If the strings are the same exactly, return
             if (s1 == s2)
                 return s1orig.CompareTo(s2orig);
-
-            // If one is null, then say that's less than
-            if (s1 == null)
-                return -1;
-            if (s2 == null)
-                return 1;
 
             // Now split into path parts after converting AltDirSeparator to DirSeparator
             s1 = s1.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);

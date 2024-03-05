@@ -41,16 +41,17 @@ namespace SabreTools.Matching.Compare
                 else
                     return 0;
             }
+
             if (x.ToLowerInvariant() == y.ToLowerInvariant())
-            {
                 return x.CompareTo(y);
-            }
+
             if (!table.TryGetValue(x, out string[]? x1))
             {
                 //x1 = Regex.Split(x.Replace(" ", string.Empty), "([0-9]+)");
                 x1 = Regex.Split(x.ToLowerInvariant(), "([0-9]+)").Where(s => !string.IsNullOrEmpty(s)).ToArray();
                 table.Add(x, x1);
             }
+
             if (!table.TryGetValue(y, out string[]? y1))
             {
                 //y1 = Regex.Split(y.Replace(" ", string.Empty), "([0-9]+)");
@@ -61,41 +62,28 @@ namespace SabreTools.Matching.Compare
             for (int i = 0; i < x1.Length && i < y1.Length; i++)
             {
                 if (x1[i] != y1[i])
-                {
                     return PartCompare(x1[i], y1[i]);
-                }
             }
+
             if (y1.Length > x1.Length)
-            {
                 return 1;
-            }
             else if (x1.Length > y1.Length)
-            {
                 return -1;
-            }
             else
-            {
                 return x.CompareTo(y);
-            }
         }
 
         private static int PartCompare(string left, string right)
         {
             if (!long.TryParse(left, out long x))
-            {
                 return NaturalComparerUtil.CompareNumeric(left, right);
-            }
 
             if (!long.TryParse(right, out long y))
-            {
                 return NaturalComparerUtil.CompareNumeric(left, right);
-            }
 
             // If we have an equal part, then make sure that "longer" ones are taken into account
             if (x.CompareTo(y) == 0)
-            {
                 return left.Length - right.Length;
-            }
 
             return x.CompareTo(y);
         }
