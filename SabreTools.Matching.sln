@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SabreTools.Matching", "SabreTools.Matching.csproj", "{9555EB79-4E81-4988-9ABE-D6CE6042197E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SabreTools.Matching", "SabreTools.Matching\SabreTools.Matching.csproj", "{9555EB79-4E81-4988-9ABE-D6CE6042197E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
