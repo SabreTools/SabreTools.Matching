@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+#if NET40_OR_GREATER || NETCOREAPP
 using System.Linq;
+#endif
 
 namespace SabreTools.Matching.Paths
 {
@@ -35,9 +37,9 @@ namespace SabreTools.Matching.Paths
         /// <param name="useEndsWith">True to match the end only, false for all contents</param>
         public PathMatch(string? needle, bool matchExact = false, bool useEndsWith = false)
         {
-            this.Needle = needle;
-            this.MatchExact = matchExact;
-            this.UseEndsWith = useEndsWith;
+            Needle = needle;
+            MatchExact = matchExact;
+            UseEndsWith = useEndsWith;
         }
 
         #region Matching
@@ -50,26 +52,30 @@ namespace SabreTools.Matching.Paths
         public string? Match(IEnumerable<string>? stack)
         {
             // If either array is null or empty, we can't do anything
-            if (stack == null || !stack.Any() || this.Needle == null || this.Needle.Length == 0)
+#if NET20 || NET35
+            if (stack == null || new List<string>(stack).Count == 0 || Needle == null || Needle.Length == 0)
+#else
+            if (stack == null || !stack.Any() || Needle == null || Needle.Length == 0)
+#endif
                 return null;
 
             // Preprocess the needle, if necessary
-            string procNeedle = this.MatchExact ? this.Needle : this.Needle.ToLowerInvariant();
+            string procNeedle = MatchExact ? Needle : Needle.ToLowerInvariant();
 
             foreach (string stackItem in stack)
             {
                 // Preprocess the stack item, if necessary
-                string procStackItem = this.MatchExact ? stackItem : stackItem.ToLowerInvariant();
+                string procStackItem = MatchExact ? stackItem : stackItem.ToLowerInvariant();
 
-                if (this.UseEndsWith && procStackItem.EndsWith(procNeedle))
+                if (UseEndsWith && procStackItem.EndsWith(procNeedle))
                     return stackItem;
-                else if (!this.UseEndsWith && procStackItem.Contains(procNeedle))
+                else if (!UseEndsWith && procStackItem.Contains(procNeedle))
                     return stackItem;
             }
 
             return null;
         }
-    
+
         #endregion
     }
 }

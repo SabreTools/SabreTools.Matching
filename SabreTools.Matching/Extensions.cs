@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+#if NET40_OR_GREATER || NETCOREAPP
 using System.Linq;
+#endif
 using SabreTools.Matching.Content;
 
 namespace SabreTools.Matching
@@ -46,7 +48,23 @@ namespace SabreTools.Matching
         /// </summary>
         public static bool FirstPosition(this byte[] stack, byte[]? needle, out int position, int start = 0, int end = -1)
         {
+#if NET20 || NET35
+            byte?[]? nullableNeedle;
+            if (needle == null)
+            {
+                nullableNeedle = null;
+            }
+            else
+            {
+                nullableNeedle = new byte?[needle.Length];
+                for (int i = 0; i < needle.Length; i++)
+                {
+                    nullableNeedle[i] = needle[i];
+                }
+            }
+#else
             byte?[]? nullableNeedle = needle?.Select(b => (byte?)b).ToArray();
+#endif
             return stack.FirstPosition(nullableNeedle, out position, start, end);
         }
 

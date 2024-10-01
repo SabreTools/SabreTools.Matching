@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+#if NET40_OR_GREATER || NETCOREAPP
 using System.Linq;
+#endif
 
 namespace SabreTools.Matching.Content
 {
@@ -55,8 +57,23 @@ namespace SabreTools.Matching.Content
         public ContentMatchSet(byte?[] needle, Func<string, byte[]?, List<int>, string?>? getArrayVersion, string protectionName)
             : this(new List<byte?[]> { needle }, getArrayVersion, protectionName) { }
 
+#if NET20 || NET35
+        public ContentMatchSet(List<byte?[]> needles, Func<string, byte[]?, List<int>, string?>? getArrayVersion, string protectionName)
+        {
+            var matchers = new List<ContentMatch>();
+            foreach (var n in needles)
+            {
+                matchers.Add(new ContentMatch(n));
+            }
+
+            Matchers = matchers;
+            GetArrayVersion = getArrayVersion;
+            ProtectionName = protectionName;
+        }
+#else
         public ContentMatchSet(List<byte?[]> needles, Func<string, byte[]?, List<int>, string?>? getArrayVersion, string protectionName)
             : this(needles.Select(n => new ContentMatch(n)).ToList(), getArrayVersion, protectionName) { }
+#endif
 
         public ContentMatchSet(ContentMatch needle, Func<string, byte[]?, List<int>, string?>? getArrayVersion, string protectionName)
             : this(new List<ContentMatch>() { needle }, getArrayVersion, protectionName) { }
@@ -75,8 +92,23 @@ namespace SabreTools.Matching.Content
         public ContentMatchSet(byte?[] needle, Func<string, Stream?, List<int>, string?>? getStreamVersion, string protectionName)
             : this(new List<byte?[]> { needle }, getStreamVersion, protectionName) { }
 
+#if NET20 || NET35
+        public ContentMatchSet(List<byte?[]> needles, Func<string, Stream?, List<int>, string?>? getStreamVersion, string protectionName)
+        {
+            var matchers = new List<ContentMatch>();
+            foreach (var n in needles)
+            {
+                matchers.Add(new ContentMatch(n));
+            }
+
+            Matchers = matchers;
+            GetStreamVersion = getStreamVersion;
+            ProtectionName = protectionName;
+        }
+#else
         public ContentMatchSet(List<byte?[]> needles, Func<string, Stream?, List<int>, string?>? getStreamVersion, string protectionName)
             : this(needles.Select(n => new ContentMatch(n)).ToList(), getStreamVersion, protectionName) { }
+#endif
 
         public ContentMatchSet(ContentMatch needle, Func<string, Stream?, List<int>, string?>? getStreamVersion, string protectionName)
             : this(new List<ContentMatch>() { needle }, getStreamVersion, protectionName) { }
@@ -100,7 +132,11 @@ namespace SabreTools.Matching.Content
         public List<int> MatchesAll(byte[]? stack)
         {
             // If no content matches are defined, we fail out
+#if NET20 || NET35
+            if (Matchers == null || new List<ContentMatch>(Matchers).Count == 0)
+#else
             if (Matchers == null || !Matchers.Any())
+#endif
                 return [];
 
             // Initialize the position list
@@ -127,7 +163,11 @@ namespace SabreTools.Matching.Content
         public int MatchesAny(byte[]? stack)
         {
             // If no content matches are defined, we fail out
+#if NET20 || NET35
+            if (Matchers == null || new List<ContentMatch>(Matchers).Count == 0)
+#else
             if (Matchers == null || !Matchers.Any())
+#endif
                 return -1;
 
             // Loop through all content matches and make sure all pass
@@ -153,7 +193,11 @@ namespace SabreTools.Matching.Content
         public List<int> MatchesAll(Stream? stack)
         {
             // If no content matches are defined, we fail out
+#if NET20 || NET35
+            if (Matchers == null || new List<ContentMatch>(Matchers).Count == 0)
+#else
             if (Matchers == null || !Matchers.Any())
+#endif
                 return [];
 
             // Initialize the position list
@@ -180,7 +224,11 @@ namespace SabreTools.Matching.Content
         public int MatchesAny(Stream? stack)
         {
             // If no content matches are defined, we fail out
+#if NET20 || NET35
+            if (Matchers == null || new List<ContentMatch>(Matchers).Count == 0)
+#else
             if (Matchers == null || !Matchers.Any())
+#endif
                 return -1;
 
             // Loop through all content matches and make sure all pass

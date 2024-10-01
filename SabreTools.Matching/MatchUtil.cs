@@ -3,7 +3,9 @@ using System.Collections.Concurrent;
 #endif
 using System.Collections.Generic;
 using System.IO;
+#if NET40_OR_GREATER || NETCOREAPP
 using System.Linq;
+#endif
 using SabreTools.Matching.Content;
 using SabreTools.Matching.Paths;
 
@@ -44,10 +46,14 @@ namespace SabreTools.Matching
         public static string? GetFirstMatch(string file, byte[]? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
         {
             var contentMatches = FindAllMatches(file, stack, matchers, includeDebug, true);
-            if (contentMatches == null || !contentMatches.Any())
+            if (contentMatches == null || contentMatches.Count == 0)
                 return null;
 
+#if NET20 || NET35
+            return contentMatches.Peek();
+#else
             return contentMatches.First();
+#endif
         }
 
         /// <summary>
@@ -66,8 +72,12 @@ namespace SabreTools.Matching
 #endif
         {
             // If there's no mappings, we can't match
+#if NET20 || NET35
+            if (matchers == null || new List<ContentMatchSet>(matchers).Count == 0)
+#else
             if (matchers == null || !matchers.Any())
-                return null;
+#endif
+            return null;
 
             // Initialize the queue of matched protections
 #if NET20 || NET35
@@ -153,10 +163,14 @@ namespace SabreTools.Matching
         public static string? GetFirstMatch(string file, Stream? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
         {
             var contentMatches = FindAllMatches(file, stack, matchers, includeDebug, true);
-            if (contentMatches == null || !contentMatches.Any())
+            if (contentMatches == null || contentMatches.Count == 0)
                 return null;
 
+#if NET20 || NET35
+            return contentMatches.Peek();
+#else
             return contentMatches.First();
+#endif
         }
 
         /// <summary>
@@ -175,7 +189,11 @@ namespace SabreTools.Matching
 #endif
         {
             // If there's no mappings, we can't match
+#if NET20 || NET35
+            if (matchers == null || new List<ContentMatchSet>(matchers).Count == 0)
+#else
             if (matchers == null || !matchers.Any())
+#endif
                 return null;
 
             // Initialize the queue of matched protections
@@ -276,10 +294,14 @@ namespace SabreTools.Matching
         public static string? GetFirstMatch(string file, IEnumerable<PathMatchSet> matchers, bool any = false)
         {
             var contentMatches = FindAllMatches(new List<string> { file }, matchers, any, true);
-            if (contentMatches == null || !contentMatches.Any())
+            if (contentMatches == null || contentMatches.Count == 0)
                 return null;
 
+#if NET20 || NET35
+            return contentMatches.Peek();
+#else
             return contentMatches.First();
+#endif
         }
 
         /// <summary>
@@ -292,10 +314,14 @@ namespace SabreTools.Matching
         public static string? GetFirstMatch(IEnumerable<string> files, IEnumerable<PathMatchSet> matchers, bool any = false)
         {
             var contentMatches = FindAllMatches(files, matchers, any, true);
-            if (contentMatches == null || !contentMatches.Any())
+            if (contentMatches == null || contentMatches.Count == 0)
                 return null;
 
+#if NET20 || NET35
+            return contentMatches.Peek();
+#else
             return contentMatches.First();
+#endif
         }
 
         /// <summary>
@@ -313,7 +339,11 @@ namespace SabreTools.Matching
 #endif
         {
             // If there's no mappings, we can't match
+#if NET20 || NET35
+            if (matchers == null || new List<PathMatchSet>(matchers).Count == 0)
+#else
             if (matchers == null || !matchers.Any())
+#endif
                 return new();
 
             // Initialize the list of matched protections
@@ -339,7 +369,7 @@ namespace SabreTools.Matching
                 {
                     List<string> matchedStrings = matcher.MatchesAll(files);
                     passes = matchedStrings.Count > 0;
-                    firstMatchedString = matchedStrings.FirstOrDefault();
+                    firstMatchedString = passes ? matchedStrings[0] : null;
                 }
 
                 // If we don't have a pass, just continue
