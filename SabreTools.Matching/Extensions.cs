@@ -24,17 +24,18 @@ namespace SabreTools.Matching
             List<int> positions = [];
 
             // Initialize the loop variables
-            bool found = true;
             int lastPosition = start;
             var matcher = new ContentMatch(needle, end: end);
 
             // Loop over and get all positions
-            while (found)
+            while (true)
             {
                 matcher.Start = lastPosition;
-                (found, lastPosition) = matcher.Match(stack, false);
-                if (found)
-                    positions.Add(lastPosition);
+                lastPosition = matcher.Match(stack, false);
+                if (lastPosition < 0)
+                    break;
+
+                positions.Add(lastPosition);
             }
 
             return positions;
@@ -55,9 +56,8 @@ namespace SabreTools.Matching
         public static bool FirstPosition(this byte[] stack, byte?[]? needle, out int position, int start = 0, int end = -1)
         {
             var matcher = new ContentMatch(needle, start, end);
-            (bool found, int foundPosition) = matcher.Match(stack, false);
-            position = foundPosition;
-            return found;
+            position = matcher.Match(stack, false);
+            return position >= 0;
         }
 
         /// <summary>
@@ -66,9 +66,8 @@ namespace SabreTools.Matching
         public static bool LastPosition(this byte[] stack, byte?[]? needle, out int position, int start = 0, int end = -1)
         {
             var matcher = new ContentMatch(needle, start, end);
-            (bool found, int foundPosition) = matcher.Match(stack, true);
-            position = foundPosition;
-            return found;
+            position = matcher.Match(stack, true);
+            return position >= 0;
         }
 
         /// <summary>

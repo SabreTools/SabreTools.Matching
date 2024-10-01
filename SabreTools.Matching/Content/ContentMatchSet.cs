@@ -96,12 +96,12 @@ namespace SabreTools.Matching.Content
         /// Determine whether all content matches pass
         /// </summary>
         /// <param name="stack">Array to search</param>
-        /// <returns>Tuple of passing status and matching positions</returns>
-        public (bool, List<int>) MatchesAll(byte[]? stack)
+        /// <returns>List of matching positions, if any</returns>
+        public List<int> MatchesAll(byte[]? stack)
         {
             // If no content matches are defined, we fail out
             if (Matchers == null || !Matchers.Any())
-                return (false, new List<int>());
+                return [];
 
             // Initialize the position list
             var positions = new List<int>();
@@ -109,36 +109,36 @@ namespace SabreTools.Matching.Content
             // Loop through all content matches and make sure all pass
             foreach (var contentMatch in Matchers)
             {
-                (bool match, int position) = contentMatch.Match(stack);
-                if (!match)
-                    return (false, new List<int>());
+                int position = contentMatch.Match(stack);
+                if (position < 0)
+                    return [];
                 else
                     positions.Add(position);
             }
 
-            return (true, positions);
+            return positions;
         }
 
         /// <summary>
         /// Determine whether any content matches pass
         /// </summary>
         /// <param name="stack">Array to search</param>
-        /// <returns>Tuple of passing status and first matching position</returns>
-        public (bool, int) MatchesAny(byte[]? stack)
+        /// <returns>First matching position on success, -1 on error</returns>
+        public int MatchesAny(byte[]? stack)
         {
             // If no content matches are defined, we fail out
             if (Matchers == null || !Matchers.Any())
-                return (false, -1);
+                return -1;
 
             // Loop through all content matches and make sure all pass
             foreach (var contentMatch in Matchers)
             {
-                (bool match, int position) = contentMatch.Match(stack);
-                if (match)
-                    return (true, position);
+                int position = contentMatch.Match(stack);
+                if (position >= 0)
+                    return position;
             }
 
-            return (false, -1);
+            return -1;
         }
 
         #endregion
@@ -149,12 +149,12 @@ namespace SabreTools.Matching.Content
         /// Determine whether all content matches pass
         /// </summary>
         /// <param name="stack">Stream to search</param>
-        /// <returns>Tuple of passing status and matching positions</returns>
-        public (bool, List<int>) MatchesAll(Stream? stack)
+        /// <returns>List of matching positions, if any</returns>
+        public List<int> MatchesAll(Stream? stack)
         {
             // If no content matches are defined, we fail out
             if (Matchers == null || !Matchers.Any())
-                return (false, new List<int>());
+                return [];
 
             // Initialize the position list
             var positions = new List<int>();
@@ -162,36 +162,36 @@ namespace SabreTools.Matching.Content
             // Loop through all content matches and make sure all pass
             foreach (var contentMatch in Matchers)
             {
-                (bool match, int position) = contentMatch.Match(stack);
-                if (!match)
-                    return (false, new List<int>());
+                int position = contentMatch.Match(stack);
+                if (position < 0)
+                    return [];
                 else
                     positions.Add(position);
             }
 
-            return (true, positions);
+            return positions;
         }
 
         /// <summary>
         /// Determine whether any content matches pass
         /// </summary>
         /// <param name="stack">Stream to search</param>
-        /// <returns>Tuple of passing status and first matching position</returns>
-        public (bool, int) MatchesAny(Stream? stack)
+        /// <returns>First matching position on success, -1 on error</returns>
+        public int MatchesAny(Stream? stack)
         {
             // If no content matches are defined, we fail out
             if (Matchers == null || !Matchers.Any())
-                return (false, -1);
+                return -1;
 
             // Loop through all content matches and make sure all pass
             foreach (var contentMatch in Matchers)
             {
-                (bool match, int position) = contentMatch.Match(stack);
-                if (match)
-                    return (true, position);
+                int position = contentMatch.Match(stack);
+                if (position >= 0)
+                    return position;
             }
 
-            return (false, -1);
+            return -1;
         }
 
         #endregion

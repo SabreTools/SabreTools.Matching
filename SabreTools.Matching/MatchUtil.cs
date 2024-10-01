@@ -80,8 +80,8 @@ namespace SabreTools.Matching
             foreach (var matcher in matchers)
             {
                 // Determine if the matcher passes
-                (bool passes, List<int> positions) = matcher.MatchesAll(stack);
-                if (!passes)
+                var positions = matcher.MatchesAll(stack);
+                if (positions.Count == 0)
                     continue;
 
                 // Format the list of all positions found
@@ -189,8 +189,8 @@ namespace SabreTools.Matching
             foreach (var matcher in matchers)
             {
                 // Determine if the matcher passes
-                (bool passes, List<int> positions) = matcher.MatchesAll(stack);
-                if (!passes)
+                var positions = matcher.MatchesAll(stack);
+                if (positions.Count == 0)
                     continue;
 
                 // Format the list of all positions found
@@ -331,14 +331,14 @@ namespace SabreTools.Matching
                 string? firstMatchedString;
                 if (any)
                 {
-                    (bool anyPasses, var matchedString) = matcher.MatchesAny(files);
-                    passes = anyPasses;
+                    string? matchedString = matcher.MatchesAny(files);
+                    passes = matchedString != null;
                     firstMatchedString = matchedString;
                 }
                 else
                 {
-                    (bool allPasses, List<string> matchedStrings) = matcher.MatchesAll(files);
-                    passes = allPasses;
+                    List<string> matchedStrings = matcher.MatchesAll(files);
+                    passes = matchedStrings.Count > 0;
                     firstMatchedString = matchedStrings.FirstOrDefault();
                 }
 

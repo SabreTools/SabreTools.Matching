@@ -58,12 +58,12 @@ namespace SabreTools.Matching.Paths
         /// Determine whether all path matches pass
         /// </summary>
         /// <param name="stack">List of strings to try to match</param>
-        /// <returns>Tuple of passing status and matching values</returns>
-        public (bool, List<string>) MatchesAll(IEnumerable<string>? stack)
+        /// <returns>List of matching values, if any</returns>
+        public List<string> MatchesAll(IEnumerable<string>? stack)
         {
             // If no path matches are defined, we fail out
             if (Matchers == null || !Matchers.Any())
-                return (false, new List<string>());
+                return [];
 
             // Initialize the value list
             List<string> values = [];
@@ -71,36 +71,36 @@ namespace SabreTools.Matching.Paths
             // Loop through all path matches and make sure all pass
             foreach (var pathMatch in Matchers)
             {
-                (bool match, string? value) = pathMatch.Match(stack);
-                if (!match || value == null)
-                    return (false, new List<string>());
+                string? value = pathMatch.Match(stack);
+                if (value == null)
+                    return [];
                 else
                     values.Add(value);
             }
 
-            return (true, values);
+            return values;
         }
 
         /// <summary>
         /// Determine whether any path matches pass
         /// </summary>
         /// <param name="stack">List of strings to try to match</param>
-        /// <returns>Tuple of passing status and first matching value</returns>
-        public (bool, string?) MatchesAny(IEnumerable<string>? stack)
+        /// <returns>First matching value on success, null on error</returns>
+        public string? MatchesAny(IEnumerable<string>? stack)
         {
             // If no path matches are defined, we fail out
             if (Matchers == null || !Matchers.Any())
-                return (false, null);
+                return null;
 
             // Loop through all path matches and make sure all pass
             foreach (var pathMatch in Matchers)
             {
-                (bool match, string? value) = pathMatch.Match(stack);
-                if (match)
-                    return (true, value);
+                string? value = pathMatch.Match(stack);
+                if (value != null)
+                    return value;
             }
 
-            return (false, null);
+            return null;
         }
 
         #endregion

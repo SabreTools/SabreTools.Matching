@@ -46,16 +46,16 @@ namespace SabreTools.Matching.Content
         /// </summary>
         /// <param name="stack">Array to search for the given content</param>
         /// <param name="reverse">True to search from the end of the array, false from the start</param>
-        /// <returns>Tuple of success and found position</returns>
-        public (bool success, int position) Match(byte[]? stack, bool reverse = false)
+        /// <returns>Found position on success, -1 on error</returns>
+        public int Match(byte[]? stack, bool reverse = false)
         {
             // If either array is null or empty, we can't do anything
             if (stack == null || stack.Length == 0 || this.Needle == null || this.Needle.Length == 0)
-                return (false, -1);
+                return -1;
 
             // If the needle array is larger than the stack array, it can't be contained within
             if (this.Needle.Length > stack.Length)
-                return (false, -1);
+                return -1;
 
             // Set the default start and end values
             int start = this.Start;
@@ -71,14 +71,14 @@ namespace SabreTools.Matching.Content
             {
                 // If we somehow have an invalid end and we haven't matched, return
                 if (i > stack.Length)
-                    return (false, -1);
+                    return -1;
 
                 // Check to see if the values are equal
                 if (EqualAt(stack, i))
-                    return (true, i);
+                    return i;
             }
 
-            return (false, -1);
+            return -1;
         }
 
         /// <summary>
@@ -123,16 +123,16 @@ namespace SabreTools.Matching.Content
         /// </summary>
         /// <param name="stack">Stream to search for the given content</param>
         /// <param name="reverse">True to search from the end of the array, false from the start</param>
-        /// <returns>Tuple of success and found position</returns>
-        public (bool success, int position) Match(Stream? stack, bool reverse = false)
+        /// <returns>Found position on success, -1 on error</returns>
+        public int Match(Stream? stack, bool reverse = false)
         {
             // If either array is null or empty, we can't do anything
             if (stack == null || stack.Length == 0 || this.Needle == null || this.Needle.Length == 0)
-                return (false, -1);
+                return -1;
 
             // If the needle array is larger than the stack array, it can't be contained within
             if (this.Needle.Length > stack.Length)
-                return (false, -1);
+                return -1;
 
             // Set the default start and end values
             int start = this.Start;
@@ -148,14 +148,14 @@ namespace SabreTools.Matching.Content
             {
                 // If we somehow have an invalid end and we haven't matched, return
                 if (i > stack.Length)
-                    return (false, -1);
+                    return -1;
 
                 // Check to see if the values are equal
                 if (EqualAt(stack, i))
-                    return (true, i);
+                    return i;
             }
 
-            return (false, -1);
+            return -1;
         }
 
         /// <summary>

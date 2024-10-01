@@ -46,12 +46,12 @@ namespace SabreTools.Matching.Paths
         /// Get if this match can be found in a stack
         /// </summary>
         /// <param name="stack">List of strings to search for the given content</param>
-        /// <returns>Tuple of success and matched item</returns>
-        public (bool, string?) Match(IEnumerable<string>? stack)
+        /// <returns>Matched item on success, null on error</returns>
+        public string? Match(IEnumerable<string>? stack)
         {
             // If either array is null or empty, we can't do anything
             if (stack == null || !stack.Any() || this.Needle == null || this.Needle.Length == 0)
-                return (false, null);
+                return null;
 
             // Preprocess the needle, if necessary
             string procNeedle = this.MatchExact ? this.Needle : this.Needle.ToLowerInvariant();
@@ -62,12 +62,12 @@ namespace SabreTools.Matching.Paths
                 string procStackItem = this.MatchExact ? stackItem : stackItem.ToLowerInvariant();
 
                 if (this.UseEndsWith && procStackItem.EndsWith(procNeedle))
-                    return (true, stackItem);
+                    return stackItem;
                 else if (!this.UseEndsWith && procStackItem.Contains(procNeedle))
-                    return (true, stackItem);
+                    return stackItem;
             }
 
-            return (false, null);
+            return null;
         }
     
         #endregion
