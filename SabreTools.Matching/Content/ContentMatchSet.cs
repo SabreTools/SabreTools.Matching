@@ -19,8 +19,8 @@ namespace SabreTools.Matching.Content
         /// A content version method takes the file path, the file contents,
         /// and a list of found positions and returns a single string. That
         /// string is either a version string, in which case it will be appended
-        /// to the protection name, or `null`, in which case it will cause
-        /// the protection to be omitted.
+        /// to the match name, or `null`, in which case it will cause
+        /// the match name to be omitted.
         /// </remarks>
         public Func<string, byte[]?, List<int>, string?>? GetArrayVersion { get; }
 
@@ -31,34 +31,34 @@ namespace SabreTools.Matching.Content
         /// A content version method takes the file path, the file contents,
         /// and a list of found positions and returns a single string. That
         /// string is either a version string, in which case it will be appended
-        /// to the protection name, or `null`, in which case it will cause
-        /// the protection to be omitted.
+        /// to the match name, or `null`, in which case it will cause
+        /// the match name to be omitted.
         /// </remarks>
         public Func<string, Stream?, List<int>, string?>? GetStreamVersion { get; }
 
         #region Generic Constructors
 
-        public ContentMatchSet(byte?[] needle, string protectionName)
-            : this([needle], getArrayVersion: null, protectionName) { }
+        public ContentMatchSet(byte?[] needle, string matchName)
+            : this([needle], getArrayVersion: null, matchName) { }
 
-        public ContentMatchSet(List<byte?[]> needles, string protectionName)
-            : this(needles, getArrayVersion: null, protectionName) { }
+        public ContentMatchSet(List<byte?[]> needles, string matchName)
+            : this(needles, getArrayVersion: null, matchName) { }
 
-        public ContentMatchSet(ContentMatch needle, string protectionName)
-            : this([needle], getArrayVersion: null, protectionName) { }
+        public ContentMatchSet(ContentMatch needle, string matchName)
+            : this([needle], getArrayVersion: null, matchName) { }
 
-        public ContentMatchSet(List<ContentMatch> needles, string protectionName)
-            : this(needles, getArrayVersion: null, protectionName) { }
+        public ContentMatchSet(List<ContentMatch> needles, string matchName)
+            : this(needles, getArrayVersion: null, matchName) { }
 
         #endregion
 
         #region Array Constructors
 
-        public ContentMatchSet(byte?[] needle, Func<string, byte[]?, List<int>, string?>? getArrayVersion, string protectionName)
-            : this([needle], getArrayVersion, protectionName) { }
+        public ContentMatchSet(byte?[] needle, Func<string, byte[]?, List<int>, string?>? getArrayVersion, string matchName)
+            : this([needle], getArrayVersion, matchName) { }
 
 #if NET20 || NET35
-        public ContentMatchSet(List<byte?[]> needles, Func<string, byte[]?, List<int>, string?>? getArrayVersion, string protectionName)
+        public ContentMatchSet(List<byte?[]> needles, Func<string, byte[]?, List<int>, string?>? getArrayVersion, string matchName)
         {
             var matchers = new List<ContentMatch>();
             foreach (var n in needles)
@@ -68,32 +68,32 @@ namespace SabreTools.Matching.Content
 
             Matchers = matchers;
             GetArrayVersion = getArrayVersion;
-            MatchName = protectionName;
+            MatchName = matchName;
         }
 #else
-        public ContentMatchSet(List<byte?[]> needles, Func<string, byte[]?, List<int>, string?>? getArrayVersion, string protectionName)
-            : this(needles.Select(n => new ContentMatch(n)).ToList(), getArrayVersion, protectionName) { }
+        public ContentMatchSet(List<byte?[]> needles, Func<string, byte[]?, List<int>, string?>? getArrayVersion, string matchName)
+            : this(needles.Select(n => new ContentMatch(n)).ToList(), getArrayVersion, matchName) { }
 #endif
 
-        public ContentMatchSet(ContentMatch needle, Func<string, byte[]?, List<int>, string?>? getArrayVersion, string protectionName)
-            : this([needle], getArrayVersion, protectionName) { }
+        public ContentMatchSet(ContentMatch needle, Func<string, byte[]?, List<int>, string?>? getArrayVersion, string matchName)
+            : this([needle], getArrayVersion, matchName) { }
 
-        public ContentMatchSet(List<ContentMatch> needles, Func<string, byte[]?, List<int>, string?>? getArrayVersion, string protectionName)
+        public ContentMatchSet(List<ContentMatch> needles, Func<string, byte[]?, List<int>, string?>? getArrayVersion, string matchName)
         {
             Matchers = needles;
             GetArrayVersion = getArrayVersion;
-            MatchName = protectionName;
+            MatchName = matchName;
         }
 
         #endregion
 
         #region Stream Constructors
 
-        public ContentMatchSet(byte?[] needle, Func<string, Stream?, List<int>, string?>? getStreamVersion, string protectionName)
-            : this([needle], getStreamVersion, protectionName) { }
+        public ContentMatchSet(byte?[] needle, Func<string, Stream?, List<int>, string?>? getStreamVersion, string matchName)
+            : this([needle], getStreamVersion, matchName) { }
 
 #if NET20 || NET35
-        public ContentMatchSet(List<byte?[]> needles, Func<string, Stream?, List<int>, string?>? getStreamVersion, string protectionName)
+        public ContentMatchSet(List<byte?[]> needles, Func<string, Stream?, List<int>, string?>? getStreamVersion, string matchName)
         {
             var matchers = new List<ContentMatch>();
             foreach (var n in needles)
@@ -103,21 +103,21 @@ namespace SabreTools.Matching.Content
 
             Matchers = matchers;
             GetStreamVersion = getStreamVersion;
-            MatchName = protectionName;
+            MatchName = matchName;
         }
 #else
-        public ContentMatchSet(List<byte?[]> needles, Func<string, Stream?, List<int>, string?>? getStreamVersion, string protectionName)
-            : this(needles.Select(n => new ContentMatch(n)).ToList(), getStreamVersion, protectionName) { }
+        public ContentMatchSet(List<byte?[]> needles, Func<string, Stream?, List<int>, string?>? getStreamVersion, string matchName)
+            : this(needles.Select(n => new ContentMatch(n)).ToList(), getStreamVersion, matchName) { }
 #endif
 
-        public ContentMatchSet(ContentMatch needle, Func<string, Stream?, List<int>, string?>? getStreamVersion, string protectionName)
-            : this([needle], getStreamVersion, protectionName) { }
+        public ContentMatchSet(ContentMatch needle, Func<string, Stream?, List<int>, string?>? getStreamVersion, string matchName)
+            : this([needle], getStreamVersion, matchName) { }
 
-        public ContentMatchSet(List<ContentMatch> needles, Func<string, Stream?, List<int>, string?>? getStreamVersion, string protectionName)
+        public ContentMatchSet(List<ContentMatch> needles, Func<string, Stream?, List<int>, string?>? getStreamVersion, string matchName)
         {
             Matchers = needles;
             GetStreamVersion = getStreamVersion;
-            MatchName = protectionName;
+            MatchName = matchName;
         }
 
         #endregion

@@ -17,24 +17,24 @@ namespace SabreTools.Matching.Paths
         /// <remarks>
         /// A path version method takes the matched path and an enumerable of files
         /// and returns a single string. That string is either a version string,
-        /// in which case it will be appended to the protection name, or `null`,
-        /// in which case it will cause the protection to be omitted.
+        /// in which case it will be appended to the match name, or `null`,
+        /// in which case it will cause the match name to be omitted.
         /// </remarks>
         public Func<string, IEnumerable<string>?, string?>? GetVersion { get; }
 
         #region Constructors
 
-        public PathMatchSet(string needle, string protectionName)
-            : this([needle], null, protectionName) { }
+        public PathMatchSet(string needle, string matchName)
+            : this([needle], null, matchName) { }
 
-        public PathMatchSet(List<string> needles, string protectionName)
-            : this(needles, null, protectionName) { }
+        public PathMatchSet(List<string> needles, string matchName)
+            : this(needles, null, matchName) { }
 
-        public PathMatchSet(string needle, Func<string, IEnumerable<string>?, string?>? getVersion, string protectionName)
-            : this([needle], getVersion, protectionName) { }
+        public PathMatchSet(string needle, Func<string, IEnumerable<string>?, string?>? getVersion, string matchName)
+            : this([needle], getVersion, matchName) { }
 
 #if NET20 || NET35
-        public PathMatchSet(List<string> needles, Func<string, IEnumerable<string>?, string?>? getVersion, string protectionName)
+        public PathMatchSet(List<string> needles, Func<string, IEnumerable<string>?, string?>? getVersion, string matchName)
         {
             var matchers = new List<PathMatch>();
             foreach (var n in needles)
@@ -44,27 +44,27 @@ namespace SabreTools.Matching.Paths
 
             Matchers = matchers;
             GetVersion = getVersion;
-            MatchName = protectionName;
+            MatchName = matchName;
         }
 #else
-        public PathMatchSet(List<string> needles, Func<string, IEnumerable<string>?, string?>? getVersion, string protectionName)
-            : this(needles.Select(n => new PathMatch(n)).ToList(), getVersion, protectionName) { }
+        public PathMatchSet(List<string> needles, Func<string, IEnumerable<string>?, string?>? getVersion, string matchName)
+            : this(needles.Select(n => new PathMatch(n)).ToList(), getVersion, matchName) { }
 #endif
 
-        public PathMatchSet(PathMatch needle, string protectionName)
-            : this([needle], null, protectionName) { }
+        public PathMatchSet(PathMatch needle, string matchName)
+            : this([needle], null, matchName) { }
 
-        public PathMatchSet(List<PathMatch> needles, string protectionName)
-            : this(needles, null, protectionName) { }
+        public PathMatchSet(List<PathMatch> needles, string matchName)
+            : this(needles, null, matchName) { }
 
-        public PathMatchSet(PathMatch needle, Func<string, IEnumerable<string>?, string?>? getVersion, string protectionName)
-            : this([needle], getVersion, protectionName) { }
+        public PathMatchSet(PathMatch needle, Func<string, IEnumerable<string>?, string?>? getVersion, string matchName)
+            : this([needle], getVersion, matchName) { }
 
-        public PathMatchSet(List<PathMatch> needles, Func<string, IEnumerable<string>?, string?>? getVersion, string protectionName)
+        public PathMatchSet(List<PathMatch> needles, Func<string, IEnumerable<string>?, string?>? getVersion, string matchName)
         {
             Matchers = needles;
             GetVersion = getVersion;
-            MatchName = protectionName;
+            MatchName = matchName;
         }
 
         #endregion
