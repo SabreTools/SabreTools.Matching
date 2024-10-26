@@ -73,7 +73,7 @@ namespace SabreTools.Matching.Compare
                 //y1 = Regex.Split(y.Replace(" ", string.Empty), "([0-9]+)");
 #if NET20 || NET35
                 var nonempty = new List<string>();
-                y1 = Regex.Split(x.ToLowerInvariant(), "([0-9]+)");
+                y1 = Regex.Split(y.ToLowerInvariant(), "([0-9]+)");
                 foreach (var s in y1)
                 {
                     if (!string.IsNullOrEmpty(s))
@@ -82,7 +82,7 @@ namespace SabreTools.Matching.Compare
 
                 y1 = nonempty.ToArray();
 #else
-                y1 = Regex.Split(x.ToLowerInvariant(), "([0-9]+)")
+                y1 = Regex.Split(y.ToLowerInvariant(), "([0-9]+)")
                     .Where(s => !string.IsNullOrEmpty(s))
                     .ToArray();
 #endif
