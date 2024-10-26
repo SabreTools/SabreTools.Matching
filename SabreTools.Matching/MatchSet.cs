@@ -13,8 +13,8 @@ namespace SabreTools.Matching
         public IEnumerable<T>? Matchers { get; set; }
 
         /// <summary>
-        /// Name of the protection to show
+        /// Unique name for the match set
         /// </summary>
-        public string? ProtectionName { get; set; }
+        public string? MatchName { get; set; }
     }
 }

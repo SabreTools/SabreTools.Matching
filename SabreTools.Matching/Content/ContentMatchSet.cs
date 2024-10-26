@@ -22,7 +22,7 @@ namespace SabreTools.Matching.Content
         /// to the protection name, or `null`, in which case it will cause
         /// the protection to be omitted.
         /// </remarks>
-        public Func<string, byte[]?, List<int>, string?>? GetArrayVersion { get; private set; }
+        public Func<string, byte[]?, List<int>, string?>? GetArrayVersion { get; }
 
         /// <summary>
         /// Function to get a content version
@@ -34,18 +34,18 @@ namespace SabreTools.Matching.Content
         /// to the protection name, or `null`, in which case it will cause
         /// the protection to be omitted.
         /// </remarks>
-        public Func<string, Stream?, List<int>, string?>? GetStreamVersion { get; private set; }
+        public Func<string, Stream?, List<int>, string?>? GetStreamVersion { get; }
 
         #region Generic Constructors
 
         public ContentMatchSet(byte?[] needle, string protectionName)
-            : this(new List<byte?[]> { needle }, getArrayVersion: null, protectionName) { }
+            : this([needle], getArrayVersion: null, protectionName) { }
 
         public ContentMatchSet(List<byte?[]> needles, string protectionName)
             : this(needles, getArrayVersion: null, protectionName) { }
 
         public ContentMatchSet(ContentMatch needle, string protectionName)
-            : this(new List<ContentMatch>() { needle }, getArrayVersion: null, protectionName) { }
+            : this([needle], getArrayVersion: null, protectionName) { }
 
         public ContentMatchSet(List<ContentMatch> needles, string protectionName)
             : this(needles, getArrayVersion: null, protectionName) { }
@@ -55,7 +55,7 @@ namespace SabreTools.Matching.Content
         #region Array Constructors
 
         public ContentMatchSet(byte?[] needle, Func<string, byte[]?, List<int>, string?>? getArrayVersion, string protectionName)
-            : this(new List<byte?[]> { needle }, getArrayVersion, protectionName) { }
+            : this([needle], getArrayVersion, protectionName) { }
 
 #if NET20 || NET35
         public ContentMatchSet(List<byte?[]> needles, Func<string, byte[]?, List<int>, string?>? getArrayVersion, string protectionName)
@@ -68,7 +68,7 @@ namespace SabreTools.Matching.Content
 
             Matchers = matchers;
             GetArrayVersion = getArrayVersion;
-            ProtectionName = protectionName;
+            MatchName = protectionName;
         }
 #else
         public ContentMatchSet(List<byte?[]> needles, Func<string, byte[]?, List<int>, string?>? getArrayVersion, string protectionName)
@@ -76,13 +76,13 @@ namespace SabreTools.Matching.Content
 #endif
 
         public ContentMatchSet(ContentMatch needle, Func<string, byte[]?, List<int>, string?>? getArrayVersion, string protectionName)
-            : this(new List<ContentMatch>() { needle }, getArrayVersion, protectionName) { }
+            : this([needle], getArrayVersion, protectionName) { }
 
         public ContentMatchSet(List<ContentMatch> needles, Func<string, byte[]?, List<int>, string?>? getArrayVersion, string protectionName)
         {
             Matchers = needles;
             GetArrayVersion = getArrayVersion;
-            ProtectionName = protectionName;
+            MatchName = protectionName;
         }
 
         #endregion
@@ -90,7 +90,7 @@ namespace SabreTools.Matching.Content
         #region Stream Constructors
 
         public ContentMatchSet(byte?[] needle, Func<string, Stream?, List<int>, string?>? getStreamVersion, string protectionName)
-            : this(new List<byte?[]> { needle }, getStreamVersion, protectionName) { }
+            : this([needle], getStreamVersion, protectionName) { }
 
 #if NET20 || NET35
         public ContentMatchSet(List<byte?[]> needles, Func<string, Stream?, List<int>, string?>? getStreamVersion, string protectionName)
@@ -103,7 +103,7 @@ namespace SabreTools.Matching.Content
 
             Matchers = matchers;
             GetStreamVersion = getStreamVersion;
-            ProtectionName = protectionName;
+            MatchName = protectionName;
         }
 #else
         public ContentMatchSet(List<byte?[]> needles, Func<string, Stream?, List<int>, string?>? getStreamVersion, string protectionName)
@@ -111,13 +111,13 @@ namespace SabreTools.Matching.Content
 #endif
 
         public ContentMatchSet(ContentMatch needle, Func<string, Stream?, List<int>, string?>? getStreamVersion, string protectionName)
-            : this(new List<ContentMatch>() { needle }, getStreamVersion, protectionName) { }
+            : this([needle], getStreamVersion, protectionName) { }
 
         public ContentMatchSet(List<ContentMatch> needles, Func<string, Stream?, List<int>, string?>? getStreamVersion, string protectionName)
         {
             Matchers = needles;
             GetStreamVersion = getStreamVersion;
-            ProtectionName = protectionName;
+            MatchName = protectionName;
         }
 
         #endregion

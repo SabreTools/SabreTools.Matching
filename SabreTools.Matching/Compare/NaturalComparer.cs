@@ -20,16 +20,16 @@ namespace SabreTools.Matching.Compare
 {
     public class NaturalComparer : Comparer<string>, IDisposable
     {
-        private readonly Dictionary<string, string[]> table;
+        private readonly Dictionary<string, string[]> _table;
 
         public NaturalComparer()
         {
-            table = [];
+            _table = [];
         }
 
         public void Dispose()
         {
-            table.Clear();
+            _table.Clear();
         }
 
         public override int Compare(string? x, string? y)
@@ -47,7 +47,7 @@ namespace SabreTools.Matching.Compare
             if (x.ToLowerInvariant() == y.ToLowerInvariant())
                 return x.CompareTo(y);
 
-            if (!table.TryGetValue(x, out string[]? x1))
+            if (!_table.TryGetValue(x, out string[]? x1))
             {
                 //x1 = Regex.Split(x.Replace(" ", string.Empty), "([0-9]+)");
 #if NET20 || NET35
@@ -65,10 +65,10 @@ namespace SabreTools.Matching.Compare
                     .Where(s => !string.IsNullOrEmpty(s))
                     .ToArray();
 #endif
-                table.Add(x, x1);
+                _table.Add(x, x1);
             }
 
-            if (!table.TryGetValue(y, out string[]? y1))
+            if (!_table.TryGetValue(y, out string[]? y1))
             {
                 //y1 = Regex.Split(y.Replace(" ", string.Empty), "([0-9]+)");
 #if NET20 || NET35
@@ -86,7 +86,7 @@ namespace SabreTools.Matching.Compare
                     .Where(s => !string.IsNullOrEmpty(s))
                     .ToArray();
 #endif
-                table.Add(y, y1);
+                _table.Add(y, y1);
             }
 
             for (int i = 0; i < x1.Length && i < y1.Length; i++)

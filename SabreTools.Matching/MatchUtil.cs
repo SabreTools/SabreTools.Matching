@@ -25,7 +25,7 @@ namespace SabreTools.Matching
         /// <param name="stack">Array to search</param>
         /// <param name="matchers">Enumerable of ContentMatchSets to be run on the file</param>
         /// <param name="includeDebug">True to include positional data, false otherwise</param>
-        /// <returns>List of strings representing the matched protections, null or empty otherwise</returns>
+        /// <returns>List of strings representing the matches, null or empty otherwise</returns>
 #if NET20 || NET35
         public static Queue<string>? GetAllMatches(string file, byte[]? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
 #else
@@ -42,7 +42,7 @@ namespace SabreTools.Matching
         /// <param name="stack">Array to search</param>
         /// <param name="matchers">Enumerable of ContentMatchSets to be run on the file</param>
         /// <param name="includeDebug">True to include positional data, false otherwise</param>
-        /// <returns>String representing the matched protection, null otherwise</returns>
+        /// <returns>String representing the match, null otherwise</returns>
         public static string? GetFirstMatch(string file, byte[]? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
         {
             var contentMatches = FindAllMatches(file, stack, matchers, includeDebug, true);
@@ -64,7 +64,7 @@ namespace SabreTools.Matching
         /// <param name="matchers">Enumerable of ContentMatchSets to be run on the file</param>
         /// <param name="includeDebug">True to include positional data, false otherwise</param>
         /// <param name="stopAfterFirst">True to stop after the first match, false otherwise</param>
-        /// <returns>List of strings representing the matched protections, null or empty otherwise</returns>
+        /// <returns>List of strings representing the matches, null or empty otherwise</returns>
 #if NET20 || NET35
         private static Queue<string>? FindAllMatches(string file, byte[]? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug, bool stopAfterFirst)
 #else
@@ -79,11 +79,11 @@ namespace SabreTools.Matching
 #endif
             return null;
 
-            // Initialize the queue of matched protections
+            // Initialize the queue of matches
 #if NET20 || NET35
-            var matchedProtections = new Queue<string>();
+            var matchesQueue = new Queue<string>();
 #else
-            var matchedProtections = new ConcurrentQueue<string>();
+            var matchesQueue = new ConcurrentQueue<string>();
 #endif
 
             // Loop through and try everything otherwise
@@ -106,10 +106,10 @@ namespace SabreTools.Matching
                 string positionsString = string.Join(", ", positions);
 #endif
 
-                // If we there is no version method, just return the protection name
+                // If we there is no version method, just return the match name
                 if (matcher.GetArrayVersion == null)
                 {
-                    matchedProtections.Enqueue((matcher.ProtectionName ?? "Unknown Protection") + (includeDebug ? $" (Index {positionsString})" : string.Empty));
+                    matchesQueue.Enqueue((matcher.MatchName ?? "Unknown") + (includeDebug ? $" (Index {positionsString})" : string.Empty));
                 }
 
                 // Otherwise, invoke the version method
@@ -120,15 +120,15 @@ namespace SabreTools.Matching
                     if (version == null)
                         continue;
 
-                    matchedProtections.Enqueue($"{matcher.ProtectionName ?? "Unknown Protection"} {version}".Trim() + (includeDebug ? $" (Index {positionsString})" : string.Empty));
+                    matchesQueue.Enqueue($"{matcher.MatchName ?? "Unknown"} {version}".Trim() + (includeDebug ? $" (Index {positionsString})" : string.Empty));
                 }
 
-                // If we're stopping after the first protection, bail out here
+                // If we're stopping after the first match, bail out here
                 if (stopAfterFirst)
-                    return matchedProtections;
+                    return matchesQueue;
             }
 
-            return matchedProtections;
+            return matchesQueue;
         }
 
         #endregion
@@ -142,7 +142,7 @@ namespace SabreTools.Matching
         /// <param name="stack">Stream to search</param>
         /// <param name="matchers">Enumerable of ContentMatchSets to be run on the file</param>
         /// <param name="includeDebug">True to include positional data, false otherwise</param>
-        /// <returns>List of strings representing the matched protections, null or empty otherwise</returns>
+        /// <returns>List of strings representing the matches, null or empty otherwise</returns>
 #if NET20 || NET35
         public static Queue<string>? GetAllMatches(string file, Stream? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
 #else
@@ -159,7 +159,7 @@ namespace SabreTools.Matching
         /// <param name="stack">Stream to search</param>
         /// <param name="matchers">Enumerable of ContentMatchSets to be run on the file</param>
         /// <param name="includeDebug">True to include positional data, false otherwise</param>
-        /// <returns>String representing the matched protection, null otherwise</returns>
+        /// <returns>String representing the match, null otherwise</returns>
         public static string? GetFirstMatch(string file, Stream? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
         {
             var contentMatches = FindAllMatches(file, stack, matchers, includeDebug, true);
@@ -181,7 +181,7 @@ namespace SabreTools.Matching
         /// <param name="matchers">Enumerable of ContentMatchSets to be run on the file</param>
         /// <param name="includeDebug">True to include positional data, false otherwise</param>
         /// <param name="stopAfterFirst">True to stop after the first match, false otherwise</param>
-        /// <returns>List of strings representing the matched protections, null or empty otherwise</returns>
+        /// <returns>List of strings representing the matches, null or empty otherwise</returns>
 #if NET20 || NET35
         private static Queue<string>? FindAllMatches(string file, Stream? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug, bool stopAfterFirst)
 #else
@@ -196,11 +196,11 @@ namespace SabreTools.Matching
 #endif
                 return null;
 
-            // Initialize the queue of matched protections
+            // Initialize the queue of matches
 #if NET20 || NET35
-            var matchedProtections = new Queue<string>();
+            var matchesQueue = new Queue<string>();
 #else
-            var matchedProtections = new ConcurrentQueue<string>();
+            var matchesQueue = new ConcurrentQueue<string>();
 #endif
 
             // Loop through and try everything otherwise
@@ -223,10 +223,10 @@ namespace SabreTools.Matching
                 string positionsString = string.Join(", ", positions);
 #endif
 
-                // If we there is no version method, just return the protection name
+                // If we there is no version method, just return the match name
                 if (matcher.GetStreamVersion == null)
                 {
-                    matchedProtections.Enqueue((matcher.ProtectionName ?? "Unknown Protection") + (includeDebug ? $" (Index {positionsString})" : string.Empty));
+                    matchesQueue.Enqueue((matcher.MatchName ?? "Unknown") + (includeDebug ? $" (Index {positionsString})" : string.Empty));
                 }
 
                 // Otherwise, invoke the version method
@@ -237,15 +237,15 @@ namespace SabreTools.Matching
                     if (version == null)
                         continue;
 
-                    matchedProtections.Enqueue($"{matcher.ProtectionName ?? "Unknown Protection"} {version}".Trim() + (includeDebug ? $" (Index {positionsString})" : string.Empty));
+                    matchesQueue.Enqueue($"{matcher.MatchName ?? "Unknown"} {version}".Trim() + (includeDebug ? $" (Index {positionsString})" : string.Empty));
                 }
 
-                // If we're stopping after the first protection, bail out here
+                // If we're stopping after the first match, bail out here
                 if (stopAfterFirst)
-                    return matchedProtections;
+                    return matchesQueue;
             }
 
-            return matchedProtections;
+            return matchesQueue;
         }
 
         #endregion
@@ -258,14 +258,14 @@ namespace SabreTools.Matching
         /// <param name="file">File path to check for matches</param>
         /// <param name="matchers">Enumerable of PathMatchSets to be run on the file</param>
         /// <param name="any">True if any path match is a success, false if all have to match</param>
-        /// <returns>List of strings representing the matched protections, null or empty otherwise</returns>
+        /// <returns>List of strings representing the matches, null or empty otherwise</returns>
 #if NET20 || NET35
         public static Queue<string> GetAllMatches(string file, IEnumerable<PathMatchSet>? matchers, bool any = false)
 #else
         public static ConcurrentQueue<string> GetAllMatches(string file, IEnumerable<PathMatchSet>? matchers, bool any = false)
 #endif
         {
-            return FindAllMatches(new List<string> { file }, matchers, any, false);
+            return FindAllMatches([file], matchers, any, false);
         }
 
         // <summary>
@@ -274,7 +274,7 @@ namespace SabreTools.Matching
         /// <param name="files">File paths to check for matches</param>
         /// <param name="matchers">Enumerable of PathMatchSets to be run on the file</param>
         /// <param name="any">True if any path match is a success, false if all have to match</param>
-        /// <returns>List of strings representing the matched protections, null or empty otherwise</returns>
+        /// <returns>List of strings representing the matches, null or empty otherwise</returns>
 #if NET20 || NET35
         public static Queue<string> GetAllMatches(IEnumerable<string>? files, IEnumerable<PathMatchSet>? matchers, bool any = false)
 #else
@@ -290,7 +290,7 @@ namespace SabreTools.Matching
         /// <param name="file">File path to check for matches</param>
         /// <param name="matchers">Enumerable of PathMatchSets to be run on the file</param>
         /// <param name="any">True if any path match is a success, false if all have to match</param>
-        /// <returns>String representing the matched protection, null otherwise</returns>
+        /// <returns>String representing the match, null otherwise</returns>
         public static string? GetFirstMatch(string file, IEnumerable<PathMatchSet> matchers, bool any = false)
         {
             var contentMatches = FindAllMatches(new List<string> { file }, matchers, any, true);
@@ -310,7 +310,7 @@ namespace SabreTools.Matching
         /// <param name="files">File paths to check for matches</param>
         /// <param name="matchers">Enumerable of PathMatchSets to be run on the file</param>
         /// <param name="any">True if any path match is a success, false if all have to match</param>
-        /// <returns>String representing the matched protection, null otherwise</returns>
+        /// <returns>String representing the match, null otherwise</returns>
         public static string? GetFirstMatch(IEnumerable<string> files, IEnumerable<PathMatchSet> matchers, bool any = false)
         {
             var contentMatches = FindAllMatches(files, matchers, any, true);
@@ -331,7 +331,7 @@ namespace SabreTools.Matching
         /// <param name="matchers">Enumerable of PathMatchSets to be run on the file</param>
         /// <param name="any">True if any path match is a success, false if all have to match</param>
         /// <param name="stopAfterFirst">True to stop after the first match, false otherwise</param>
-        /// <returns>List of strings representing the matched protections, null or empty otherwise</returns>
+        /// <returns>List of strings representing the matches, null or empty otherwise</returns>
 #if NET20 || NET35
         private static Queue<string> FindAllMatches(IEnumerable<string>? files, IEnumerable<PathMatchSet>? matchers, bool any, bool stopAfterFirst)
 #else
@@ -346,11 +346,11 @@ namespace SabreTools.Matching
 #endif
                 return new();
 
-            // Initialize the list of matched protections
+            // Initialize the list of matches
 #if NET20 || NET35
-            var matchedProtections = new Queue<string>();
+            var matchesQueue = new Queue<string>();
 #else
-            var matchedProtections = new ConcurrentQueue<string>();
+            var matchesQueue = new ConcurrentQueue<string>();
 #endif
 
             // Loop through and try everything otherwise
@@ -376,10 +376,10 @@ namespace SabreTools.Matching
                 if (!passes || firstMatchedString == null)
                     continue;
 
-                // If we there is no version method, just return the protection name
+                // If we there is no version method, just return the match name
                 if (matcher.GetVersion == null)
                 {
-                    matchedProtections.Enqueue(matcher.ProtectionName ?? "Unknown Protection");
+                    matchesQueue.Enqueue(matcher.MatchName ?? "Unknown");
                 }
 
                 // Otherwise, invoke the version method
@@ -390,15 +390,15 @@ namespace SabreTools.Matching
                     if (version == null)
                         continue;
 
-                    matchedProtections.Enqueue($"{matcher.ProtectionName ?? "Unknown Protection"} {version}".Trim());
+                    matchesQueue.Enqueue($"{matcher.MatchName ?? "Unknown"} {version}".Trim());
                 }
 
-                // If we're stopping after the first protection, bail out here
+                // If we're stopping after the first match, bail out here
                 if (stopAfterFirst)
-                    return matchedProtections;
+                    return matchesQueue;
             }
 
-            return matchedProtections;
+            return matchesQueue;
         }
 
         #endregion
