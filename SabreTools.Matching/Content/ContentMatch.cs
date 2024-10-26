@@ -134,6 +134,10 @@ namespace SabreTools.Matching.Content
             if (Needle.Length > stack.Length)
                 return -1;
 
+            // If the needle and stack are identically sized, short-circuit
+            if (Needle.Length == stack.Length)
+                return EqualAt(stack, 0) ? 0 : -1;
+
             // Set the default start and end values
             int start = Start;
             int end = End;
