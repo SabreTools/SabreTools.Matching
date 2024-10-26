@@ -10,11 +10,7 @@ namespace SabreTools.Matching.Content
         /// <summary>
         /// Content to match
         /// </summary>
-#if NETFRAMEWORK || NETCOREAPP
-        public byte?[]? Needle { get; private set; }
-#else
-        public byte?[]? Needle { get; init; }
-#endif
+        public byte?[]? Needle { get; }
 
         /// <summary>
         /// Starting index for matching
@@ -34,9 +30,9 @@ namespace SabreTools.Matching.Content
         /// <param name="end">Optional ending index</param>
         public ContentMatch(byte?[]? needle, int start = -1, int end = -1)
         {
-            this.Needle = needle;
-            this.Start = start;
-            this.End = end;
+            Needle = needle;
+            Start = start;
+            End = end;
         }
 
         #region Array Matching
@@ -50,22 +46,26 @@ namespace SabreTools.Matching.Content
         public int Match(byte[]? stack, bool reverse = false)
         {
             // If either array is null or empty, we can't do anything
-            if (stack == null || stack.Length == 0 || this.Needle == null || this.Needle.Length == 0)
+            if (stack == null || stack.Length == 0 || Needle == null || Needle.Length == 0)
                 return -1;
 
             // If the needle array is larger than the stack array, it can't be contained within
-            if (this.Needle.Length > stack.Length)
+            if (Needle.Length > stack.Length)
                 return -1;
 
+            // If the needle and stack are identically sized, short-circuit
+            if (Needle.Length == stack.Length)
+                return EqualAt(stack, 0) ? 0 : -1;
+
             // Set the default start and end values
-            int start = this.Start;
-            int end = this.End;
+            int start = Start;
+            int end = End;
 
             // If start or end are not set properly, set them to defaults
             if (start < 0)
                 start = 0;
             if (end < 0)
-                end = stack.Length - this.Needle.Length;
+                end = stack.Length - Needle.Length;
 
             for (int i = reverse ? end : start; reverse ? i > start : i < end; i += reverse ? -1 : 1)
             {
@@ -90,7 +90,7 @@ namespace SabreTools.Matching.Content
         private bool EqualAt(byte[] stack, int index)
         {
             // If the needle is invalid, we can't do anything
-            if (this.Needle == null)
+            if (Needle == null)
                 return false;
 
             // If the index is invalid, we can't do anything
@@ -98,16 +98,16 @@ namespace SabreTools.Matching.Content
                 return false;
 
             // If we're too close to the end of the stack, return false
-            if (this.Needle.Length > stack.Length - index)
+            if (Needle.Length > stack.Length - index)
                 return false;
 
             // Loop through and check the value
-            for (int i = 0; i < this.Needle.Length; i++)
+            for (int i = 0; i < Needle.Length; i++)
             {
                 // A null value is a wildcard
-                if (this.Needle[i] == null)
+                if (Needle[i] == null)
                     continue;
-                else if (stack[i + index] != this.Needle[i])
+                else if (stack[i + index] != Needle[i])
                     return false;
             }
 
@@ -127,22 +127,22 @@ namespace SabreTools.Matching.Content
         public int Match(Stream? stack, bool reverse = false)
         {
             // If either array is null or empty, we can't do anything
-            if (stack == null || stack.Length == 0 || this.Needle == null || this.Needle.Length == 0)
+            if (stack == null || stack.Length == 0 || Needle == null || Needle.Length == 0)
                 return -1;
 
             // If the needle array is larger than the stack array, it can't be contained within
-            if (this.Needle.Length > stack.Length)
+            if (Needle.Length > stack.Length)
                 return -1;
 
             // Set the default start and end values
-            int start = this.Start;
-            int end = this.End;
+            int start = Start;
+            int end = End;
 
             // If start or end are not set properly, set them to defaults
             if (start < 0)
                 start = 0;
             if (end < 0)
-                end = (int)(stack.Length - this.Needle.Length);
+                end = (int)(stack.Length - Needle.Length);
 
             for (int i = reverse ? end : start; reverse ? i > start : i < end; i += reverse ? -1 : 1)
             {
@@ -167,7 +167,7 @@ namespace SabreTools.Matching.Content
         private bool EqualAt(Stream stack, int index)
         {
             // If the needle is invalid, we can't do anything
-            if (this.Needle == null)
+            if (Needle == null)
                 return false;
 
             // If the index is invalid, we can't do anything
@@ -175,7 +175,7 @@ namespace SabreTools.Matching.Content
                 return false;
 
             // If we're too close to the end of the stack, return false
-            if (this.Needle.Length > stack.Length - index)
+            if (Needle.Length > stack.Length - index)
                 return false;
 
             // Save the current position and move to the index
@@ -186,16 +186,16 @@ namespace SabreTools.Matching.Content
             bool matched = true;
 
             // Loop through and check the value
-            for (int i = 0; i < this.Needle.Length; i++)
+            for (int i = 0; i < Needle.Length; i++)
             {
                 byte stackValue = (byte)stack.ReadByte();
 
                 // A null value is a wildcard
-                if (this.Needle[i] == null)
+                if (Needle[i] == null)
                 {
                     continue;
                 }
-                else if (stackValue != this.Needle[i])
+                else if (stackValue != Needle[i])
                 {
                     matched = false;
                     break;

@@ -13,11 +13,7 @@ namespace SabreTools.Matching.Paths
         /// <summary>
         /// String to match
         /// </summary>
-#if NETFRAMEWORK || NETCOREAPP
-        public string? Needle { get; private set; }
-#else
-        public string? Needle { get; init; }
-#endif
+        public string? Needle { get; }
 
         /// <summary>
         /// Match exact casing instead of invariant
