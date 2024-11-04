@@ -1,6 +1,3 @@
-#if NET40_OR_GREATER || NETCOREAPP
-using System.Collections.Concurrent;
-#endif
 using System.Collections.Generic;
 using System.IO;
 #if NET40_OR_GREATER || NETCOREAPP
@@ -26,14 +23,8 @@ namespace SabreTools.Matching
         /// <param name="matchers">Enumerable of ContentMatchSets to be run on the file</param>
         /// <param name="includeDebug">True to include positional data, false otherwise</param>
         /// <returns>List of strings representing the matches, null or empty otherwise</returns>
-#if NET20 || NET35
-        public static Queue<string>? GetAllMatches(string file, byte[]? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
-#else
-        public static ConcurrentQueue<string>? GetAllMatches(string file, byte[]? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
-#endif
-        {
-            return FindAllMatches(file, stack, matchers, includeDebug, false);
-        }
+        public static List<string>? GetAllMatches(string file, byte[]? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
+            => FindAllMatches(file, stack, matchers, includeDebug, false);
 
         /// <summary>
         /// Get first content match for a given list of matchers
@@ -49,11 +40,7 @@ namespace SabreTools.Matching
             if (contentMatches == null || contentMatches.Count == 0)
                 return null;
 
-#if NET20 || NET35
-            return contentMatches.Peek();
-#else
-            return contentMatches.First();
-#endif
+            return contentMatches[0];
         }
 
         /// <summary>
@@ -64,27 +51,15 @@ namespace SabreTools.Matching
         /// <param name="matchers">Enumerable of ContentMatchSets to be run on the file</param>
         /// <param name="includeDebug">True to include positional data, false otherwise</param>
         /// <param name="stopAfterFirst">True to stop after the first match, false otherwise</param>
-        /// <returns>List of strings representing the matches, null or empty otherwise</returns>
-#if NET20 || NET35
-        private static Queue<string>? FindAllMatches(string file, byte[]? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug, bool stopAfterFirst)
-#else
-        private static ConcurrentQueue<string>? FindAllMatches(string file, byte[]? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug, bool stopAfterFirst)
-#endif
+        /// <returns>List of strings representing the matches, empty otherwise</returns>
+        private static List<string> FindAllMatches(string file, byte[]? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug, bool stopAfterFirst)
         {
             // If there's no mappings, we can't match
-#if NET20 || NET35
-            if (matchers == null || new List<ContentMatchSet>(matchers).Count == 0)
-#else
-            if (matchers == null || !matchers.Any())
-#endif
-            return null;
+            if (matchers == null)
+                return [];
 
-            // Initialize the queue of matches
-#if NET20 || NET35
-            var matchesQueue = new Queue<string>();
-#else
-            var matchesQueue = new ConcurrentQueue<string>();
-#endif
+            // Initialize the list of matches
+            var matchesList = new List<string>();
 
             // Loop through and try everything otherwise
             foreach (var matcher in matchers)
@@ -109,7 +84,7 @@ namespace SabreTools.Matching
                 // If we there is no version method, just return the match name
                 if (matcher.GetArrayVersion == null)
                 {
-                    matchesQueue.Enqueue((matcher.MatchName ?? "Unknown") + (includeDebug ? $" (Index {positionsString})" : string.Empty));
+                    matchesList.Add((matcher.MatchName ?? "Unknown") + (includeDebug ? $" (Index {positionsString})" : string.Empty));
                 }
 
                 // Otherwise, invoke the version method
@@ -120,15 +95,15 @@ namespace SabreTools.Matching
                     if (version == null)
                         continue;
 
-                    matchesQueue.Enqueue($"{matcher.MatchName ?? "Unknown"} {version}".Trim() + (includeDebug ? $" (Index {positionsString})" : string.Empty));
+                    matchesList.Add($"{matcher.MatchName ?? "Unknown"} {version}".Trim() + (includeDebug ? $" (Index {positionsString})" : string.Empty));
                 }
 
                 // If we're stopping after the first match, bail out here
                 if (stopAfterFirst)
-                    return matchesQueue;
+                    return matchesList;
             }
 
-            return matchesQueue;
+            return matchesList;
         }
 
         #endregion
@@ -143,14 +118,8 @@ namespace SabreTools.Matching
         /// <param name="matchers">Enumerable of ContentMatchSets to be run on the file</param>
         /// <param name="includeDebug">True to include positional data, false otherwise</param>
         /// <returns>List of strings representing the matches, null or empty otherwise</returns>
-#if NET20 || NET35
-        public static Queue<string>? GetAllMatches(string file, Stream? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
-#else
-        public static ConcurrentQueue<string>? GetAllMatches(string file, Stream? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
-#endif
-        {
-            return FindAllMatches(file, stack, matchers, includeDebug, false);
-        }
+        public static List<string>? GetAllMatches(string file, Stream? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
+            => FindAllMatches(file, stack, matchers, includeDebug, false);
 
         /// <summary>
         /// Get first content match for a given list of matchers
@@ -166,11 +135,7 @@ namespace SabreTools.Matching
             if (contentMatches == null || contentMatches.Count == 0)
                 return null;
 
-#if NET20 || NET35
-            return contentMatches.Peek();
-#else
-            return contentMatches.First();
-#endif
+            return contentMatches[0];
         }
 
         /// <summary>
@@ -181,27 +146,15 @@ namespace SabreTools.Matching
         /// <param name="matchers">Enumerable of ContentMatchSets to be run on the file</param>
         /// <param name="includeDebug">True to include positional data, false otherwise</param>
         /// <param name="stopAfterFirst">True to stop after the first match, false otherwise</param>
-        /// <returns>List of strings representing the matches, null or empty otherwise</returns>
-#if NET20 || NET35
-        private static Queue<string>? FindAllMatches(string file, Stream? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug, bool stopAfterFirst)
-#else
-        private static ConcurrentQueue<string>? FindAllMatches(string file, Stream? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug, bool stopAfterFirst)
-#endif
+        /// <returns>List of strings representing the matches, empty otherwise</returns>
+        private static List<string> FindAllMatches(string file, Stream? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug, bool stopAfterFirst)
         {
             // If there's no mappings, we can't match
-#if NET20 || NET35
-            if (matchers == null || new List<ContentMatchSet>(matchers).Count == 0)
-#else
-            if (matchers == null || !matchers.Any())
-#endif
-                return null;
+            if (matchers == null)
+                return [];
 
-            // Initialize the queue of matches
-#if NET20 || NET35
-            var matchesQueue = new Queue<string>();
-#else
-            var matchesQueue = new ConcurrentQueue<string>();
-#endif
+            // Initialize the list of matches
+            var matchesList = new List<string>();
 
             // Loop through and try everything otherwise
             foreach (var matcher in matchers)
@@ -226,7 +179,7 @@ namespace SabreTools.Matching
                 // If we there is no version method, just return the match name
                 if (matcher.GetStreamVersion == null)
                 {
-                    matchesQueue.Enqueue((matcher.MatchName ?? "Unknown") + (includeDebug ? $" (Index {positionsString})" : string.Empty));
+                    matchesList.Add((matcher.MatchName ?? "Unknown") + (includeDebug ? $" (Index {positionsString})" : string.Empty));
                 }
 
                 // Otherwise, invoke the version method
@@ -237,15 +190,15 @@ namespace SabreTools.Matching
                     if (version == null)
                         continue;
 
-                    matchesQueue.Enqueue($"{matcher.MatchName ?? "Unknown"} {version}".Trim() + (includeDebug ? $" (Index {positionsString})" : string.Empty));
+                    matchesList.Add($"{matcher.MatchName ?? "Unknown"} {version}".Trim() + (includeDebug ? $" (Index {positionsString})" : string.Empty));
                 }
 
                 // If we're stopping after the first match, bail out here
                 if (stopAfterFirst)
-                    return matchesQueue;
+                    return matchesList;
             }
 
-            return matchesQueue;
+            return matchesList;
         }
 
         #endregion
@@ -259,14 +212,8 @@ namespace SabreTools.Matching
         /// <param name="matchers">Enumerable of PathMatchSets to be run on the file</param>
         /// <param name="any">True if any path match is a success, false if all have to match</param>
         /// <returns>List of strings representing the matches, null or empty otherwise</returns>
-#if NET20 || NET35
-        public static Queue<string> GetAllMatches(string file, IEnumerable<PathMatchSet>? matchers, bool any = false)
-#else
-        public static ConcurrentQueue<string> GetAllMatches(string file, IEnumerable<PathMatchSet>? matchers, bool any = false)
-#endif
-        {
-            return FindAllMatches([file], matchers, any, false);
-        }
+        public static List<string> GetAllMatches(string file, IEnumerable<PathMatchSet>? matchers, bool any = false)
+            => FindAllMatches([file], matchers, any, false);
 
         // <summary>
         /// Get all path matches for a given list of matchers
@@ -275,14 +222,8 @@ namespace SabreTools.Matching
         /// <param name="matchers">Enumerable of PathMatchSets to be run on the file</param>
         /// <param name="any">True if any path match is a success, false if all have to match</param>
         /// <returns>List of strings representing the matches, null or empty otherwise</returns>
-#if NET20 || NET35
-        public static Queue<string> GetAllMatches(IEnumerable<string>? files, IEnumerable<PathMatchSet>? matchers, bool any = false)
-#else
-        public static ConcurrentQueue<string> GetAllMatches(IEnumerable<string>? files, IEnumerable<PathMatchSet>? matchers, bool any = false)
-#endif
-        {
-            return FindAllMatches(files, matchers, any, false);
-        }
+        public static List<string> GetAllMatches(IEnumerable<string>? files, IEnumerable<PathMatchSet>? matchers, bool any = false)
+            => FindAllMatches(files, matchers, any, false);
 
         /// <summary>
         /// Get first path match for a given list of matchers
@@ -293,15 +234,11 @@ namespace SabreTools.Matching
         /// <returns>String representing the match, null otherwise</returns>
         public static string? GetFirstMatch(string file, IEnumerable<PathMatchSet> matchers, bool any = false)
         {
-            var contentMatches = FindAllMatches(new List<string> { file }, matchers, any, true);
+            var contentMatches = FindAllMatches([file], matchers, any, true);
             if (contentMatches == null || contentMatches.Count == 0)
                 return null;
 
-#if NET20 || NET35
-            return contentMatches.Peek();
-#else
-            return contentMatches.First();
-#endif
+            return contentMatches[0];
         }
 
         /// <summary>
@@ -317,11 +254,7 @@ namespace SabreTools.Matching
             if (contentMatches == null || contentMatches.Count == 0)
                 return null;
 
-#if NET20 || NET35
-            return contentMatches.Peek();
-#else
-            return contentMatches.First();
-#endif
+            return contentMatches[0];
         }
 
         /// <summary>
@@ -332,26 +265,14 @@ namespace SabreTools.Matching
         /// <param name="any">True if any path match is a success, false if all have to match</param>
         /// <param name="stopAfterFirst">True to stop after the first match, false otherwise</param>
         /// <returns>List of strings representing the matches, null or empty otherwise</returns>
-#if NET20 || NET35
-        private static Queue<string> FindAllMatches(IEnumerable<string>? files, IEnumerable<PathMatchSet>? matchers, bool any, bool stopAfterFirst)
-#else
-        private static ConcurrentQueue<string> FindAllMatches(IEnumerable<string>? files, IEnumerable<PathMatchSet>? matchers, bool any, bool stopAfterFirst)
-#endif
+        private static List<string> FindAllMatches(IEnumerable<string>? files, IEnumerable<PathMatchSet>? matchers, bool any, bool stopAfterFirst)
         {
             // If there's no mappings, we can't match
-#if NET20 || NET35
-            if (matchers == null || new List<PathMatchSet>(matchers).Count == 0)
-#else
-            if (matchers == null || !matchers.Any())
-#endif
-                return new();
+            if (matchers == null)
+                return [];
 
             // Initialize the list of matches
-#if NET20 || NET35
-            var matchesQueue = new Queue<string>();
-#else
-            var matchesQueue = new ConcurrentQueue<string>();
-#endif
+            var matchesList = new List<string>();
 
             // Loop through and try everything otherwise
             foreach (var matcher in matchers)
@@ -379,7 +300,7 @@ namespace SabreTools.Matching
                 // If we there is no version method, just return the match name
                 if (matcher.GetVersion == null)
                 {
-                    matchesQueue.Enqueue(matcher.MatchName ?? "Unknown");
+                    matchesList.Add(matcher.MatchName ?? "Unknown");
                 }
 
                 // Otherwise, invoke the version method
@@ -390,15 +311,15 @@ namespace SabreTools.Matching
                     if (version == null)
                         continue;
 
-                    matchesQueue.Enqueue($"{matcher.MatchName ?? "Unknown"} {version}".Trim());
+                    matchesList.Add($"{matcher.MatchName ?? "Unknown"} {version}".Trim());
                 }
 
                 // If we're stopping after the first match, bail out here
                 if (stopAfterFirst)
-                    return matchesQueue;
+                    return matchesList;
             }
 
-            return matchesQueue;
+            return matchesList;
         }
 
         #endregion
