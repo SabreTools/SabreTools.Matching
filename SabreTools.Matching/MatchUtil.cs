@@ -1,8 +1,5 @@
 using System.Collections.Generic;
 using System.IO;
-#if NET40_OR_GREATER || NETCOREAPP
-using System.Linq;
-#endif
 using SabreTools.Matching.Content;
 using SabreTools.Matching.Paths;
 

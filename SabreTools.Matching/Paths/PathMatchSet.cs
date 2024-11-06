@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-#if NET40_OR_GREATER || NETCOREAPP
-using System.Linq;
-#endif
 
 namespace SabreTools.Matching.Paths
 {
@@ -33,23 +30,8 @@ namespace SabreTools.Matching.Paths
         public PathMatchSet(string needle, Func<string, IEnumerable<string>?, string?>? getVersion, string matchName)
             : this([needle], getVersion, matchName) { }
 
-#if NET20 || NET35
         public PathMatchSet(List<string> needles, Func<string, IEnumerable<string>?, string?>? getVersion, string matchName)
-        {
-            var matchers = new List<PathMatch>();
-            foreach (var n in needles)
-            {
-                matchers.Add(new PathMatch(n));
-            }
-
-            Matchers = matchers;
-            GetVersion = getVersion;
-            MatchName = matchName;
-        }
-#else
-        public PathMatchSet(List<string> needles, Func<string, IEnumerable<string>?, string?>? getVersion, string matchName)
-            : this(needles.Select(n => new PathMatch(n)).ToList(), getVersion, matchName) { }
-#endif
+            : this(needles.ConvertAll(n => new PathMatch(n)), getVersion, matchName) { }
 
         public PathMatchSet(PathMatch needle, string matchName)
             : this([needle], null, matchName) { }
@@ -79,11 +61,7 @@ namespace SabreTools.Matching.Paths
         public List<string> MatchesAll(IEnumerable<string>? stack)
         {
             // If no path matches are defined, we fail out
-#if NET20 || NET35
-            if (Matchers == null || new List<PathMatch>(Matchers).Count == 0)
-#else
-            if (Matchers == null || !Matchers.Any())
-#endif
+            if (Matchers == null)
                 return [];
 
             // Initialize the value list
@@ -110,11 +88,7 @@ namespace SabreTools.Matching.Paths
         public string? MatchesAny(IEnumerable<string>? stack)
         {
             // If no path matches are defined, we fail out
-#if NET20 || NET35
-            if (Matchers == null || new List<PathMatch>(Matchers).Count == 0)
-#else
-            if (Matchers == null || !Matchers.Any())
-#endif
+            if (Matchers == null)
                 return null;
 
             // Loop through all path matches and make sure all pass

@@ -11,9 +11,6 @@
 
 using System;
 using System.Collections.Generic;
-#if NET40_OR_GREATER || NETCOREAPP
-using System.Linq;
-#endif
 using System.Text.RegularExpressions;
 
 namespace SabreTools.Matching.Compare
@@ -50,42 +47,16 @@ namespace SabreTools.Matching.Compare
             if (!_table.TryGetValue(x, out string[]? x1))
             {
                 //x1 = Regex.Split(x.Replace(" ", string.Empty), "([0-9]+)");
-#if NET20 || NET35
-                var nonempty = new List<string>();
-                x1 = Regex.Split(x.ToLowerInvariant(), "([0-9]+)");
-                foreach (var s in x1)
-                {
-                    if (!string.IsNullOrEmpty(s))
-                        nonempty.Add(s);
-                }
-
-                x1 = nonempty.ToArray();
-#else
-                x1 = Regex.Split(x.ToLowerInvariant(), "([0-9]+)")
-                    .Where(s => !string.IsNullOrEmpty(s))
-                    .ToArray();
-#endif
+                x1 = Regex.Split(y.ToLowerInvariant(), "([0-9]+)");
+                x1 = Array.FindAll(x1, s => !string.IsNullOrEmpty(s));
                 _table.Add(x, x1);
             }
 
             if (!_table.TryGetValue(y, out string[]? y1))
             {
                 //y1 = Regex.Split(y.Replace(" ", string.Empty), "([0-9]+)");
-#if NET20 || NET35
-                var nonempty = new List<string>();
                 y1 = Regex.Split(y.ToLowerInvariant(), "([0-9]+)");
-                foreach (var s in y1)
-                {
-                    if (!string.IsNullOrEmpty(s))
-                        nonempty.Add(s);
-                }
-
-                y1 = nonempty.ToArray();
-#else
-                y1 = Regex.Split(y.ToLowerInvariant(), "([0-9]+)")
-                    .Where(s => !string.IsNullOrEmpty(s))
-                    .ToArray();
-#endif
+                y1 = Array.FindAll(y1, s => !string.IsNullOrEmpty(s));
                 _table.Add(y, y1);
             }
 

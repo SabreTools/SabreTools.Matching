@@ -1,7 +1,4 @@
 using System.Collections.Generic;
-#if NET40_OR_GREATER || NETCOREAPP
-using System.Linq;
-#endif
 
 namespace SabreTools.Matching.Paths
 {
@@ -48,11 +45,7 @@ namespace SabreTools.Matching.Paths
         public string? Match(IEnumerable<string>? stack)
         {
             // If either array is null or empty, we can't do anything
-#if NET20 || NET35
-            if (stack == null || new List<string>(stack).Count == 0 || Needle == null || Needle.Length == 0)
-#else
-            if (stack == null || !stack.Any() || Needle == null || Needle.Length == 0)
-#endif
+            if (stack == null || Needle == null || Needle.Length == 0)
                 return null;
 
             // Preprocess the needle, if necessary
