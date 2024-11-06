@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace SabreTools.Matching.Paths
@@ -17,7 +16,7 @@ namespace SabreTools.Matching.Paths
         /// in which case it will be appended to the match name, or `null`,
         /// in which case it will cause the match name to be omitted.
         /// </remarks>
-        public Func<string, IEnumerable<string>?, string?>? GetVersion { get; }
+        public GetPathVersion? GetVersion { get; }
 
         #region Constructors
 
@@ -27,10 +26,10 @@ namespace SabreTools.Matching.Paths
         public PathMatchSet(List<string> needles, string matchName)
             : this(needles, null, matchName) { }
 
-        public PathMatchSet(string needle, Func<string, IEnumerable<string>?, string?>? getVersion, string matchName)
+        public PathMatchSet(string needle, GetPathVersion? getVersion, string matchName)
             : this([needle], getVersion, matchName) { }
 
-        public PathMatchSet(List<string> needles, Func<string, IEnumerable<string>?, string?>? getVersion, string matchName)
+        public PathMatchSet(List<string> needles, GetPathVersion? getVersion, string matchName)
             : this(needles.ConvertAll(n => new PathMatch(n)), getVersion, matchName) { }
 
         public PathMatchSet(PathMatch needle, string matchName)
@@ -39,10 +38,10 @@ namespace SabreTools.Matching.Paths
         public PathMatchSet(List<PathMatch> needles, string matchName)
             : this(needles, null, matchName) { }
 
-        public PathMatchSet(PathMatch needle, Func<string, IEnumerable<string>?, string?>? getVersion, string matchName)
+        public PathMatchSet(PathMatch needle, GetPathVersion? getVersion, string matchName)
             : this([needle], getVersion, matchName) { }
 
-        public PathMatchSet(List<PathMatch> needles, Func<string, IEnumerable<string>?, string?>? getVersion, string matchName)
+        public PathMatchSet(List<PathMatch> needles, GetPathVersion? getVersion, string matchName)
         {
             Matchers = needles;
             GetVersion = getVersion;

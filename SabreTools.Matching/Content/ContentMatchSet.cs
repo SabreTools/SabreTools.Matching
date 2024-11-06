@@ -19,7 +19,7 @@ namespace SabreTools.Matching.Content
         /// to the match name, or `null`, in which case it will cause
         /// the match name to be omitted.
         /// </remarks>
-        public Func<string, byte[]?, List<int>, string?>? GetArrayVersion { get; }
+        public GetArrayVersion? GetArrayVersion { get; }
 
         /// <summary>
         /// Function to get a content version
@@ -31,7 +31,7 @@ namespace SabreTools.Matching.Content
         /// to the match name, or `null`, in which case it will cause
         /// the match name to be omitted.
         /// </remarks>
-        public Func<string, Stream?, List<int>, string?>? GetStreamVersion { get; }
+        public GetStreamVersion? GetStreamVersion { get; }
 
         #region Generic Constructors
 
@@ -51,16 +51,16 @@ namespace SabreTools.Matching.Content
 
         #region Array Constructors
 
-        public ContentMatchSet(byte?[] needle, Func<string, byte[]?, List<int>, string?>? getArrayVersion, string matchName)
+        public ContentMatchSet(byte?[] needle, GetArrayVersion? getArrayVersion, string matchName)
             : this([needle], getArrayVersion, matchName) { }
 
-        public ContentMatchSet(List<byte?[]> needles, Func<string, byte[]?, List<int>, string?>? getArrayVersion, string matchName)
+        public ContentMatchSet(List<byte?[]> needles, GetArrayVersion? getArrayVersion, string matchName)
             : this(needles.ConvertAll(n => new ContentMatch(n)), getArrayVersion, matchName) { }
 
-        public ContentMatchSet(ContentMatch needle, Func<string, byte[]?, List<int>, string?>? getArrayVersion, string matchName)
+        public ContentMatchSet(ContentMatch needle, GetArrayVersion? getArrayVersion, string matchName)
             : this([needle], getArrayVersion, matchName) { }
 
-        public ContentMatchSet(List<ContentMatch> needles, Func<string, byte[]?, List<int>, string?>? getArrayVersion, string matchName)
+        public ContentMatchSet(List<ContentMatch> needles, GetArrayVersion? getArrayVersion, string matchName)
         {
             Matchers = needles;
             GetArrayVersion = getArrayVersion;
@@ -71,16 +71,16 @@ namespace SabreTools.Matching.Content
 
         #region Stream Constructors
 
-        public ContentMatchSet(byte?[] needle, Func<string, Stream?, List<int>, string?>? getStreamVersion, string matchName)
+        public ContentMatchSet(byte?[] needle, GetStreamVersion? getStreamVersion, string matchName)
             : this([needle], getStreamVersion, matchName) { }
 
-        public ContentMatchSet(List<byte?[]> needles, Func<string, Stream?, List<int>, string?>? getStreamVersion, string matchName)
+        public ContentMatchSet(List<byte?[]> needles, GetStreamVersion? getStreamVersion, string matchName)
             : this(needles.ConvertAll(n => new ContentMatch(n)), getStreamVersion, matchName) { }
 
-        public ContentMatchSet(ContentMatch needle, Func<string, Stream?, List<int>, string?>? getStreamVersion, string matchName)
+        public ContentMatchSet(ContentMatch needle, GetStreamVersion? getStreamVersion, string matchName)
             : this([needle], getStreamVersion, matchName) { }
 
-        public ContentMatchSet(List<ContentMatch> needles, Func<string, Stream?, List<int>, string?>? getStreamVersion, string matchName)
+        public ContentMatchSet(List<ContentMatch> needles, GetStreamVersion? getStreamVersion, string matchName)
         {
             Matchers = needles;
             GetStreamVersion = getStreamVersion;
