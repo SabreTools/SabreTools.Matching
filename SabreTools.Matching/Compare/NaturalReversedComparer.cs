@@ -47,7 +47,7 @@ namespace SabreTools.Matching.Compare
             if (!_table.TryGetValue(x, out string[]? x1))
             {
                 //x1 = Regex.Split(x.Replace(" ", string.Empty), "([0-9]+)");
-                x1 = Regex.Split(y.ToLowerInvariant(), "([0-9]+)");
+                x1 = Regex.Split(x.ToLowerInvariant(), "([0-9]+)");
                 x1 = Array.FindAll(x1, s => !string.IsNullOrEmpty(s));
                 _table.Add(x, x1);
             }
