@@ -67,16 +67,7 @@ namespace SabreTools.Matching
                     continue;
 
                 // Format the list of all positions found
-#if NET20 || NET35
-                var positionStrs = new List<string>();
-                foreach (int pos in positions)
-                {
-                    positionStrs.Add(pos.ToString());
-                }
-                string positionsString = string.Join(", ", [.. positionStrs]);
-#else
-                string positionsString = string.Join(", ", positions);
-#endif
+                string positionsString = string.Join(", ", [.. positions.ConvertAll(p => p.ToString())]);
 
                 // If we there is no version method, just return the match name
                 if (matcher.GetArrayVersion == null)
@@ -162,16 +153,7 @@ namespace SabreTools.Matching
                     continue;
 
                 // Format the list of all positions found
-#if NET20 || NET35
-                var positionStrs = new List<string>();
-                foreach (int pos in positions)
-                {
-                    positionStrs.Add(pos.ToString());
-                }
-                string positionsString = string.Join(", ", [.. positionStrs]);
-#else
-                string positionsString = string.Join(", ", positions);
-#endif
+                string positionsString = string.Join(", ", [.. positions.ConvertAll(p => p.ToString())]);
 
                 // If we there is no version method, just return the match name
                 if (matcher.GetStreamVersion == null)
