@@ -4,6 +4,7 @@
         <!-- Assembly Properties -->
         <TargetFrameworks>net20;net35;net40;net452;net462;net472;net48;netcoreapp3.1;net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
         <LangVersion>latest</LangVersion>
+        <NoWarn>NU1903</NoWarn>
         <Nullable>enable</Nullable>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <Version>1.4.1</Version>
@@ -18,7 +19,6 @@
         <RepositoryType>git</RepositoryType>
         <PackageTags>byte array stream match matching</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <WarningsNotAsErrors>NU1903</WarningsNotAsErrors>
     </PropertyGroup>
 
     <ItemGroup>
