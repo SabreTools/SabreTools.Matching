@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 
 namespace SabreTools.Matching.Content
@@ -20,7 +21,23 @@ namespace SabreTools.Matching.Content
         /// <summary>
         /// Ending index for matching
         /// </summary>
-        public int End { get; private set; }
+        public int End { get; set; }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="needle">Byte array representing the search</param>
+        /// <param name="start">Optional starting index</param>
+        /// <param name="end">Optional ending index</param>
+        public ContentMatch(byte[]? needle, int start = -1, int end = -1)
+        {
+            Needle = null;
+            if (needle != null)
+                Needle = Array.ConvertAll(needle, b => (byte?)b);
+
+            Start = start;
+            End = end;
+        }
 
         /// <summary>
         /// Constructor

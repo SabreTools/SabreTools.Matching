@@ -18,7 +18,7 @@ namespace SabreTools.Matching
     /// <param name="path">File or directory path to get the version from</param>
     /// <param name="files">Optional set of files in the directory</param>
     /// <returns>Version string on success, null on failure</returns>
-    public delegate string? GetPathVersion(string path, IEnumerable<string>? files);
+    public delegate string? GetPathVersion(string path, List<string>? files);
 
     /// <summary>
     /// Get a version number from a file

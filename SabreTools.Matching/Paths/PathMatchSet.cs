@@ -53,11 +53,19 @@ namespace SabreTools.Matching.Paths
         #region Matching
 
         /// <summary>
+        /// Get if this match can be found in a stack
+        /// </summary>
+        /// <param name="stack">List of strings to search for the given content</param>
+        /// <returns>Matched item on success, null on error</returns>
+        public List<string> MatchesAll(string[]? stack)
+            => MatchesAll(stack == null ? null : new List<string>(stack));
+
+        /// <summary>
         /// Determine whether all path matches pass
         /// </summary>
         /// <param name="stack">List of strings to try to match</param>
         /// <returns>List of matching values, if any</returns>
-        public List<string> MatchesAll(IEnumerable<string>? stack)
+        public List<string> MatchesAll(List<string>? stack)
         {
             // If no path matches are defined, we fail out
             if (Matchers == null)
@@ -80,11 +88,19 @@ namespace SabreTools.Matching.Paths
         }
 
         /// <summary>
+        /// Get if this match can be found in a stack
+        /// </summary>
+        /// <param name="stack">List of strings to search for the given content</param>
+        /// <returns>Matched item on success, null on error</returns>
+        public string? MatchesAny(string[]? stack)
+            => MatchesAny(stack == null ? null : new List<string>(stack));
+
+        /// <summary>
         /// Determine whether any path matches pass
         /// </summary>
         /// <param name="stack">List of strings to try to match</param>
         /// <returns>First matching value on success, null on error</returns>
-        public string? MatchesAny(IEnumerable<string>? stack)
+        public string? MatchesAny(List<string>? stack)
         {
             // If no path matches are defined, we fail out
             if (Matchers == null)

@@ -20,7 +20,7 @@ namespace SabreTools.Matching
         /// <param name="matchers">Enumerable of ContentMatchSets to be run on the file</param>
         /// <param name="includeDebug">True to include positional data, false otherwise</param>
         /// <returns>List of strings representing the matches, null or empty otherwise</returns>
-        public static List<string>? GetAllMatches(string file, byte[]? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
+        public static List<string>? GetAllMatches(string file, byte[]? stack, List<ContentMatchSet>? matchers, bool includeDebug = false)
             => FindAllMatches(file, stack, matchers, includeDebug, false);
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace SabreTools.Matching
         /// <param name="matchers">Enumerable of ContentMatchSets to be run on the file</param>
         /// <param name="includeDebug">True to include positional data, false otherwise</param>
         /// <returns>String representing the match, null otherwise</returns>
-        public static string? GetFirstMatch(string file, byte[]? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
+        public static string? GetFirstMatch(string file, byte[]? stack, List<ContentMatchSet>? matchers, bool includeDebug = false)
         {
             var contentMatches = FindAllMatches(file, stack, matchers, includeDebug, true);
             if (contentMatches == null || contentMatches.Count == 0)
@@ -49,7 +49,7 @@ namespace SabreTools.Matching
         /// <param name="includeDebug">True to include positional data, false otherwise</param>
         /// <param name="stopAfterFirst">True to stop after the first match, false otherwise</param>
         /// <returns>List of strings representing the matches, empty otherwise</returns>
-        private static List<string> FindAllMatches(string file, byte[]? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug, bool stopAfterFirst)
+        private static List<string> FindAllMatches(string file, byte[]? stack, List<ContentMatchSet>? matchers, bool includeDebug, bool stopAfterFirst)
         {
             // If there's no mappings, we can't match
             if (matchers == null)
@@ -106,7 +106,7 @@ namespace SabreTools.Matching
         /// <param name="matchers">Enumerable of ContentMatchSets to be run on the file</param>
         /// <param name="includeDebug">True to include positional data, false otherwise</param>
         /// <returns>List of strings representing the matches, null or empty otherwise</returns>
-        public static List<string>? GetAllMatches(string file, Stream? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
+        public static List<string>? GetAllMatches(string file, Stream? stack, List<ContentMatchSet>? matchers, bool includeDebug = false)
             => FindAllMatches(file, stack, matchers, includeDebug, false);
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace SabreTools.Matching
         /// <param name="matchers">Enumerable of ContentMatchSets to be run on the file</param>
         /// <param name="includeDebug">True to include positional data, false otherwise</param>
         /// <returns>String representing the match, null otherwise</returns>
-        public static string? GetFirstMatch(string file, Stream? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug = false)
+        public static string? GetFirstMatch(string file, Stream? stack, List<ContentMatchSet>? matchers, bool includeDebug = false)
         {
             var contentMatches = FindAllMatches(file, stack, matchers, includeDebug, true);
             if (contentMatches == null || contentMatches.Count == 0)
@@ -135,7 +135,7 @@ namespace SabreTools.Matching
         /// <param name="includeDebug">True to include positional data, false otherwise</param>
         /// <param name="stopAfterFirst">True to stop after the first match, false otherwise</param>
         /// <returns>List of strings representing the matches, empty otherwise</returns>
-        private static List<string> FindAllMatches(string file, Stream? stack, IEnumerable<ContentMatchSet>? matchers, bool includeDebug, bool stopAfterFirst)
+        private static List<string> FindAllMatches(string file, Stream? stack, List<ContentMatchSet>? matchers, bool includeDebug, bool stopAfterFirst)
         {
             // If there's no mappings, we can't match
             if (matchers == null)
@@ -191,7 +191,7 @@ namespace SabreTools.Matching
         /// <param name="matchers">Enumerable of PathMatchSets to be run on the file</param>
         /// <param name="any">True if any path match is a success, false if all have to match</param>
         /// <returns>List of strings representing the matches, null or empty otherwise</returns>
-        public static List<string> GetAllMatches(string file, IEnumerable<PathMatchSet>? matchers, bool any = false)
+        public static List<string> GetAllMatches(string file, List<PathMatchSet>? matchers, bool any = false)
             => FindAllMatches([file], matchers, any, false);
 
         // <summary>
@@ -201,7 +201,7 @@ namespace SabreTools.Matching
         /// <param name="matchers">Enumerable of PathMatchSets to be run on the file</param>
         /// <param name="any">True if any path match is a success, false if all have to match</param>
         /// <returns>List of strings representing the matches, null or empty otherwise</returns>
-        public static List<string> GetAllMatches(IEnumerable<string>? files, IEnumerable<PathMatchSet>? matchers, bool any = false)
+        public static List<string> GetAllMatches(List<string>? files, List<PathMatchSet>? matchers, bool any = false)
             => FindAllMatches(files, matchers, any, false);
 
         /// <summary>
@@ -211,7 +211,7 @@ namespace SabreTools.Matching
         /// <param name="matchers">Enumerable of PathMatchSets to be run on the file</param>
         /// <param name="any">True if any path match is a success, false if all have to match</param>
         /// <returns>String representing the match, null otherwise</returns>
-        public static string? GetFirstMatch(string file, IEnumerable<PathMatchSet> matchers, bool any = false)
+        public static string? GetFirstMatch(string file, List<PathMatchSet> matchers, bool any = false)
         {
             var contentMatches = FindAllMatches([file], matchers, any, true);
             if (contentMatches == null || contentMatches.Count == 0)
@@ -227,7 +227,7 @@ namespace SabreTools.Matching
         /// <param name="matchers">Enumerable of PathMatchSets to be run on the file</param>
         /// <param name="any">True if any path match is a success, false if all have to match</param>
         /// <returns>String representing the match, null otherwise</returns>
-        public static string? GetFirstMatch(IEnumerable<string> files, IEnumerable<PathMatchSet> matchers, bool any = false)
+        public static string? GetFirstMatch(List<string> files, List<PathMatchSet> matchers, bool any = false)
         {
             var contentMatches = FindAllMatches(files, matchers, any, true);
             if (contentMatches == null || contentMatches.Count == 0)
@@ -244,7 +244,7 @@ namespace SabreTools.Matching
         /// <param name="any">True if any path match is a success, false if all have to match</param>
         /// <param name="stopAfterFirst">True to stop after the first match, false otherwise</param>
         /// <returns>List of strings representing the matches, null or empty otherwise</returns>
-        private static List<string> FindAllMatches(IEnumerable<string>? files, IEnumerable<PathMatchSet>? matchers, bool any, bool stopAfterFirst)
+        private static List<string> FindAllMatches(List<string>? files, List<PathMatchSet>? matchers, bool any, bool stopAfterFirst)
         {
             // If there's no mappings, we can't match
             if (matchers == null)

@@ -34,8 +34,14 @@ namespace SabreTools.Matching.Content
 
         #region Generic Constructors
 
+        public ContentMatchSet(byte[] needle, string matchName)
+            : this([needle], getArrayVersion: null, matchName) { }
+
         public ContentMatchSet(byte?[] needle, string matchName)
             : this([needle], getArrayVersion: null, matchName) { }
+
+        public ContentMatchSet(List<byte[]> needles, string matchName)
+            : this(needles, getArrayVersion: null, matchName) { }
 
         public ContentMatchSet(List<byte?[]> needles, string matchName)
             : this(needles, getArrayVersion: null, matchName) { }
@@ -50,8 +56,14 @@ namespace SabreTools.Matching.Content
 
         #region Array Constructors
 
+        public ContentMatchSet(byte[] needle, GetArrayVersion? getArrayVersion, string matchName)
+            : this([needle], getArrayVersion, matchName) { }
+
         public ContentMatchSet(byte?[] needle, GetArrayVersion? getArrayVersion, string matchName)
             : this([needle], getArrayVersion, matchName) { }
+
+        public ContentMatchSet(List<byte[]> needles, GetArrayVersion? getArrayVersion, string matchName)
+            : this(needles.ConvertAll(n => new ContentMatch(n)), getArrayVersion, matchName) { }
 
         public ContentMatchSet(List<byte?[]> needles, GetArrayVersion? getArrayVersion, string matchName)
             : this(needles.ConvertAll(n => new ContentMatch(n)), getArrayVersion, matchName) { }
@@ -70,8 +82,14 @@ namespace SabreTools.Matching.Content
 
         #region Stream Constructors
 
+        public ContentMatchSet(byte[] needle, GetStreamVersion? getStreamVersion, string matchName)
+            : this([needle], getStreamVersion, matchName) { }
+
         public ContentMatchSet(byte?[] needle, GetStreamVersion? getStreamVersion, string matchName)
             : this([needle], getStreamVersion, matchName) { }
+
+        public ContentMatchSet(List<byte[]> needles, GetStreamVersion? getStreamVersion, string matchName)
+            : this(needles.ConvertAll(n => new ContentMatch(n)), getStreamVersion, matchName) { }
 
         public ContentMatchSet(List<byte?[]> needles, GetStreamVersion? getStreamVersion, string matchName)
             : this(needles.ConvertAll(n => new ContentMatch(n)), getStreamVersion, matchName) { }

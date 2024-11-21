@@ -15,12 +15,12 @@ namespace SabreTools.Matching.Paths
         /// <summary>
         /// Match exact casing instead of invariant
         /// </summary>
-        public bool MatchExact { get; private set; }
+        public bool MatchExact { get; }
 
         /// <summary>
         /// Match that values end with the needle and not just contains
         /// </summary>
-        public bool UseEndsWith { get; private set; }
+        public bool UseEndsWith { get; }
 
         /// <summary>
         /// Constructor
@@ -42,7 +42,15 @@ namespace SabreTools.Matching.Paths
         /// </summary>
         /// <param name="stack">List of strings to search for the given content</param>
         /// <returns>Matched item on success, null on error</returns>
-        public string? Match(IEnumerable<string>? stack)
+        public string? Match(string[]? stack)
+            => Match(stack == null ? null : new List<string>(stack));
+
+        /// <summary>
+        /// Get if this match can be found in a stack
+        /// </summary>
+        /// <param name="stack">List of strings to search for the given content</param>
+        /// <returns>Matched item on success, null on error</returns>
+        public string? Match(List<string>? stack)
         {
             // If either array is null or empty, we can't do anything
             if (stack == null || Needle == null || Needle.Length == 0)
