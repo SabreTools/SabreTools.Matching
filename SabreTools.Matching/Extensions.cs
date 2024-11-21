@@ -17,6 +17,19 @@ namespace SabreTools.Matching
         /// <summary>
         /// Find all positions of one array in another, if possible, if possible
         /// </summary>
+        public static List<int> FindAllPositions(this byte[] stack, byte[]? needle, int start = 0, int end = -1)
+        {
+            // Convert the needle to a nullable byte array
+            byte?[]? nullableNeedle = null;
+            if (needle != null)
+                nullableNeedle = Array.ConvertAll(needle, b => (byte?)b);
+
+            return FindAllPositions(stack, nullableNeedle, start, end);
+        }
+
+        /// <summary>
+        /// Find all positions of one array in another, if possible, if possible
+        /// </summary>
         public static List<int> FindAllPositions(this byte[] stack, byte?[]? needle, int start = 0, int end = -1)
         {
             // Get the outgoing list
