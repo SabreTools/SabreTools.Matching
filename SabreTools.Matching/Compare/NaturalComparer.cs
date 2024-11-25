@@ -77,10 +77,10 @@ namespace SabreTools.Matching.Compare
         private static int PartCompare(string left, string right)
         {
             if (!long.TryParse(left, out long x))
-                return NaturalComparerUtil.CompareNumeric(left, right);
+                return NaturalComparerUtil.ComparePaths(left, right);
 
             if (!long.TryParse(right, out long y))
-                return NaturalComparerUtil.CompareNumeric(left, right);
+                return NaturalComparerUtil.ComparePaths(left, right);
 
             // If we have an equal part, then make sure that "longer" ones are taken into account
             if (x.CompareTo(y) == 0)

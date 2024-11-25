@@ -1,82 +1,93 @@
-﻿using System.IO;
-
-namespace SabreTools.Matching.Compare
+﻿namespace SabreTools.Matching.Compare
 {
     public static class NaturalComparerUtil
     {
         /// <summary>
-        /// Compare two strings by numeric parts
+        /// Compare two strings by path parts
         /// </summary>
-        public static int CompareNumeric(string? s1, string? s2)
+        public static int ComparePaths(string? left, string? right)
         {
             // If both strings are null, return
-            if (s1 == null && s2 == null)
+            if (left == null && right == null)
                 return 0;
 
             // If one is null, then say that's less than
-            if (s1 == null)
+            if (left == null)
                 return -1;
-            if (s2 == null)
+            if (right == null)
                 return 1;
 
-            // Save the orginal strings, for later comparison
-            string s1orig = s1;
-            string s2orig = s2;
+            // Normalize the path seperators
+            left = left.Replace('\\', '/');
+            right = right.Replace('\\', '/');
 
-            // We want to normalize the strings, so we set both to lower case
-            s1 = s1.ToLowerInvariant();
-            s2 = s2.ToLowerInvariant();
+            // Save the orginal adjusted strings
+            string leftOrig = left;
+            string rightOrig = right;
+
+            // Normalize strings by lower-case
+            left = leftOrig.ToLowerInvariant();
+            right = rightOrig.ToLowerInvariant();
 
             // If the strings are the same exactly, return
-            if (s1 == s2)
-                return s1orig.CompareTo(s2orig);
+            if (left == right)
+                return leftOrig.CompareTo(rightOrig);
 
-            // Now split into path parts after converting AltDirSeparator to DirSeparator
-            s1 = s1.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
-            s2 = s2.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
-            string[] s1parts = s1.Split(Path.DirectorySeparatorChar);
-            string[] s2parts = s2.Split(Path.DirectorySeparatorChar);
+            // Now split into path parts
+            string[] leftParts = left.Split('/');
+            string[] rightParts = right.Split('/');
 
             // Then compare each part in turn
-            for (int j = 0; j < s1parts.Length && j < s2parts.Length; j++)
+            for (int i = 0; i < leftParts.Length && i < rightParts.Length; i++)
             {
-                int compared = CompareNumericPart(s1parts[j], s2parts[j]);
-                if (compared != 0)
-                    return compared;
+                int partCompare = ComparePathSegment(leftParts[i], rightParts[i]);
+                if (partCompare != 0)
+                    return partCompare;
             }
 
             // If we got out here, then it looped through at least one of the strings
-            if (s1parts.Length > s2parts.Length)
+            if (leftParts.Length > rightParts.Length)
                 return 1;
-            if (s1parts.Length < s2parts.Length)
+            if (leftParts.Length < rightParts.Length)
                 return -1;
 
-            return s1orig.CompareTo(s2orig);
+            return leftOrig.CompareTo(rightOrig);
         }
 
-        private static int CompareNumericPart(string s1, string s2)
+        /// <summary>
+        /// Compare two path segments deterministically
+        /// </summary>
+        private static int ComparePathSegment(string left, string right)
         {
+            // If the lengths are both zero, they're equal
+            if (left.Length == 0 && right.Length == 0)
+                return 0;
+
+            // Shorter strings are sorted before
+            if (left.Length == 0)
+                return -1;
+            if (right.Length == 0)
+                return 1;
+
             // Otherwise, loop through until we have an answer
-            for (int i = 0; i < s1.Length && i < s2.Length; i++)
+            for (int i = 0; i < left.Length && i < right.Length; i++)
             {
-                int s1c = s1[i];
-                int s2c = s2[i];
+                // Get the next characters from the inputs as integers
+                int leftChar = left[i];
+                int rightChar = right[i];
 
                 // If the characters are the same, continue
-                if (s1c == s2c)
+                if (leftChar == rightChar)
                     continue;
 
                 // If they're different, check which one was larger
-                if (s1c > s2c)
-                    return 1;
-                if (s1c < s2c)
-                    return -1;
+                return leftChar > rightChar ? 1 : -1;
             }
 
             // If we got out here, then it looped through at least one of the strings
-            if (s1.Length > s2.Length)
+            if (left.Length > right.Length)
                 return 1;
-            if (s1.Length < s2.Length)
+            if (left.Length < right.Length)
                 return -1;
 
             return 0;
