@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 
 namespace SabreTools.Matching.Paths
 {
@@ -18,35 +19,61 @@ namespace SabreTools.Matching.Paths
         /// </remarks>
         public GetPathVersion? GetVersion { get; }
 
-        #region Constructors
+        #region Generic Constructors
 
-        public PathMatchSet(string needle, string matchName)
-            : this([needle], null, matchName) { }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="needle">PathMatch representing the comparisons</param>
+        /// <param name="setName">Unique name for the set</param>
+        public PathMatchSet(PathMatch needle, string setName)
+            : this([needle], setName) { }
 
-        public PathMatchSet(List<string> needles, string matchName)
-            : this(needles, null, matchName) { }
-
-        public PathMatchSet(string needle, GetPathVersion? getVersion, string matchName)
-            : this([needle], getVersion, matchName) { }
-
-        public PathMatchSet(List<string> needles, GetPathVersion? getVersion, string matchName)
-            : this(needles.ConvertAll(n => new PathMatch(n)), getVersion, matchName) { }
-
-        public PathMatchSet(PathMatch needle, string matchName)
-            : this([needle], null, matchName) { }
-
-        public PathMatchSet(List<PathMatch> needles, string matchName)
-            : this(needles, null, matchName) { }
-
-        public PathMatchSet(PathMatch needle, GetPathVersion? getVersion, string matchName)
-            : this([needle], getVersion, matchName) { }
-
-        public PathMatchSet(List<PathMatch> needles, GetPathVersion? getVersion, string matchName)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="needles">List of PathMatch objects representing the comparisons</param>
+        /// <param name="setName">Unique name for the set</param>
+        public PathMatchSet(List<PathMatch> needles, string setName)
         {
+            // Validate the inputs
+            if (needles.Count == 0)
+                throw new InvalidDataException(nameof(needles));
+
             Matchers = needles;
-            GetVersion = getVersion;
-            SetName = matchName;
+            SetName = setName;
+            GetVersion = null;
         }
+
+        #region Version Constructors
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="needle">PathMatch representing the comparisons</param>
+        /// <param name="getVersion">Delegate for deriving a version on match</param>
+        /// <param name="setName">Unique name for the set</param>
+        public PathMatchSet(PathMatch needle, GetPathVersion getVersion, string setName)
+            : this([needle], getVersion, setName) { }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="needles">List of PathMatch objects representing the comparisons</param>
+        /// <param name="getVersion">Delegate for deriving a version on match</param>
+        /// <param name="setName">Unique name for the set</param>
+        public PathMatchSet(List<PathMatch> needles, GetPathVersion getVersion, string setName)
+        {
+            // Validate the inputs
+            if (needles.Count == 0)
+                throw new InvalidDataException(nameof(needles));
+
+            Matchers = needles;
+            SetName = setName;
+            GetVersion = getVersion;
+        }
+
+        #endregion
 
         #endregion
 
@@ -67,8 +94,8 @@ namespace SabreTools.Matching.Paths
         /// <returns>List of matching values, if any</returns>
         public List<string> MatchesAll(List<string>? stack)
         {
-            // If no path matches are defined, we fail out
-            if (Matchers == null)
+            // If either set is null or empty, we can't do anything
+            if (stack == null || stack.Count == 0 || Matchers == null || Matchers.Count == 0)
                 return [];
 
             // Initialize the value list
@@ -102,8 +129,8 @@ namespace SabreTools.Matching.Paths
         /// <returns>First matching value on success, null on error</returns>
         public string? MatchesAny(List<string>? stack)
         {
-            // If no path matches are defined, we fail out
-            if (Matchers == null)
+            // If either set is null or empty, we can't do anything
+            if (stack == null || stack.Count == 0 || Matchers == null || Matchers.Count == 0)
                 return null;
 
             // Loop through all path matches and make sure all pass

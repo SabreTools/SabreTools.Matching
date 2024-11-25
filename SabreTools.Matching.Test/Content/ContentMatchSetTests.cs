@@ -107,7 +107,7 @@ namespace SabreTools.Matching.Test.Content
         {
             var cms = new ContentMatchSet(new byte[] { 0x01, 0x02, 0x03, 0x04 }, "name");
             int actual = cms.MatchesAny([0x01, 0x02, 0x03, 0x04]);
-            Assert.Equal(expected: 0, actual);
+            Assert.Equal(0, actual);
         }
 
         [Fact]
@@ -176,7 +176,7 @@ namespace SabreTools.Matching.Test.Content
         {
             var cms = new ContentMatchSet(new byte[] { 0x01, 0x02, 0x03, 0x04 }, "name");
             int actual = cms.MatchesAny(new MemoryStream([0x01, 0x02, 0x03, 0x04]));
-            Assert.Equal(expected: 0, actual);
+            Assert.Equal(0, actual);
         }
 
         [Fact]

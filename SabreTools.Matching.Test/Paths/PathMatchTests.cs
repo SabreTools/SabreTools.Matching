@@ -14,6 +14,14 @@ namespace SabreTools.Matching.Test.Paths
             Assert.Throws<InvalidDataException>(() => new PathMatch(string.Empty));
         }
 
+        [Fact]
+        public void ImplicitOperatorArrayReturnsSuccess()
+        {
+            string needle = "test";
+            var pm = (PathMatch)needle;
+            Assert.NotNull(pm);
+        }
+
         #region Array
 
         [Fact]

@@ -40,6 +40,15 @@ namespace SabreTools.Matching.Paths
             _useEndsWith = useEndsWith;
         }
 
+        #region Conversion
+
+        /// <summary>
+        /// Allow conversion from string to PathMatch
+        /// </summary>
+        public static implicit operator PathMatch(string needle) => new PathMatch(needle);
+
+        #endregion
+
         #region Matching
 
         /// <summary>
