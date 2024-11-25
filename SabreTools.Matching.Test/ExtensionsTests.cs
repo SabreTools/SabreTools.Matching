@@ -237,6 +237,58 @@ namespace SabreTools.Matching.Test
 
         #endregion
 
+        #region Equals Exactly
+
+        [Fact]
+        public void EqualsExactly_EmptyStack_NoMatches()
+        {
+            byte[] stack = [];
+            bool found = stack.EqualsExactly([0x01]);
+            Assert.False(found);
+        }
+
+        [Fact]
+        public void EqualsExactly_EmptyNeedle_NoMatches()
+        {
+            byte[] stack = [0x01];
+            bool found = stack.EqualsExactly(Array.Empty<byte>());
+            Assert.False(found);
+        }
+
+        [Fact]
+        public void EqualsExactly_ShorterNeedle_NoMatches()
+        {
+            byte[] stack = [0x01, 0x02];
+            bool found = stack.EqualsExactly([0x01]);
+            Assert.False(found);
+        }
+
+        [Fact]
+        public void EqualsExactly_LongerNeedle_NoMatches()
+        {
+            byte[] stack = [0x01];
+            bool found = stack.EqualsExactly([0x01, 0x02]);
+            Assert.False(found);
+        }
+
+        [Fact]
+        public void EqualsExactly_Matching_Matches()
+        {
+            byte[] stack = [0x01, 0x02];
+            bool found = stack.EqualsExactly([0x01, 0x02]);
+            Assert.True(found);
+        }
+
+        [Fact]
+        public void EqualsExactly_Mismatch_NoMatches()
+        {
+            byte[] stack = [0x01, 0x03];
+            bool found = stack.EqualsExactly([0x01, 0x02]);
+            Assert.False(found);
+        }
+
+        #endregion
+
         #region Starts With
 
         [Fact]

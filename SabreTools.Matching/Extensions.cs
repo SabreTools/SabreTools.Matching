@@ -4,7 +4,6 @@ using SabreTools.Matching.Content;
 
 namespace SabreTools.Matching
 {
-    // TODO: Write SequenceEqual equivilent: EqualsExactly
     public static class Extensions
     {
         /// <summary>
@@ -135,6 +134,35 @@ namespace SabreTools.Matching
 
             var matcher = new ContentMatch(needle, start, end);
             return matcher.Match(stack, reverse: true);
+        }
+
+        /// <summary>
+        /// Check if a byte array exactly matches another
+        /// </summary>
+        /// <param name="stack">Byte array to search within</param>
+        /// <param name="needle">Byte array representing the search value</param>
+        public static bool EqualsExactly(this byte[] stack, byte[] needle)
+        {
+            byte?[] nullableNeedle = Array.ConvertAll(needle, b => (byte?)b);
+            return EqualsExactly(stack, nullableNeedle);
+        }
+
+        /// <summary>
+        /// Check if a byte array exactly matches another
+        /// </summary>
+        /// <param name="stack">Byte array to search within</param>
+        /// <param name="needle">Byte array representing the search value</param>
+        public static bool EqualsExactly(this byte[] stack, byte?[] needle)
+        {
+            // If either set is null or empty
+            if (stack.Length == 0 || needle.Length == 0)
+                return false;
+
+            // If the needle is not the exact length of the stack
+            if (needle.Length != stack.Length)
+                return false;
+
+            return FirstPosition(stack, needle, start: 0, end: 1) == 0;
         }
 
         /// <summary>
