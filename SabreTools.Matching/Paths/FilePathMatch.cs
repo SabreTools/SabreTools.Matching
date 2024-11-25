@@ -11,7 +11,8 @@ namespace SabreTools.Matching.Paths
         /// Constructor
         /// </summary>
         /// <param name="needle">String representing the search</param>
-        public FilePathMatch(string needle)
-            : base($"{Path.DirectorySeparatorChar}{needle}", false, true) { }
+        /// <param name="matchCase">True to match exact casing, false otherwise</param>
+        public FilePathMatch(string needle, bool matchCase = false)
+            : base($"{Path.DirectorySeparatorChar}{needle}", matchCase, true) { }
     }
 }
