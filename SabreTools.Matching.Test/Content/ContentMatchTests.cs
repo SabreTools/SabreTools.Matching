@@ -8,28 +8,28 @@ namespace SabreTools.Matching.Test.Content
     public class ContentMatchTests
     {
         [Fact]
-        public void InvalidNeedleThrowsException()
+        public void InvalidNeedle_ThrowsException()
         {
             Assert.Throws<InvalidDataException>(() => new ContentMatch(Array.Empty<byte>()));
             Assert.Throws<InvalidDataException>(() => new ContentMatch(Array.Empty<byte?>()));
         }
 
         [Fact]
-        public void InvalidStartThrowsException()
+        public void InvalidStart_ThrowsException()
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => new ContentMatch(new byte[1], start: -1));
             Assert.Throws<ArgumentOutOfRangeException>(() => new ContentMatch(new byte?[1], start: -1));
         }
 
         [Fact]
-        public void InvalidEndThrowsException()
+        public void InvalidEnd_ThrowsException()
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => new ContentMatch(new byte[1], end: -2));
             Assert.Throws<ArgumentOutOfRangeException>(() => new ContentMatch(new byte?[1], end: -2));
         }
 
         [Fact]
-        public void ImplicitOperatorArrayReturnsSuccess()
+        public void ImplicitOperatorArray_Success()
         {
             byte[] needle = [0x01, 0x02, 0x03, 0x04];
             var cm = (ContentMatch)needle;
@@ -37,7 +37,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void ImplicitOperatorNullableArrayReturnsSuccess()
+        public void ImplicitOperatorNullableArray_Success()
         {
             byte?[] needle = [0x01, 0x02, 0x03, 0x04];
             var cm = (ContentMatch)needle;
@@ -47,7 +47,7 @@ namespace SabreTools.Matching.Test.Content
         #region Byte Array
 
         [Fact]
-        public void NullArrayReturnsNoMatch()
+        public void NullArray_NoMatch()
         {
             var cm = new ContentMatch(new byte?[1]);
             int actual = cm.Match((byte[]?)null);
@@ -55,7 +55,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void EmptyArrayReturnsNoMatch()
+        public void EmptyArray_NoMatch()
         {
             var cm = new ContentMatch(new byte?[1]);
             int actual = cm.Match([]);
@@ -63,7 +63,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void LargerNeedleArrayReturnsNoMatch()
+        public void LargerNeedleArray_NoMatch()
         {
             var cm = new ContentMatch(new byte?[2]);
             int actual = cm.Match(new byte[1]);
@@ -71,7 +71,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void EqualLengthMatchingArrayReturnsMatch()
+        public void EqualLengthMatchingArray_Match()
         {
             byte[] needle = [0x01, 0x02, 0x03, 0x04];
             var cm = new ContentMatch(needle);
@@ -81,7 +81,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void EqualLengthMatchingArrayReverseReturnsMatch()
+        public void EqualLengthMatchingArrayReverse_Match()
         {
             byte[] needle = [0x01, 0x02, 0x03, 0x04];
             var cm = new ContentMatch(needle);
@@ -91,7 +91,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void EqualLengthMismatchedArrayReturnsNoMatch()
+        public void EqualLengthMismatchedArray_NoMatch()
         {
             byte[] needle = [0x01, 0x02, 0x03, 0x04];
             var cm = new ContentMatch(needle);
@@ -101,7 +101,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void EqualLengthMismatchedArrayReverseReturnsNoMatch()
+        public void EqualLengthMismatchedArrayReverse_NoMatch()
         {
             byte[] needle = [0x01, 0x02, 0x03, 0x04];
             var cm = new ContentMatch(needle);
@@ -111,7 +111,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void InequalLengthMatchingArrayReturnsMatch()
+        public void InequalLengthMatchingArray_Match()
         {
             byte[] stack = [0x01, 0x02, 0x03, 0x04];
             byte[] needle = [0x02, 0x03];
@@ -122,7 +122,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void InequalLengthMatchingArrayReverseReturnsMatch()
+        public void InequalLengthMatchingArrayReverse_Match()
         {
             byte[] stack = [0x01, 0x02, 0x03, 0x04];
             byte[] needle = [0x02, 0x03];
@@ -133,7 +133,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void InequalLengthMismatchedArrayReturnsNoMatch()
+        public void InequalLengthMismatchedArray_NoMatch()
         {
             byte[] stack = [0x01, 0x02, 0x03, 0x04];
             byte[] needle = [0x02, 0x04];
@@ -144,7 +144,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void InequalLengthMismatchedArrayReverseReturnsNoMatch()
+        public void InequalLengthMismatchedArrayReverse_NoMatch()
         {
             byte[] stack = [0x01, 0x02, 0x03, 0x04];
             byte[] needle = [0x02, 0x04];
@@ -159,7 +159,7 @@ namespace SabreTools.Matching.Test.Content
         #region Stream
 
         [Fact]
-        public void NullStreamReturnsNoMatch()
+        public void NullStream_NoMatch()
         {
             var cm = new ContentMatch(new byte?[1]);
             int actual = cm.Match((Stream?)null);
@@ -167,7 +167,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void EmptyStreamReturnsNoMatch()
+        public void EmptyStream_NoMatch()
         {
             var cm = new ContentMatch(new byte?[1]);
             int actual = cm.Match(new MemoryStream());
@@ -175,7 +175,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void LargerNeedleStreamReturnsNoMatch()
+        public void LargerNeedleStream_NoMatch()
         {
             var cm = new ContentMatch(new byte?[2]);
             int actual = cm.Match(new MemoryStream(new byte[1]));
@@ -183,7 +183,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void EqualLengthMatchingStreamReturnsMatch()
+        public void EqualLengthMatchingStream_Match()
         {
             byte[] needle = [0x01, 0x02, 0x03, 0x04];
             var cm = new ContentMatch(needle);
@@ -193,7 +193,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void EqualLengthMatchingStreamReverseReturnsMatch()
+        public void EqualLengthMatchingStreamReverse_Match()
         {
             byte[] needle = [0x01, 0x02, 0x03, 0x04];
             var cm = new ContentMatch(needle);
@@ -203,7 +203,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void EqualLengthMismatchedStreamReturnsNoMatch()
+        public void EqualLengthMismatchedStream_NoMatch()
         {
             byte[] needle = [0x01, 0x02, 0x03, 0x04];
             var cm = new ContentMatch(needle);
@@ -213,7 +213,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void EqualLengthMismatchedStreamReverseReturnsNoMatch()
+        public void EqualLengthMismatchedStreamReverse_NoMatch()
         {
             byte[] needle = [0x01, 0x02, 0x03, 0x04];
             var cm = new ContentMatch(needle);
@@ -223,7 +223,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void InequalLengthMatchingStreamReturnsMatch()
+        public void InequalLengthMatchingStream_Match()
         {
             Stream stack = new MemoryStream([0x01, 0x02, 0x03, 0x04]);
             byte[] needle = [0x02, 0x03];
@@ -234,7 +234,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void InequalLengthMatchingStreamReverseReturnsMatch()
+        public void InequalLengthMatchingStreamReverse_Match()
         {
             Stream stack = new MemoryStream([0x01, 0x02, 0x03, 0x04]);
             byte[] needle = [0x02, 0x03];
@@ -245,7 +245,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void InequalLengthMismatchedStreamReturnsNoMatch()
+        public void InequalLengthMismatchedStream_NoMatch()
         {
             Stream stack = new MemoryStream([0x01, 0x02, 0x03, 0x04]);
             byte[] needle = [0x02, 0x04];
@@ -256,7 +256,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void InequalLengthMismatchedStreamReverseReturnsNoMatch()
+        public void InequalLengthMismatchedStreamReverse_NoMatch()
         {
             Stream stack = new MemoryStream([0x01, 0x02, 0x03, 0x04]);
             byte[] needle = [0x02, 0x04];

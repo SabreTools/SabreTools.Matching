@@ -9,7 +9,7 @@ namespace SabreTools.Matching.Test.Content
     public class ContentMatchSetTests
     {
         [Fact]
-        public void InvalidNeedleThrowsException()
+        public void InvalidNeedle_ThrowsException()
         {
             Assert.Throws<InvalidDataException>(() => new ContentMatchSet(Array.Empty<byte>(), "name"));
             Assert.Throws<InvalidDataException>(() => new ContentMatchSet(Array.Empty<byte>(), ArrayVersionMock, "name"));
@@ -17,7 +17,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void InvalidNeedlesThrowsException()
+        public void InvalidNeedles_ThrowsException()
         {
             Assert.Throws<InvalidDataException>(() => new ContentMatchSet([], "name"));
             Assert.Throws<InvalidDataException>(() => new ContentMatchSet([], ArrayVersionMock, "name"));
@@ -25,7 +25,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void GenericConstructorSetsNoDelegates()
+        public void GenericConstructor_NoDelegates()
         {
             var needles = new List<ContentMatch> { new byte[] { 0x01, 0x02, 0x03, 0x04 } };
             var cms = new ContentMatchSet(needles, "name");
@@ -34,7 +34,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void ArrayConstructorSetsOneDelegate()
+        public void ArrayConstructor_SingleDelegate()
         {
             var needles = new List<ContentMatch> { new byte[] { 0x01, 0x02, 0x03, 0x04 } };
             var cms = new ContentMatchSet(needles, ArrayVersionMock, "name");
@@ -43,7 +43,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void StreamConstructorSetsOneDelegate()
+        public void StreamConstructor_SingleDelegate()
         {
             var needles = new List<ContentMatch> { new byte[] { 0x01, 0x02, 0x03, 0x04 } };
             var cms = new ContentMatchSet(needles, StreamVersionMock, "name");
@@ -54,7 +54,7 @@ namespace SabreTools.Matching.Test.Content
         #region Array
 
         [Fact]
-        public void MatchesAllNullArrayReturnsNoMatches()
+        public void MatchesAll_NullArray_NoMatches()
         {
             var cms = new ContentMatchSet(new byte[] { 0x01, 0x02, 0x03, 0x04 }, "name");
             var actual = cms.MatchesAll((byte[]?)null);
@@ -62,7 +62,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void MatchesAllEmptyArrayReturnsNoMatches()
+        public void MatchesAll_EmptyArray_NoMatches()
         {
             var cms = new ContentMatchSet(new byte[] { 0x01, 0x02, 0x03, 0x04 }, "name");
             var actual = cms.MatchesAll([]);
@@ -70,7 +70,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void MatchesAllMatchingArrayReturnsMatches()
+        public void MatchesAll_MatchingArray_Matches()
         {
             var cms = new ContentMatchSet(new byte[] { 0x01, 0x02, 0x03, 0x04 }, "name");
             var actual = cms.MatchesAll([0x01, 0x02, 0x03, 0x04]);
@@ -79,7 +79,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void MatchesAllMismatchedArrayReturnsNoMatches()
+        public void MatchesAll_MismatchedArray_NoMatches()
         {
             var cms = new ContentMatchSet(new byte[] { 0x01, 0x02, 0x03, 0x04 }, "name");
             var actual = cms.MatchesAll([0x01, 0x03]);
@@ -87,7 +87,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void MatchesAnyNullArrayReturnsNoMatches()
+        public void MatchesAny_NullArray_NoMatches()
         {
             var cms = new ContentMatchSet(new byte[] { 0x01, 0x02, 0x03, 0x04 }, "name");
             int actual = cms.MatchesAny((byte[]?)null);
@@ -95,7 +95,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void MatchesAnyEmptyArrayReturnsNoMatches()
+        public void MatchesAny_EmptyArray_NoMatches()
         {
             var cms = new ContentMatchSet(new byte[] { 0x01, 0x02, 0x03, 0x04 }, "name");
             int actual = cms.MatchesAny([]);
@@ -103,7 +103,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void MatchesAnyMatchingArrayReturnsMatches()
+        public void MatchesAny_MatchingArray_Matches()
         {
             var cms = new ContentMatchSet(new byte[] { 0x01, 0x02, 0x03, 0x04 }, "name");
             int actual = cms.MatchesAny([0x01, 0x02, 0x03, 0x04]);
@@ -111,7 +111,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void MatchesAnyMismatchedArrayReturnsNoMatches()
+        public void MatchesAny_MismatchedArray_NoMatches()
         {
             var cms = new ContentMatchSet(new byte[] { 0x01, 0x02, 0x03, 0x04 }, "name");
             int actual = cms.MatchesAny([0x01, 0x03]);
@@ -123,7 +123,7 @@ namespace SabreTools.Matching.Test.Content
         #region Stream
 
         [Fact]
-        public void MatchesAllNullStreamReturnsNoMatches()
+        public void MatchesAll_NullStream_NoMatches()
         {
             var cms = new ContentMatchSet(new byte[] { 0x01, 0x02, 0x03, 0x04 }, "name");
             var actual = cms.MatchesAll((Stream?)null);
@@ -131,7 +131,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void MatchesAllEmptyStreamReturnsNoMatches()
+        public void MatchesAll_EmptyStream_NoMatches()
         {
             var cms = new ContentMatchSet(new byte[] { 0x01, 0x02, 0x03, 0x04 }, "name");
             var actual = cms.MatchesAll(new MemoryStream());
@@ -139,7 +139,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void MatchesAllMatchingStreamReturnsMatches()
+        public void MatchesAll_MatchingStream_Matches()
         {
             var cms = new ContentMatchSet(new byte[] { 0x01, 0x02, 0x03, 0x04 }, "name");
             var actual = cms.MatchesAll(new MemoryStream([0x01, 0x02, 0x03, 0x04]));
@@ -148,7 +148,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void MatchesAllMismatchedStreamReturnsNoMatches()
+        public void MatchesAll_MismatchedStream_NoMatches()
         {
             var cms = new ContentMatchSet(new byte[] { 0x01, 0x02, 0x03, 0x04 }, "name");
             var actual = cms.MatchesAll([0x01, 0x03]);
@@ -156,7 +156,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void MatchesAnyNullStreamReturnsNoMatches()
+        public void MatchesAny_NullStream_NoMatches()
         {
             var cms = new ContentMatchSet(new byte[] { 0x01, 0x02, 0x03, 0x04 }, "name");
             int actual = cms.MatchesAny((Stream?)null);
@@ -164,7 +164,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void MatchesAnyEmptyStreamReturnsNoMatches()
+        public void MatchesAny_EmptyStream_NoMatches()
         {
             var cms = new ContentMatchSet(new byte[] { 0x01, 0x02, 0x03, 0x04 }, "name");
             int actual = cms.MatchesAny(new MemoryStream());
@@ -172,7 +172,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void MatchesAnyMatchingStreamReturnsMatches()
+        public void MatchesAny_MatchingStream_Matches()
         {
             var cms = new ContentMatchSet(new byte[] { 0x01, 0x02, 0x03, 0x04 }, "name");
             int actual = cms.MatchesAny(new MemoryStream([0x01, 0x02, 0x03, 0x04]));
@@ -180,7 +180,7 @@ namespace SabreTools.Matching.Test.Content
         }
 
         [Fact]
-        public void MatchesAnyMismatchedStreamReturnsNoMatches()
+        public void MatchesAny_MismatchedStream_NoMatches()
         {
             var cms = new ContentMatchSet(new byte[] { 0x01, 0x02, 0x03, 0x04 }, "name");
             int actual = cms.MatchesAny([0x01, 0x03]);
