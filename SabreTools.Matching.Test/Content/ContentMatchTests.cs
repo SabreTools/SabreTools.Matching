@@ -28,6 +28,22 @@ namespace SabreTools.Matching.Test.Content
             Assert.Throws<ArgumentOutOfRangeException>(() => new ContentMatch(new byte?[1], end: -2));
         }
 
+        [Fact]
+        public void ImplicitOperatorArrayReturnsSuccess()
+        {
+            byte[] needle = [0x01, 0x02, 0x03, 0x04];
+            var cm = (ContentMatch)needle;
+            Assert.NotNull(cm);
+        }
+
+        [Fact]
+        public void ImplicitOperatorNullableArrayReturnsSuccess()
+        {
+            byte?[] needle = [0x01, 0x02, 0x03, 0x04];
+            var cm = (ContentMatch)needle;
+            Assert.NotNull(cm);
+        }
+
         #region Byte Array
 
         [Fact]

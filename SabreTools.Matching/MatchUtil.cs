@@ -72,7 +72,7 @@ namespace SabreTools.Matching
                 // If we there is no version method, just return the match name
                 if (matcher.GetArrayVersion == null)
                 {
-                    matchesList.Add((matcher.MatchName ?? "Unknown") + (includeDebug ? $" (Index {positionsString})" : string.Empty));
+                    matchesList.Add((matcher.SetName ?? "Unknown") + (includeDebug ? $" (Index {positionsString})" : string.Empty));
                 }
 
                 // Otherwise, invoke the version method
@@ -83,7 +83,7 @@ namespace SabreTools.Matching
                     if (version == null)
                         continue;
 
-                    matchesList.Add($"{matcher.MatchName ?? "Unknown"} {version}".Trim() + (includeDebug ? $" (Index {positionsString})" : string.Empty));
+                    matchesList.Add($"{matcher.SetName ?? "Unknown"} {version}".Trim() + (includeDebug ? $" (Index {positionsString})" : string.Empty));
                 }
 
                 // If we're stopping after the first match, bail out here
@@ -158,7 +158,7 @@ namespace SabreTools.Matching
                 // If we there is no version method, just return the match name
                 if (matcher.GetStreamVersion == null)
                 {
-                    matchesList.Add((matcher.MatchName ?? "Unknown") + (includeDebug ? $" (Index {positionsString})" : string.Empty));
+                    matchesList.Add((matcher.SetName ?? "Unknown") + (includeDebug ? $" (Index {positionsString})" : string.Empty));
                 }
 
                 // Otherwise, invoke the version method
@@ -169,7 +169,7 @@ namespace SabreTools.Matching
                     if (version == null)
                         continue;
 
-                    matchesList.Add($"{matcher.MatchName ?? "Unknown"} {version}".Trim() + (includeDebug ? $" (Index {positionsString})" : string.Empty));
+                    matchesList.Add($"{matcher.SetName ?? "Unknown"} {version}".Trim() + (includeDebug ? $" (Index {positionsString})" : string.Empty));
                 }
 
                 // If we're stopping after the first match, bail out here
@@ -279,7 +279,7 @@ namespace SabreTools.Matching
                 // If we there is no version method, just return the match name
                 if (matcher.GetVersion == null)
                 {
-                    matchesList.Add(matcher.MatchName ?? "Unknown");
+                    matchesList.Add(matcher.SetName ?? "Unknown");
                 }
 
                 // Otherwise, invoke the version method
@@ -290,7 +290,7 @@ namespace SabreTools.Matching
                     if (version == null)
                         continue;
 
-                    matchesList.Add($"{matcher.MatchName ?? "Unknown"} {version}".Trim());
+                    matchesList.Add($"{matcher.SetName ?? "Unknown"} {version}".Trim());
                 }
 
                 // If we're stopping after the first match, bail out here

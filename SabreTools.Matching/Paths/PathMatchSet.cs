@@ -45,7 +45,7 @@ namespace SabreTools.Matching.Paths
         {
             Matchers = needles;
             GetVersion = getVersion;
-            MatchName = matchName;
+            SetName = matchName;
         }
 
         #endregion

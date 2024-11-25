@@ -65,6 +65,20 @@ namespace SabreTools.Matching.Content
             _end = end;
         }
 
+        #region Conversion
+
+        /// <summary>
+        /// Allow conversion from byte array to ContentMatch
+        /// </summary>
+        public static implicit operator ContentMatch(byte[] needle) => new ContentMatch(needle);
+
+        /// <summary>
+        /// Allow conversion from nullable byte array to ContentMatch
+        /// </summary>
+        public static implicit operator ContentMatch(byte?[] needle) => new ContentMatch(needle);
+
+        #endregion
+
         #region Array Matching
 
         /// <summary>

@@ -15,6 +15,6 @@ namespace SabreTools.Matching
         /// <summary>
         /// Unique name for the match set
         /// </summary>
-        public string? MatchName { get; set; }
+        public string? SetName { get; set; }
     }
 }

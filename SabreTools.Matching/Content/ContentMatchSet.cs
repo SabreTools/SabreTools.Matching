@@ -34,74 +34,91 @@ namespace SabreTools.Matching.Content
 
         #region Generic Constructors
 
-        public ContentMatchSet(byte[] needle, string matchName)
-            : this([needle], getArrayVersion: null, matchName) { }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="needle">ContentMatch representing the comparisons</param>
+        /// <param name="setName">Unique name for the set</param>
+        public ContentMatchSet(ContentMatch needle, string setName)
+            : this([needle], setName) { }
 
-        public ContentMatchSet(byte?[] needle, string matchName)
-            : this([needle], getArrayVersion: null, matchName) { }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="needles">List of ContentMatch objects representing the comparisons</param>
+        /// <param name="setName">Unique name for the set</param>
+        public ContentMatchSet(List<ContentMatch> needles, string setName)
+        {
+            // Validate the inputs
+            if (needles.Count == 0)
+                throw new InvalidDataException(nameof(needles));
 
-        public ContentMatchSet(List<byte[]> needles, string matchName)
-            : this(needles, getArrayVersion: null, matchName) { }
-
-        public ContentMatchSet(List<byte?[]> needles, string matchName)
-            : this(needles, getArrayVersion: null, matchName) { }
-
-        public ContentMatchSet(ContentMatch needle, string matchName)
-            : this([needle], getArrayVersion: null, matchName) { }
-
-        public ContentMatchSet(List<ContentMatch> needles, string matchName)
-            : this(needles, getArrayVersion: null, matchName) { }
+            Matchers = needles;
+            SetName = setName;
+            GetArrayVersion = null;
+            GetStreamVersion = null;
+        }
 
         #endregion
 
         #region Array Constructors
 
-        public ContentMatchSet(byte[] needle, GetArrayVersion? getArrayVersion, string matchName)
-            : this([needle], getArrayVersion, matchName) { }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="needle">ContentMatch representing the comparisons</param>
+        /// <param name="getVersion">Delegate for deriving a version on match of an array</param>
+        /// <param name="setName">Unique name for the set</param>
+        public ContentMatchSet(ContentMatch needle, GetArrayVersion getVersion, string setName)
+            : this([needle], getVersion, setName) { }
 
-        public ContentMatchSet(byte?[] needle, GetArrayVersion? getArrayVersion, string matchName)
-            : this([needle], getArrayVersion, matchName) { }
-
-        public ContentMatchSet(List<byte[]> needles, GetArrayVersion? getArrayVersion, string matchName)
-            : this(needles.ConvertAll(n => new ContentMatch(n)), getArrayVersion, matchName) { }
-
-        public ContentMatchSet(List<byte?[]> needles, GetArrayVersion? getArrayVersion, string matchName)
-            : this(needles.ConvertAll(n => new ContentMatch(n)), getArrayVersion, matchName) { }
-
-        public ContentMatchSet(ContentMatch needle, GetArrayVersion? getArrayVersion, string matchName)
-            : this([needle], getArrayVersion, matchName) { }
-
-        public ContentMatchSet(List<ContentMatch> needles, GetArrayVersion? getArrayVersion, string matchName)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="needles">List of ContentMatch objects representing the comparisons</param>
+        /// <param name="getVersion">Delegate for deriving a version on match of an array</param>
+        /// <param name="setName">Unique name for the set</param>
+        public ContentMatchSet(List<ContentMatch> needles, GetArrayVersion getVersion, string setName)
         {
+            // Validate the inputs
+            if (needles.Count == 0)
+                throw new InvalidDataException(nameof(needles));
+
             Matchers = needles;
-            GetArrayVersion = getArrayVersion;
-            MatchName = matchName;
+            SetName = setName;
+            GetArrayVersion = getVersion;
+            GetStreamVersion = null;
         }
 
         #endregion
 
         #region Stream Constructors
 
-        public ContentMatchSet(byte[] needle, GetStreamVersion? getStreamVersion, string matchName)
-            : this([needle], getStreamVersion, matchName) { }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="needle">ContentMatch representing the comparisons</param>
+        /// <param name="getVersion">Delegate for deriving a version on match of a Stream</param>
+        /// <param name="setName">Unique name for the set</param>
+        public ContentMatchSet(ContentMatch needle, GetStreamVersion getVersion, string setName)
+            : this([needle], getVersion, setName) { }
 
-        public ContentMatchSet(byte?[] needle, GetStreamVersion? getStreamVersion, string matchName)
-            : this([needle], getStreamVersion, matchName) { }
-
-        public ContentMatchSet(List<byte[]> needles, GetStreamVersion? getStreamVersion, string matchName)
-            : this(needles.ConvertAll(n => new ContentMatch(n)), getStreamVersion, matchName) { }
-
-        public ContentMatchSet(List<byte?[]> needles, GetStreamVersion? getStreamVersion, string matchName)
-            : this(needles.ConvertAll(n => new ContentMatch(n)), getStreamVersion, matchName) { }
-
-        public ContentMatchSet(ContentMatch needle, GetStreamVersion? getStreamVersion, string matchName)
-            : this([needle], getStreamVersion, matchName) { }
-
-        public ContentMatchSet(List<ContentMatch> needles, GetStreamVersion? getStreamVersion, string matchName)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="needles">List of ContentMatch objects representing the comparisons</param>
+        /// <param name="getVersion">Delegate for deriving a version on match of a Stream</param>
+        /// <param name="setName">Unique name for the set</param>
+        public ContentMatchSet(List<ContentMatch> needles, GetStreamVersion getVersion, string setName)
         {
+            // Validate the inputs
+            if (needles.Count == 0)
+                throw new InvalidDataException(nameof(needles));
+
             Matchers = needles;
-            GetStreamVersion = getStreamVersion;
-            MatchName = matchName;
+            SetName = setName;
+            GetArrayVersion = null;
+            GetStreamVersion = getVersion;
         }
 
         #endregion
@@ -115,8 +132,8 @@ namespace SabreTools.Matching.Content
         /// <returns>List of matching positions, if any</returns>
         public List<int> MatchesAll(byte[]? stack)
         {
-            // If no content matches are defined, we fail out
-            if (Matchers == null)
+            // If either array is null or empty, we can't do anything
+            if (stack == null || stack.Length == 0 || Matchers == null || Matchers.Count == 0)
                 return [];
 
             // Initialize the position list
@@ -128,8 +145,8 @@ namespace SabreTools.Matching.Content
                 int position = contentMatch.Match(stack);
                 if (position < 0)
                     return [];
-                else
-                    positions.Add(position);
+
+                positions.Add(position);
             }
 
             return positions;
@@ -142,8 +159,8 @@ namespace SabreTools.Matching.Content
         /// <returns>First matching position on success, -1 on error</returns>
         public int MatchesAny(byte[]? stack)
         {
-            // If no content matches are defined, we fail out
-            if (Matchers == null)
+            // If either array is null or empty, we can't do anything
+            if (stack == null || stack.Length == 0 || Matchers == null || Matchers.Count == 0)
                 return -1;
 
             // Loop through all content matches and make sure all pass
@@ -168,8 +185,8 @@ namespace SabreTools.Matching.Content
         /// <returns>List of matching positions, if any</returns>
         public List<int> MatchesAll(Stream? stack)
         {
-            // If no content matches are defined, we fail out
-            if (Matchers == null)
+            // If either array is null or empty, we can't do anything
+            if (stack == null || stack.Length == 0 || Matchers == null || Matchers.Count == 0)
                 return [];
 
             // Initialize the position list
@@ -181,8 +198,8 @@ namespace SabreTools.Matching.Content
                 int position = contentMatch.Match(stack);
                 if (position < 0)
                     return [];
-                else
-                    positions.Add(position);
+
+                positions.Add(position);
             }
 
             return positions;
@@ -195,8 +212,8 @@ namespace SabreTools.Matching.Content
         /// <returns>First matching position on success, -1 on error</returns>
         public int MatchesAny(Stream? stack)
         {
-            // If no content matches are defined, we fail out
-            if (Matchers == null)
+            // If either array is null or empty, we can't do anything
+            if (stack == null || stack.Length == 0 || Matchers == null || Matchers.Count == 0)
                 return -1;
 
             // Loop through all content matches and make sure all pass
