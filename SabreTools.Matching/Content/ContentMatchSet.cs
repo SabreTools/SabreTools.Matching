@@ -9,10 +9,10 @@ namespace SabreTools.Matching.Content
     public class ContentMatchSet : IMatchSet<ContentMatch, byte?[]>
     {
         /// <inheritdoc/>
-        public List<ContentMatch>? Matchers { get; }
+        public List<ContentMatch> Matchers { get; }
 
         /// <inheritdoc/>
-        public string? SetName { get; }
+        public string SetName { get; }
 
         /// <summary>
         /// Function to get a content version
@@ -139,7 +139,7 @@ namespace SabreTools.Matching.Content
         public List<int> MatchesAll(byte[]? stack)
         {
             // If either array is null or empty, we can't do anything
-            if (stack == null || stack.Length == 0 || Matchers == null || Matchers.Count == 0)
+            if (stack == null || stack.Length == 0 || Matchers.Count == 0)
                 return [];
 
             // Initialize the position list
@@ -166,7 +166,7 @@ namespace SabreTools.Matching.Content
         public int MatchesAny(byte[]? stack)
         {
             // If either array is null or empty, we can't do anything
-            if (stack == null || stack.Length == 0 || Matchers == null || Matchers.Count == 0)
+            if (stack == null || stack.Length == 0 || Matchers.Count == 0)
                 return -1;
 
             // Loop through all content matches and make sure all pass
@@ -192,7 +192,7 @@ namespace SabreTools.Matching.Content
         public List<int> MatchesAll(Stream? stack)
         {
             // If either array is null or empty, we can't do anything
-            if (stack == null || stack.Length == 0 || Matchers == null || Matchers.Count == 0)
+            if (stack == null || stack.Length == 0 || Matchers.Count == 0)
                 return [];
 
             // Initialize the position list
@@ -219,7 +219,7 @@ namespace SabreTools.Matching.Content
         public int MatchesAny(Stream? stack)
         {
             // If either array is null or empty, we can't do anything
-            if (stack == null || stack.Length == 0 || Matchers == null || Matchers.Count == 0)
+            if (stack == null || stack.Length == 0 || Matchers.Count == 0)
                 return -1;
 
             // Loop through all content matches and make sure all pass

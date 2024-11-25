@@ -9,10 +9,10 @@ namespace SabreTools.Matching.Paths
     public class PathMatchSet : IMatchSet<PathMatch, string>
     {
         /// <inheritdoc/>
-        public List<PathMatch>? Matchers { get; }
+        public List<PathMatch> Matchers { get; }
 
         /// <inheritdoc/>
-        public string? SetName { get; }
+        public string SetName { get; }
 
         /// <summary>
         /// Function to get a path version for this Matcher
@@ -101,7 +101,7 @@ namespace SabreTools.Matching.Paths
         public List<string> MatchesAll(List<string>? stack)
         {
             // If either set is null or empty, we can't do anything
-            if (stack == null || stack.Count == 0 || Matchers == null || Matchers.Count == 0)
+            if (stack == null || stack.Count == 0 || Matchers.Count == 0)
                 return [];
 
             // Initialize the value list
@@ -136,7 +136,7 @@ namespace SabreTools.Matching.Paths
         public string? MatchesAny(List<string>? stack)
         {
             // If either set is null or empty, we can't do anything
-            if (stack == null || stack.Count == 0 || Matchers == null || Matchers.Count == 0)
+            if (stack == null || stack.Count == 0 || Matchers.Count == 0)
                 return null;
 
             // Loop through all path matches and make sure all pass

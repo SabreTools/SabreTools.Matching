@@ -10,11 +10,11 @@ namespace SabreTools.Matching
         /// <summary>
         /// Set of all matchers
         /// </summary>
-        public List<T>? Matchers { get; }
+        public List<T> Matchers { get; }
 
         /// <summary>
         /// Unique name for the match set
         /// </summary>
-        public string? SetName { get; }
+        public string SetName { get; }
     }
 }
