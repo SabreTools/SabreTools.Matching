@@ -51,6 +51,8 @@ namespace SabreTools.Matching.Paths
             GetVersion = null;
         }
 
+        #endregion
+
         #region Version Constructors
 
         /// <summary>
@@ -78,8 +80,6 @@ namespace SabreTools.Matching.Paths
             SetName = setName;
             GetVersion = getVersion;
         }
-
-        #endregion
 
         #endregion
 
