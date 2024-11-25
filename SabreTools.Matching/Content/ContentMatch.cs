@@ -93,13 +93,21 @@ namespace SabreTools.Matching.Content
             if (stack == null || stack.Length == 0 || Needle.Length == 0)
                 return -1;
 
-            // If the needle array is larger than the stack array, it can't be contained within
-            if (Needle.Length > stack.Length)
+            // Get the adjusted end value for comparison
+            int end = _end < 0 ? stack.Length : _end;
+            end = end > stack.Length ? stack.Length : end;
+
+            // If the stack window is invalid
+            if (end < _start)
                 return -1;
 
-            // If the needle and stack are identically sized, short-circuit
-            if (Needle.Length == stack.Length)
-                return EqualAt(stack, 0) ? 0 : -1;
+            // If the needle is larger than the stack window, it can't be contained within
+            if (Needle.Length > stack.Length - _start)
+                return -1;
+
+            // If the needle and stack window are identically sized, short-circuit
+            if (Needle.Length == stack.Length - _start)
+                return EqualAt(stack, _start) ? _start : -1;
 
             // Return based on the direction of search
             return reverse ? MatchReverse(stack) : MatchForward(stack);
@@ -202,13 +210,21 @@ namespace SabreTools.Matching.Content
             if (stack == null || stack.Length == 0 || Needle.Length == 0)
                 return -1;
 
-            // If the needle array is larger than the stack array, it can't be contained within
-            if (Needle.Length > stack.Length)
+            // Get the adjusted end value for comparison
+            int end = _end < 0 ? (int)stack.Length : _end;
+            end = end > (int)stack.Length ? (int)stack.Length : end;
+
+            // If the stack window is invalid
+            if (end < _start)
                 return -1;
 
-            // If the needle and stack are identically sized, short-circuit
-            if (Needle.Length == stack.Length)
-                return EqualAt(stack, 0) ? 0 : -1;
+            // If the needle is larger than the stack window, it can't be contained within
+            if (Needle.Length > stack.Length - _start)
+                return -1;
+
+            // If the needle and stack window are identically sized, short-circuit
+            if (Needle.Length == stack.Length - _start)
+                return EqualAt(stack, _start) ? _start : -1;
 
             // Return based on the direction of search
             return reverse ? MatchReverse(stack) : MatchForward(stack);

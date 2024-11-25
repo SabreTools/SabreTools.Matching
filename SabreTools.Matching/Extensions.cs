@@ -4,6 +4,7 @@ using SabreTools.Matching.Content;
 
 namespace SabreTools.Matching
 {
+    // TODO: Write SequenceEqual equivilent: EqualsExactly
     public static class Extensions
     {
         /// <summary>
@@ -31,15 +32,23 @@ namespace SabreTools.Matching
             // Get the outgoing list
             List<int> positions = [];
 
-            // Validate the start and end values
-            if (start < 0 || start >= stack.Length)
+            // If either set is null or empty
+            if (stack.Length == 0 || needle.Length == 0)
                 return positions;
-            if (end < -1 || (end != -1 && end < start) || end > stack.Length)
+
+            // If the needle is longer than the stack
+            if (needle.Length > stack.Length)
                 return positions;
 
             // Normalize the end value, if necessary
             if (end == -1)
                 end = stack.Length;
+
+            // Validate the start and end values
+            if (start < 0 || start >= stack.Length)
+                return positions;
+            if (end < -1 || end < start || end > stack.Length)
+                return positions;
 
             // Loop while there is data to check
             while (start < end)
@@ -54,7 +63,7 @@ namespace SabreTools.Matching
 
                 // Append the position and reset the start index
                 positions.Add(position);
-                start = position;
+                start = position + 1;
             }
 
             return positions;
@@ -82,6 +91,14 @@ namespace SabreTools.Matching
         /// <param name="end">Optional ending position in the stack, defaults to -1 (length of stack)</param>
         public static int FirstPosition(this byte[] stack, byte?[] needle, int start = 0, int end = -1)
         {
+            // If either set is null or empty
+            if (stack.Length == 0 || needle.Length == 0)
+                return -1;
+
+            // If the needle is longer than the stack
+            if (needle.Length > stack.Length)
+                return -1;
+
             var matcher = new ContentMatch(needle, start, end);
             return matcher.Match(stack, reverse: false);
         }
@@ -108,6 +125,14 @@ namespace SabreTools.Matching
         /// <param name="end">Optional ending position in the stack, defaults to -1 (length of stack)</param>
         public static int LastPosition(this byte[] stack, byte?[] needle, int start = 0, int end = -1)
         {
+            // If either set is null or empty
+            if (stack.Length == 0 || needle.Length == 0)
+                return -1;
+
+            // If the needle is longer than the stack
+            if (needle.Length > stack.Length)
+                return -1;
+
             var matcher = new ContentMatch(needle, start, end);
             return matcher.Match(stack, reverse: true);
         }
