@@ -7,15 +7,7 @@ namespace SabreTools.Matching
     public static class Extensions
     {
         /// <summary>
-        /// Indicates whether the specified array is null or has a length of zero
-        /// </summary>
-        public static bool IsNullOrEmpty(this Array? array)
-        {
-            return array == null || array.Length == 0;
-        }
-
-        /// <summary>
-        /// Find all positions of one array in another, if possible, if possible
+        /// Find all positions of one array in another, if possible
         /// </summary>
         /// <param name="stack">Byte array to search within</param>
         /// <param name="needle">Byte array representing the search value</param>
@@ -28,7 +20,7 @@ namespace SabreTools.Matching
         }
 
         /// <summary>
-        /// Find all positions of one array in another, if possible, if possible
+        /// Find all positions of one array in another, if possible
         /// </summary>
         /// <param name="stack">Byte array to search within</param>
         /// <param name="needle">Byte array representing the search value</param>
