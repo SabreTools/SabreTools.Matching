@@ -89,7 +89,7 @@ namespace SabreTools.Matching.Content
         /// <returns>Found position on success, -1 otherwise</returns>
         public int Match(byte[]? stack, bool reverse = false)
         {
-            // If either array is null or empty, we can't do anything
+            // If either set is null or empty
             if (stack == null || stack.Length == 0 || Needle.Length == 0)
                 return -1;
 
@@ -198,7 +198,7 @@ namespace SabreTools.Matching.Content
         /// <returns>Found position on success, -1 otherwise</returns>
         public int Match(Stream? stack, bool reverse = false)
         {
-            // If either array is null or empty, we can't do anything
+            // If either set is null or empty
             if (stack == null || stack.Length == 0 || Needle.Length == 0)
                 return -1;
 

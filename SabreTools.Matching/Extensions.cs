@@ -130,7 +130,7 @@ namespace SabreTools.Matching
         /// <param name="needle">Byte array representing the search value</param>
         public static bool StartsWith(this byte[] stack, byte?[] needle)
         {
-            // If either the stack or needle are 0-length
+            // If either set is null or empty
             if (stack.Length == 0 || needle.Length == 0)
                 return false;
 
@@ -159,7 +159,7 @@ namespace SabreTools.Matching
         /// <param name="needle">Byte array representing the search value</param>
         public static bool EndsWith(this byte[] stack, byte?[] needle)
         {
-            // If either the stack or needle are 0-length
+            // If either set is null or empty
             if (stack.Length == 0 || needle.Length == 0)
                 return false;
 

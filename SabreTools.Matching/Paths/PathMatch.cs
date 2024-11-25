@@ -66,7 +66,7 @@ namespace SabreTools.Matching.Paths
         /// <returns>Matched item on success, null on error</returns>
         public string? Match(List<string>? stack)
         {
-            // If either array is null or empty, we can't do anything
+            // If either set is null or empty
             if (stack == null || stack.Count == 0 || Needle.Length == 0)
                 return null;
 

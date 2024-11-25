@@ -138,7 +138,7 @@ namespace SabreTools.Matching.Content
         /// <returns>List of matching positions, if any</returns>
         public List<int> MatchesAll(byte[]? stack)
         {
-            // If either array is null or empty, we can't do anything
+            // If either set is null or empty
             if (stack == null || stack.Length == 0 || Matchers.Count == 0)
                 return [];
 
@@ -165,7 +165,7 @@ namespace SabreTools.Matching.Content
         /// <returns>First matching position on success, -1 on error</returns>
         public int MatchesAny(byte[]? stack)
         {
-            // If either array is null or empty, we can't do anything
+            // If either set is null or empty
             if (stack == null || stack.Length == 0 || Matchers.Count == 0)
                 return -1;
 
@@ -191,7 +191,7 @@ namespace SabreTools.Matching.Content
         /// <returns>List of matching positions, if any</returns>
         public List<int> MatchesAll(Stream? stack)
         {
-            // If either array is null or empty, we can't do anything
+            // If either set is null or empty
             if (stack == null || stack.Length == 0 || Matchers.Count == 0)
                 return [];
 
@@ -218,7 +218,7 @@ namespace SabreTools.Matching.Content
         /// <returns>First matching position on success, -1 on error</returns>
         public int MatchesAny(Stream? stack)
         {
-            // If either array is null or empty, we can't do anything
+            // If either set is null or empty
             if (stack == null || stack.Length == 0 || Matchers.Count == 0)
                 return -1;
 

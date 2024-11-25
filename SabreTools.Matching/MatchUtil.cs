@@ -68,7 +68,7 @@ namespace SabreTools.Matching
             bool includeDebug,
             bool stopAfterFirst)
         {
-            // If either set is null or empty, we can't do anything
+            // If either set is null or empty
             if (stack == null || stack.Length == 0 || matchSets.Count == 0)
                 return [];
 
@@ -182,7 +182,7 @@ namespace SabreTools.Matching
             bool includeDebug,
             bool stopAfterFirst)
         {
-            // If either set is null or empty, we can't do anything
+            // If either set is null or empty
             if (stack == null || stack.Length == 0 || matchSets.Count == 0)
                 return [];
 
@@ -303,7 +303,7 @@ namespace SabreTools.Matching
         /// <returns>List of strings representing the matches, null or empty otherwise</returns>
         private static List<string> FindAllMatches(List<string>? stack, List<PathMatchSet> matchSets, bool any, bool stopAfterFirst)
         {
-            // If either set is null or empty, we can't do anything
+            // If either set is null or empty
             if (stack == null || stack.Count == 0 || matchSets.Count == 0)
                 return [];
 
