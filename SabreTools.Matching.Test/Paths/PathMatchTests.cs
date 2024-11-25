@@ -9,13 +9,13 @@ namespace SabreTools.Matching.Test.Paths
     public class PathMatchTests
     {
         [Fact]
-        public void InvalidNeedleThrowsException()
+        public void InvalidNeedle_ThrowsException()
         {
             Assert.Throws<InvalidDataException>(() => new PathMatch(string.Empty));
         }
 
         [Fact]
-        public void ImplicitOperatorArrayReturnsSuccess()
+        public void ImplicitOperatorArray_Success()
         {
             string needle = "test";
             var pm = (PathMatch)needle;
@@ -25,7 +25,7 @@ namespace SabreTools.Matching.Test.Paths
         #region Array
 
         [Fact]
-        public void NullArrayReturnsNoMatch()
+        public void NullArray_NoMatch()
         {
             var pm = new PathMatch("test");
             string? actual = pm.Match((string[]?)null);
@@ -33,7 +33,7 @@ namespace SabreTools.Matching.Test.Paths
         }
 
         [Fact]
-        public void EmptyArrayReturnsNoMatch()
+        public void EmptyArray_NoMatch()
         {
             var pm = new PathMatch("test");
             string? actual = pm.Match(Array.Empty<string>());
@@ -41,7 +41,7 @@ namespace SabreTools.Matching.Test.Paths
         }
 
         [Fact]
-        public void SingleItemArrayMatchingReturnsMatch()
+        public void SingleItemArrayMatching_Match()
         {
             string needle = "test";
             string[] stack = [needle];
@@ -52,7 +52,7 @@ namespace SabreTools.Matching.Test.Paths
         }
 
         [Fact]
-        public void SingleItemArrayMismatchedReturnsNoMatch()
+        public void SingleItemArrayMismatched_NoMatch()
         {
             string needle = "test";
             string[] stack = ["not"];
@@ -63,7 +63,7 @@ namespace SabreTools.Matching.Test.Paths
         }
 
         [Fact]
-        public void MultiItemArrayMatchingReturnsMatch()
+        public void MultiItemArrayMatching_Match()
         {
             string needle = "test";
             string[] stack = ["not", needle, "far"];
@@ -74,7 +74,7 @@ namespace SabreTools.Matching.Test.Paths
         }
 
         [Fact]
-        public void MultiItemArrayMismatchedReturnsNoMatch()
+        public void MultiItemArrayMismatched_NoMatch()
         {
             string needle = "test";
             string[] stack = ["not", "too", "far"];
@@ -89,7 +89,7 @@ namespace SabreTools.Matching.Test.Paths
         #region List
 
         [Fact]
-        public void NullListReturnsNoMatch()
+        public void NullList_NoMatch()
         {
             var pm = new PathMatch("test");
             string? actual = pm.Match((List<string>?)null);
@@ -97,7 +97,7 @@ namespace SabreTools.Matching.Test.Paths
         }
 
         [Fact]
-        public void EmptyListReturnsNoMatch()
+        public void EmptyList_NoMatch()
         {
             var pm = new PathMatch("test");
             string? actual = pm.Match(new List<string>());
@@ -105,7 +105,7 @@ namespace SabreTools.Matching.Test.Paths
         }
 
         [Fact]
-        public void SingleItemListMatchingReturnsMatch()
+        public void SingleItemListMatching_Match()
         {
             string needle = "test";
             List<string> stack = [needle];
@@ -116,7 +116,7 @@ namespace SabreTools.Matching.Test.Paths
         }
 
         [Fact]
-        public void SingleItemListMismatchedReturnsNoMatch()
+        public void SingleItemListMismatched_NoMatch()
         {
             string needle = "test";
             List<string> stack = ["not"];
@@ -127,7 +127,7 @@ namespace SabreTools.Matching.Test.Paths
         }
 
         [Fact]
-        public void MultiItemListMatchingReturnsMatch()
+        public void MultiItemListMatching_Match()
         {
             string needle = "test";
             List<string> stack = ["not", needle, "far"];
@@ -138,7 +138,7 @@ namespace SabreTools.Matching.Test.Paths
         }
 
         [Fact]
-        public void MultiItemListMismatchedReturnsNoMatch()
+        public void MultiItemListMismatched_NoMatch()
         {
             string needle = "test";
             List<string> stack = ["not", "too", "far"];
@@ -153,7 +153,7 @@ namespace SabreTools.Matching.Test.Paths
         #region Match Case
 
         [Fact]
-        public void MatchCaseEqualReturnsMatch()
+        public void MatchCaseEqual_Match()
         {
             string needle = "test";
             List<string> stack = [needle];
@@ -164,7 +164,7 @@ namespace SabreTools.Matching.Test.Paths
         }
 
         [Fact]
-        public void NoMatchCaseEqualReturnsMatch()
+        public void NoMatchCaseEqual_Match()
         {
             string needle = "test";
             List<string> stack = [needle];
@@ -175,7 +175,7 @@ namespace SabreTools.Matching.Test.Paths
         }
 
         [Fact]
-        public void MatchCaseInequalReturnsNoMatch()
+        public void MatchCaseInequal_NoMatch()
         {
             string needle = "test";
             List<string> stack = [needle.ToUpperInvariant()];
@@ -186,7 +186,7 @@ namespace SabreTools.Matching.Test.Paths
         }
 
         [Fact]
-        public void NoMatchCaseInequalReturnsMatch()
+        public void NoMatchCaseInequal_Match()
         {
             string needle = "test";
             List<string> stack = [needle.ToUpperInvariant()];
@@ -197,7 +197,7 @@ namespace SabreTools.Matching.Test.Paths
         }
 
         [Fact]
-        public void MatchCaseContainsReturnsMatch()
+        public void MatchCaseContains_Match()
         {
             string needle = "test";
             List<string> stack = [$"prefix_{needle}_postfix"];
@@ -208,7 +208,7 @@ namespace SabreTools.Matching.Test.Paths
         }
 
         [Fact]
-        public void NoMatchCaseContainsReturnsMatch()
+        public void NoMatchCaseContains_Match()
         {
             string needle = "test";
             List<string> stack = [$"prefix_{needle}_postfix"];
@@ -223,7 +223,7 @@ namespace SabreTools.Matching.Test.Paths
         #region Use Ends With
 
         [Fact]
-        public void EndsWithEqualReturnsMatch()
+        public void EndsWithEqual_Match()
         {
             string needle = "test";
             List<string> stack = [needle];
@@ -234,7 +234,7 @@ namespace SabreTools.Matching.Test.Paths
         }
 
         [Fact]
-        public void NoEndsWithEqualReturnsMatch()
+        public void NoEndsWithEqual_Match()
         {
             string needle = "test";
             List<string> stack = [needle];
@@ -245,7 +245,7 @@ namespace SabreTools.Matching.Test.Paths
         }
 
         [Fact]
-        public void EndsWithInequalReturnsMatch()
+        public void EndsWithInequal_Match()
         {
             string needle = "test";
             List<string> stack = [needle.ToUpperInvariant()];
@@ -256,7 +256,7 @@ namespace SabreTools.Matching.Test.Paths
         }
 
         [Fact]
-        public void NoEndsWithInequalReturnsMatch()
+        public void NoEndsWithInequal_Match()
         {
             string needle = "test";
             List<string> stack = [needle.ToUpperInvariant()];
@@ -267,7 +267,7 @@ namespace SabreTools.Matching.Test.Paths
         }
 
         [Fact]
-        public void EndsWithContainsReturnsNoMatch()
+        public void EndsWithContains_NoMatch()
         {
             string needle = "test";
             List<string> stack = [$"prefix_{needle}_postfix"];
@@ -278,7 +278,7 @@ namespace SabreTools.Matching.Test.Paths
         }
 
         [Fact]
-        public void NoEndsWithContainsReturnsMatch()
+        public void NoEndsWithContains_Match()
         {
             string needle = "test";
             List<string> stack = [$"prefix_{needle}_postfix"];
