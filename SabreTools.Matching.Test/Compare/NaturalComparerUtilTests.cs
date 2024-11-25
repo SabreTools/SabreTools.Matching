@@ -6,14 +6,14 @@ namespace SabreTools.Matching.Test.Compare
     public class NaturalComparerUtilTests
     {
         [Fact]
-        public void CompareNumericBothNullTest()
+        public void CompareNumeric_BothNull_Equal()
         {
             int actual = NaturalComparerUtil.ComparePaths(null, null);
             Assert.Equal(0, actual);
         }
         
         [Fact]
-        public void CompareNumericSingleNullTest()
+        public void CompareNumeric_SingleNull_Ordered()
         {
             int actual = NaturalComparerUtil.ComparePaths(null, "notnull");
             Assert.Equal(-1, actual);
@@ -23,28 +23,28 @@ namespace SabreTools.Matching.Test.Compare
         }
 
         [Fact]
-        public void CompareNumericBothEqualTest()
+        public void CompareNumeric_BothEqual_Equal()
         {
             int actual = NaturalComparerUtil.ComparePaths("notnull", "notnull");
             Assert.Equal(0, actual);
         }
 
         [Fact]
-        public void CompareNumericBothEqualWithPathTest()
+        public void CompareNumeric_BothEqualWithPath_Equal()
         {
             int actual = NaturalComparerUtil.ComparePaths("notnull/file.ext", "notnull/file.ext");
             Assert.Equal(0, actual);
         }
 
         [Fact]
-        public void CompareNumericBothEqualWithAltPathTest()
+        public void CompareNumeric_BothEqualWithAltPath_Equal()
         {
             int actual = NaturalComparerUtil.ComparePaths("notnull/file.ext", "notnull\\file.ext");
             Assert.Equal(0, actual);
         }
 
         [Fact]
-        public void CompareNumericNumericNonDecimalStringTest()
+        public void CompareNumeric_NumericNonDecimalString_Ordered()
         {
             int actual = NaturalComparerUtil.ComparePaths("100", "10");
             Assert.Equal(1, actual);
@@ -54,7 +54,7 @@ namespace SabreTools.Matching.Test.Compare
         }
 
         [Fact]
-        public void CompareNumericNumericDecimalStringTest()
+        public void CompareNumeric_NumericDecimalString_Ordered()
         {
             int actual = NaturalComparerUtil.ComparePaths("100.100", "100.10");
             Assert.Equal(1, actual);
