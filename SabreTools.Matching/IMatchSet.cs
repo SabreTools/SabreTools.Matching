@@ -5,16 +5,16 @@ namespace SabreTools.Matching
     /// <summary>
     /// Wrapper for a single set of matching criteria
     /// </summary>
-    public abstract class MatchSet<T, U> where T : IMatch<U>
+    public interface IMatchSet<T, U> where T : IMatch<U>
     {
         /// <summary>
         /// Set of all matchers
         /// </summary>
-        public List<T>? Matchers { get; set; }
+        public List<T>? Matchers { get; }
 
         /// <summary>
         /// Unique name for the match set
         /// </summary>
-        public string? SetName { get; set; }
+        public string? SetName { get; }
     }
 }

@@ -6,8 +6,14 @@ namespace SabreTools.Matching.Content
     /// <summary>
     /// A set of content matches that work together
     /// </summary>
-    public class ContentMatchSet : MatchSet<ContentMatch, byte?[]>
+    public class ContentMatchSet : IMatchSet<ContentMatch, byte?[]>
     {
+        /// <inheritdoc/>
+        public List<ContentMatch>? Matchers { get; }
+
+        /// <inheritdoc/>
+        public string? SetName { get; }
+
         /// <summary>
         /// Function to get a content version
         /// </summary>

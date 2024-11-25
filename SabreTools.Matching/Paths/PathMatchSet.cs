@@ -6,8 +6,14 @@ namespace SabreTools.Matching.Paths
     /// <summary>
     /// A set of path matches that work together
     /// </summary>
-    public class PathMatchSet : MatchSet<PathMatch, string>
+    public class PathMatchSet : IMatchSet<PathMatch, string>
     {
+        /// <inheritdoc/>
+        public List<PathMatch>? Matchers { get; }
+
+        /// <inheritdoc/>
+        public string? SetName { get; }
+
         /// <summary>
         /// Function to get a path version for this Matcher
         /// </summary>
