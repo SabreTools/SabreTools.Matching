@@ -1,6 +1,6 @@
 # SabreTools.Matching
 
-[![Build and Test](https://github.com/SabreTools/SabreTools.Matching/actions/workflows/build_and_test.yml/badge.svg?branch=main)](https://github.com/SabreTools/SabreTools.Matching/actions/workflows/build_and_test.yml)
+[![Build and Test](https://github.com/SabreTools/SabreTools.Matching/actions/workflows/build_and_test.yml/badge.svg)](https://github.com/SabreTools/SabreTools.Matching/actions/workflows/build_and_test.yml)
 
 This library comprises of code to perform search operations on both byte arrays and streams. There is also an implementation that allows searching for strings in a set of strings, usually used in the context of directory contents.
 
