@@ -66,9 +66,9 @@ namespace SabreTools.Matching.Compare
                     return PartCompare(x1[i], y1[i]);
             }
 
-            if (y1.Length > x1.Length)
+            if (x1.Length > y1.Length)
                 return 1;
-            else if (x1.Length > y1.Length)
+            else if (y1.Length > x1.Length)
                 return -1;
             else
                 return x.CompareTo(y);
