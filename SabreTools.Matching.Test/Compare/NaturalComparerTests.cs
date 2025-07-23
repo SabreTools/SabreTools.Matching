@@ -8,7 +8,7 @@ namespace SabreTools.Matching.Test.Compare
     public class NaturalComparerTests
     {
         [Fact]
-        public void NaturalComparer_ListSort_Numeric()
+        public void ListSort_Numeric()
         {
             // Setup arrays
             string[] sortable = ["0", "100", "5", "2", "1000"];
@@ -22,7 +22,7 @@ namespace SabreTools.Matching.Test.Compare
         }
 
         [Fact]
-        public void NaturalComparer_ListSort_Mixed()
+        public void ListSort_Mixed()
         {
             // Setup arrays
             string[] sortable = ["b3b", "c", "b", "a", "a1"];
