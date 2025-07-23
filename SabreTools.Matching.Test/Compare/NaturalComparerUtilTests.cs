@@ -11,7 +11,7 @@ namespace SabreTools.Matching.Test.Compare
             int actual = NaturalComparerUtil.ComparePaths(null, null);
             Assert.Equal(0, actual);
         }
-        
+
         [Fact]
         public void CompareNumeric_SingleNull_Ordered()
         {
