@@ -98,7 +98,7 @@ namespace SabreTools.Matching
                     var version = matcher.GetArrayVersion(file, stack, positions);
                     if (version == null)
                         continue;
-                
+
                     // Trim and add the version
                     version = version.Trim();
                     if (version.Length > 0)
@@ -212,7 +212,7 @@ namespace SabreTools.Matching
                     var version = matcher.GetStreamVersion(file, stack, positions);
                     if (version == null)
                         continue;
-                
+
                     // Trim and add the version
                     version = version.Trim();
                     if (version.Length > 0)
@@ -333,7 +333,7 @@ namespace SabreTools.Matching
                     var version = matcher.GetVersion(matches[0], stack);
                     if (version == null)
                         continue;
-                
+
                     // Trim and add the version
                     version = version.Trim();
                     if (version.Length > 0)
