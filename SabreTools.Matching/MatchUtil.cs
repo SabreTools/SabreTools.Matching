@@ -314,12 +314,20 @@ namespace SabreTools.Matching
             foreach (var matcher in matchSets)
             {
                 // Determine if the matcher passes
-                List<string> matches = any
-                    ? [matcher.MatchesAny(stack)]
-                    : matcher.MatchesAll(stack);
+                List<string> matches = [];
+                if (any)
+                {
+                    string? anyMatch = matcher.MatchesAny(stack);
+                    if (anyMatch != null)
+                        matches = [anyMatch];
+                }
+                else
+                {
+                    matches = matcher.MatchesAll(stack);
+                }
 
                 // If we don't have a pass, just continue
-                if (matches.Count == 0 || matches[0] == null)
+                if (matches.Count == 0)
                     continue;
 
                 // Build the output string
