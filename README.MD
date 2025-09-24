@@ -2,11 +2,11 @@
 
 [![Build and Test](https://github.com/SabreTools/SabreTools.Matching/actions/workflows/build_and_test.yml/badge.svg)](https://github.com/SabreTools/SabreTools.Matching/actions/workflows/build_and_test.yml)
 
+**NOTICE:** This library has been deprecated. All functionality formerly in this library is in [SabreTools.IO](https://github.com/SabreTools/SabreTools.IO) as of version 1.7.5.
+
 This library comprises of code to perform search operations on both byte arrays and streams. There is also an implementation that allows searching for strings in a set of strings, usually used in the context of directory contents.
 
 Find the link to the Nuget package [here](https://www.nuget.org/packages/SabreTools.Matching).
-
-**NOTICE:** This library will be deprecated in the future. All functionality will end up in [SabreTools.IO](https://github.com/SabreTools/SabreTools.IO) in its next major update. At that point, this repository will be privated and the Nuget package will be marked as deprecated.
 
 ## Releases
 
